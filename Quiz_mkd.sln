@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz_mkd", "Quiz_mkd\Quiz_mkd.csproj", "{67C79524-5D2E-4F68-9FAF-97EFD17E33EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiz.Web", "Quiz_mkd\Quiz.Web.csproj", "{67C79524-5D2E-4F68-9FAF-97EFD17E33EB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quiz", "Quiz", "{D7C9C1FD-2466-4E2C-BD9D-C86CB3DAAA63}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quiz_mkd", "Quiz_mkd", "{D7C9C1FD-2466-4E2C-BD9D-C86CB3DAAA63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz.Domain", "Quiz.Domain\Quiz.Domain.csproj", "{027A370F-8197-4B9A-8236-A7EC598D1BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiz.Domain", "Quiz.Domain\Quiz.Domain.csproj", "{027A370F-8197-4B9A-8236-A7EC598D1BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz.Repository", "Quiz.Repository\Quiz.Repository.csproj", "{95A1C506-34B9-4F1C-9235-A2545734754D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiz.Repository", "Quiz.Repository\Quiz.Repository.csproj", "{95A1C506-34B9-4F1C-9235-A2545734754D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz.Service", "Quiz.Service\Quiz.Service.csproj", "{5AE9BA3D-4102-4238-8970-42E57D32AEDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiz.Service", "Quiz.Service\Quiz.Service.csproj", "{5AE9BA3D-4102-4238-8970-42E57D32AEDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

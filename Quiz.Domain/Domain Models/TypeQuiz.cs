@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 
 namespace Quiz.Domain.Domain_Models
 {
-    public class Answer
+    public class  TypeQuiz
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("QuestionId")]
-        public Question? Question { get; set; }
+        public string? Type { get; set; }
 
-        
-        public int QuestionId { get; set; }
+        [ForeignKey("QuizId")]
+        public Quiz? Quiz { get; set; }
 
-        public string? Text { get; set; }
-
-        public bool isCorrect { get; set; }
+        public int QuizId { get; set; }
     }
 }

@@ -18,9 +18,10 @@ namespace Quiz.Domain.Domain_Models
 
         public ICollection<Answer>? Answers { get; set; }
 
-        public Quize? Quiz { get; set; }
-
         [ForeignKey("QuizId")]
+        public Quiz? Quiz { get; set; }
+
+       
         public int QuizId { get; set; }
     }
 }
