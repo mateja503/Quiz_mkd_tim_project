@@ -24,11 +24,8 @@ namespace Quiz.Domain.Domain_Models
 
         public ICollection<Event_User>? Event_User { get; set; }
 
-
-        [ForeignKey("QuizId")]
         public Quiz? Quiz { get; set; }
 
-        public int QuizId { get; set; }
 
     }
 }

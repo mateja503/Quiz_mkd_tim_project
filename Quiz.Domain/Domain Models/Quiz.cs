@@ -13,7 +13,7 @@ namespace Quiz.Domain.Domain_Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("TypeQuizeId")]
+        
         public TypeQuiz? TypeQuize { get; set; }
 
         public int TypeQuizeId { get; set; }
@@ -21,7 +21,7 @@ namespace Quiz.Domain.Domain_Models
         [Display(Name = "Questions")]
         public ICollection<Question>? QuestionList { get; set; }
 
-        [ForeignKey("EventId")]
+        
         public Event? Event { get; set; }
 
         public int? EventId { get; set; }

@@ -24,7 +24,7 @@ namespace Quiz.Repository.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Domain.Domain_Models.Quiz> Quizes { get; set; }
 
-        public DbSet<TypeQuiz> TypeQuizzes { get; set; }
+        public DbSet<TypeQuiz> TypeQuizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
@@ -39,7 +39,7 @@ namespace Quiz.Repository.Data
                     Description = "Провери си го знаење за Географија во Северна Македонија",
                     StartDate = new DateTime(2025,2,15),//year,month,day
                     EndDate = new DateTime(2025,2,25),
-                    QuizId = 1
+                    
                 },
                   new Event
                   {
@@ -48,7 +48,7 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Историја во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
-                      QuizId = 2
+                      
                   }
 
                 );
@@ -160,13 +160,13 @@ namespace Quiz.Repository.Data
                {
                    Id = 1,
                    Type = "Географија",
-                   QuizId = 1
+                   
                },
                new TypeQuiz
                {
                    Id = 2,
                    Type = "Историја",
-                   QuizId = 2
+                   
                }
 
 

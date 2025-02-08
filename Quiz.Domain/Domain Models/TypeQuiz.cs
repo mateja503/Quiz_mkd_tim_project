@@ -15,9 +15,6 @@ namespace Quiz.Domain.Domain_Models
 
         public string? Type { get; set; }
 
-        [ForeignKey("QuizId")]
         public Quiz? Quiz { get; set; }
-
-        public int QuizId { get; set; }
     }
 }
