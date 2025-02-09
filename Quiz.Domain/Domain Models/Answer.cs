@@ -16,11 +16,13 @@ namespace Quiz.Domain.Domain_Models
         [ForeignKey("QuestionId")]
         public Question? Question { get; set; }
 
-        
+
         public int QuestionId { get; set; }
 
+        [Display(Name ="Одговор")]
         public string? Text { get; set; }
 
+        [Display(Name ="Дали одговорот е точен?")]
         public bool isCorrect { get; set; }
     }
 }

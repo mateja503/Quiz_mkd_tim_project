@@ -13,17 +13,18 @@ namespace Quiz.Domain.Domain_Models
         [Key]
         public int Id { get; set; }
 
-        
+        [Display(Name="Име на квиз")]
+        public string? Name { get; set; }
+
         public TypeQuiz? TypeQuize { get; set; }
 
         public int TypeQuizeId { get; set; }
 
-        [Display(Name = "Questions")]
+
+        [Display(Name = "Прашања")]
         public ICollection<Question>? QuestionList { get; set; }
 
-        
+ 
         public Event? Event { get; set; }
-
-        public int? EventId { get; set; }
     }
 }

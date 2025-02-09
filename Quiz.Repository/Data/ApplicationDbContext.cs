@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Quiz.Domain.Domain_Models;
+using Quiz.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Quiz.Repository.Data
         public DbSet<Event_User> Events_Users { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Domain.Domain_Models.Quiz> Quizes { get; set; }
-
+        public DbSet<ApplicationUser>  ApplicationUsers { get; set; }
         public DbSet<TypeQuiz> TypeQuizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
@@ -39,6 +40,7 @@ namespace Quiz.Repository.Data
                     Description = "Провери си го знаење за Географија во Северна Македонија",
                     StartDate = new DateTime(2025,2,15),//year,month,day
                     EndDate = new DateTime(2025,2,25),
+                    QuizId = 1
                     
                 },
                   new Event
@@ -48,6 +50,7 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Историја во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
+                      QuizId = 2
                       
                   }
 
@@ -81,7 +84,7 @@ namespace Quiz.Repository.Data
                   new Question
                   {
                       Id = 2,
-                      Text = "Која е највисоката планина во Северна Македонија?",
+                      Text = "Која е најголема река во Северна Македонија?",
                       QuizId = 1
                   },
                    new Question
@@ -133,7 +136,37 @@ namespace Quiz.Repository.Data
                          Text = "Како се викаше договорот со кој се реши долгогодишниот " +
                          "спор за името меѓу Грција и Северна Македонија во 2018 година?",
                          QuizId = 2
-                     }
+                     },
+                       new Question
+                       {
+                           Id = 11,
+                           Text = "Кој е најголемиот остров во Охридското Езеро?",
+                           QuizId = 3
+                       },
+                        new Question
+                        {
+                            Id = 12,
+                            Text = "Која карпеста формација во Македонија е позната како „Камени кукли“ ?",
+                            QuizId = 3
+                        },
+                        new Question
+                        {
+                            Id = 13,
+                            Text = "Кој град во Македонија се наоѓа најсеверно?",
+                            QuizId = 3
+                        },
+                          new Question
+                          {
+                              Id = 14,
+                              Text = "Која е најдлабоката пештера во Македонија?",
+                              QuizId = 3
+                          },
+                           new Question
+                           {
+                               Id = 15,
+                               Text = "На која река се наоѓа Козјак – најголемото вештачко езеро во Македонија?",
+                               QuizId = 3
+                           }
 
                 );
 
@@ -141,16 +174,25 @@ namespace Quiz.Repository.Data
               new Domain.Domain_Models.Quiz
               {
                   Id = 1,
+                  Name = "Брза Географија",
                   TypeQuizeId = 1,
-                  EventId = 1,
+                  
                   
               },
                 new Domain.Domain_Models.Quiz
                 {
                     Id = 2,
+                    Name= "Пат низ минатотo",
                     TypeQuizeId = 2,
-                    EventId = 2
-                }
+                    
+                },
+                 new Domain.Domain_Models.Quiz
+                 {
+                     Id = 3,
+                     Name = "Брза географија 2 дел",
+                     TypeQuizeId = 1,
+
+                 }
 
 
               );
@@ -459,7 +501,148 @@ namespace Quiz.Repository.Data
                                  QuestionId = 10,
                                  Text = "Охридски рамковен договор",
                                  isCorrect = false
-                             }
+                             },
+                              new Answer
+                              {
+                                  Id = 41,
+                                  QuestionId = 11,
+                                  Text = "Градско Острово",
+                                  isCorrect = false
+                              },
+                              new Answer
+                              {
+                                  Id = 42,
+                                  QuestionId = 11,
+                                  Text = "Голем Град",
+                                  isCorrect = true
+                              },
+                              new Answer
+                              {
+                                  Id = 43,
+                                  QuestionId = 11,
+                                  Text = "Мал Град",
+                                  isCorrect = false
+                              },
+                               new Answer
+                               {
+                                   Id = 44,
+                                   QuestionId = 11,
+                                   Text = "Пештани",
+                                   isCorrect = false
+                               },
+                               new Answer
+                               {
+                                   Id = 45,
+                                   QuestionId = 12,
+                                   Text = "Куклица",
+                                   isCorrect = true
+                               },
+                                new Answer
+                                {
+                                    Id = 46,
+                                    QuestionId = 12,
+                                    Text = "Маркови Кули",
+                                    isCorrect = false
+                                },
+                                new Answer
+                                {
+                                    Id = 47,
+                                    QuestionId = 12,
+                                    Text = "Долни Полог",
+                                    isCorrect = false
+                                },
+                                 new Answer
+                                 {
+                                     Id = 48,
+                                     QuestionId = 12,
+                                     Text = "Плочата",
+                                     isCorrect = false
+                                 },
+                                 new Answer
+                                 {
+                                     Id = 49,
+                                     QuestionId = 13,
+                                     Text = "Куманово",
+                                     isCorrect = true
+                                 },
+                                 new Answer
+                                 {
+                                     Id = 50,
+                                     QuestionId = 13,
+                                     Text = "Крива Паланка",
+                                     isCorrect = false
+                                 },
+                                    new Answer
+                                    {
+                                        Id = 51,
+                                        QuestionId = 13,
+                                        Text = "Тетово",
+                                        isCorrect = false
+                                    },
+                                     new Answer
+                                     {
+                                         Id = 52,
+                                         QuestionId = 13,
+                                         Text = "Кратово",
+                                         isCorrect = false
+                                     },
+                              new Answer
+                              {
+                                  Id = 53,
+                                  QuestionId = 14,
+                                  Text = "Слатински Извор",
+                                  isCorrect = false
+                              },
+                                new Answer
+                                {
+                                    Id = 54,
+                                    QuestionId = 14,
+                                    Text = "Врело",
+                                    isCorrect = true
+                                },
+                             new Answer
+                             {
+                                 Id = 55,
+                                 QuestionId = 14,
+                                 Text = "Алилица",
+                                 isCorrect = false
+                             },
+                              new Answer
+                              {
+                                  Id = 56,
+                                  QuestionId = 14,
+                                  Text = "Голубарница",
+                                  isCorrect = false
+                              },
+                               new Answer
+                               {
+                                   Id = 57,
+                                   QuestionId = 15,
+                                   Text = "Треска",
+                                   isCorrect = true
+                               },
+                                 new Answer
+                                 {
+                                     Id = 58,
+                                     QuestionId = 15,
+                                     Text = "Вардар",
+                                     isCorrect = false
+                                 },
+                                  new Answer
+                                  {
+                                      Id = 59,
+                                      QuestionId = 15,
+                                      Text = "Радика",
+                                      isCorrect = false
+                                  },
+                                   new Answer
+                                   {
+                                       Id = 60,
+                                       QuestionId = 15,
+                                       Text = "Црна",
+                                       isCorrect = false
+                                   }
+
                 );
         }
 

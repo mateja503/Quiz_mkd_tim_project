@@ -1,0 +1,63 @@
+﻿@model EventVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Создади Настан</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <div class="border p-3 mt-4">
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.Name" class="p-0"></label>
+                    <input asp-for="Event.Name" class="form-control" />
+                    <span asp-validation-for="Event.Name" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.Description" class="p-0"></label>
+                    <input asp-for="Event.Description" class="form-control" />
+                    <span asp-validation-for="Event.Description" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.StartDate" class="p-0"></label>
+                    <input asp-for="Event.StartDate" class="form-control" />
+                    <span asp-validation-for="Event.StartDate" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.EndDate" class="p-0"></label>
+                    <input asp-for="Event.EndDate" class="form-control" />
+                    <span asp-validation-for="Event.EndDate" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.QuizId" class="p-0"></label>
+                    <select asp-for="Event.QuizId" asp-items="@Model.QuizList" class="p-0 form-select">
+                        <option disabled selected>--Select Quiz--</option>
+                    </select>
+                    <span asp-validation-for="Event.QuizId" class="text-danger"></span>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Додади</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Event" asp-action="Index" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

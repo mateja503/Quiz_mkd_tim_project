@@ -14,6 +14,7 @@ namespace Quiz.Domain.Domain_Models
         public int Id { get; set; }
 
 
+        [Display(Name ="Прашање")]
         public string? Text { get; set; }
 
         public ICollection<Answer>? Answers { get; set; }

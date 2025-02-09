@@ -15,6 +15,6 @@ namespace Quiz.Domain.Domain_Models
 
         public string? Type { get; set; }
 
-        public Quiz? Quiz { get; set; }
+        public ICollection<Quiz?> QuizList { get; set; }
     }
 }

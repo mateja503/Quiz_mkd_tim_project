@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Quiz.Repository.Data;
+using Quiz.Repository.Implementation;
+using Quiz.Repository.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 //    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 //});
 
+//builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,9 +41,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();
+//app.UseAuthentication(); // for login and register
 app.UseAuthorization();
-//app.MapRazorPages();
+//app.MapRazorPages(); // for login and register
 
 app.MapControllerRoute(
     name: "default",

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,18 +15,29 @@ namespace Quiz.Domain.Domain_Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name="Име на настан")]
         public string? Name { get; set; }
 
+        [Display(Name = "Дескрипција на настан")]
         public string? Description { get; set; }
 
-
+        [Display(Name = "Почетен Датум")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
+        [Display(Name = "Завршен Датум")]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        [Display(Name = "Корисници")]
+        [ValidateNever]
         public ICollection<Event_User>? Event_User { get; set; }
 
+        [Display(Name = "Квиз")]
+        [ValidateNever]
         public Quiz? Quiz { get; set; }
+
+        public int? QuizId { get; set; }
 
 
     }

@@ -20,11 +20,11 @@ namespace Quiz.Repository.Implementation
             _db = db;
             this.dbSet = _db.Set<T>();
             _db.Answers.Include(u => u.Question).Include(u => u.QuestionId);
-            _db.Events.Include(u => u.Quiz);
+            _db.Events.Include(u => u.Quiz).Include(u=>u.QuizId);
             _db.Questions.Include(u=>u.Quiz).Include(u => u.QuizId);
             _db.Quizes.Include(u=>u.TypeQuize).Include(u => u.TypeQuize)
-                .Include(u=>u.Event).Include(u=>u.EventId);
-            _db.TypeQuizes.Include(u => u.Quiz);
+                .Include(u=>u.Event);
+            //_db.TypeQuizes.Include(u => u.Quiz);
         }
 
 
@@ -33,18 +33,36 @@ namespace Quiz.Repository.Implementation
             dbSet.Add(entity);
         }
 
-        public Task<T?> Get(Expression<Func<T, bool>> filter)
+       
+
+        public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            return query.FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(includeProperties)) 
+            {
+                foreach (var includeProperty 
+                    in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            return query.FirstOrDefault();
         }
 
-        public Task<List<T>> GetAll()
+       
+        public IEnumerable<T?> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            return query.ToListAsync();
-
+            if (!string.IsNullOrEmpty(includeProperties)) 
+            {
+                foreach (var includeProperty in
+                 includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
+                {
+                   query =  query.Include(includeProperty);
+                }
+            }
+            return query.ToList();
         }
 
         public void Remove(T entity)
@@ -52,9 +70,9 @@ namespace Quiz.Repository.Implementation
             dbSet.Remove(entity);
         }
 
-        public void Update(T entity)
+        public void RemoveRange(IEnumerable<T> entity)
         {
-            dbSet.Update(entity);
+            dbSet.RemoveRange(entity);
         }
     }
 }

@@ -9,14 +9,15 @@ namespace Quiz.Repository.Interface
 {
     public interface IRepository <T> where T : class 
     {
-        Task<List<T>> GetAll ();
+        IEnumerable<T?> GetAll(string? includeProperties = null);
 
-        Task<T?> Get(Expression<Func<T, bool>> filter);
+        T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
 
         void Add(T entity);
 
         void Remove(T entity);
 
-        void Update(T entity);//check if i need the upate one for the repository ?
+        void RemoveRange(IEnumerable<T> entity);
+
     }
 }

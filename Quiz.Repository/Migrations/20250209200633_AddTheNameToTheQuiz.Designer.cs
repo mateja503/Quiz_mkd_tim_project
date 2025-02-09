@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quiz.Repository.Data;
 
@@ -11,9 +12,11 @@ using Quiz.Repository.Data;
 namespace Quiz.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209200633_AddTheNameToTheQuiz")]
+    partial class AddTheNameToTheQuiz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -532,146 +535,6 @@ namespace Quiz.Repository.Migrations
                             QuestionId = 10,
                             Text = "Охридски рамковен договор",
                             isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 41,
-                            QuestionId = 11,
-                            Text = "Градско Острово",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 42,
-                            QuestionId = 11,
-                            Text = "Голем Град",
-                            isCorrect = true
-                        },
-                        new
-                        {
-                            Id = 43,
-                            QuestionId = 11,
-                            Text = "Мал Град",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 44,
-                            QuestionId = 11,
-                            Text = "Пештани",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 45,
-                            QuestionId = 12,
-                            Text = "Куклица",
-                            isCorrect = true
-                        },
-                        new
-                        {
-                            Id = 46,
-                            QuestionId = 12,
-                            Text = "Маркови Кули",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 47,
-                            QuestionId = 12,
-                            Text = "Долни Полог",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 48,
-                            QuestionId = 12,
-                            Text = "Плочата",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 49,
-                            QuestionId = 13,
-                            Text = "Куманово",
-                            isCorrect = true
-                        },
-                        new
-                        {
-                            Id = 50,
-                            QuestionId = 13,
-                            Text = "Крива Паланка",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 51,
-                            QuestionId = 13,
-                            Text = "Тетово",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 52,
-                            QuestionId = 13,
-                            Text = "Кратово",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 53,
-                            QuestionId = 14,
-                            Text = "Слатински Извор",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 54,
-                            QuestionId = 14,
-                            Text = "Врело",
-                            isCorrect = true
-                        },
-                        new
-                        {
-                            Id = 55,
-                            QuestionId = 14,
-                            Text = "Алилица",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 56,
-                            QuestionId = 14,
-                            Text = "Голубарница",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 57,
-                            QuestionId = 15,
-                            Text = "Треска",
-                            isCorrect = true
-                        },
-                        new
-                        {
-                            Id = 58,
-                            QuestionId = 15,
-                            Text = "Вардар",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 59,
-                            QuestionId = 15,
-                            Text = "Радика",
-                            isCorrect = false
-                        },
-                        new
-                        {
-                            Id = 60,
-                            QuestionId = 15,
-                            Text = "Црна",
-                            isCorrect = false
                         });
                 });
 
@@ -692,17 +555,10 @@ namespace Quiz.Repository.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuizId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuizId")
-                        .IsUnique()
-                        .HasFilter("[QuizId] IS NOT NULL");
 
                     b.ToTable("Events");
 
@@ -713,7 +569,6 @@ namespace Quiz.Repository.Migrations
                             Description = "Провери си го знаење за Географија во Северна Македонија",
                             EndDate = new DateTime(2025, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Географија на Северна Македонија",
-                            QuizId = 1,
                             StartDate = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -722,7 +577,6 @@ namespace Quiz.Repository.Migrations
                             Description = "Провери си го знаење за Историја во Северна Македонија",
                             EndDate = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Историја на Северна Македонија",
-                            QuizId = 2,
                             StartDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -781,7 +635,7 @@ namespace Quiz.Repository.Migrations
                         {
                             Id = 2,
                             QuizId = 1,
-                            Text = "Која е најголема река во Северна Македонија?"
+                            Text = "Која е највисоката планина во Северна Македонија?"
                         },
                         new
                         {
@@ -830,36 +684,6 @@ namespace Quiz.Repository.Migrations
                             Id = 10,
                             QuizId = 2,
                             Text = "Како се викаше договорот со кој се реши долгогодишниот спор за името меѓу Грција и Северна Македонија во 2018 година?"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            QuizId = 3,
-                            Text = "Кој е најголемиот остров во Охридското Езеро?"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            QuizId = 3,
-                            Text = "Која карпеста формација во Македонија е позната како „Камени кукли“ ?"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            QuizId = 3,
-                            Text = "Кој град во Македонија се наоѓа најсеверно?"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            QuizId = 3,
-                            Text = "Која е најдлабоката пештера во Македонија?"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            QuizId = 3,
-                            Text = "На која река се наоѓа Козјак – најголемото вештачко езеро во Македонија?"
                         });
                 });
 
@@ -871,7 +695,11 @@ namespace Quiz.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeQuizeId")
@@ -879,7 +707,12 @@ namespace Quiz.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeQuizeId");
+                    b.HasIndex("EventId")
+                        .IsUnique()
+                        .HasFilter("[EventId] IS NOT NULL");
+
+                    b.HasIndex("TypeQuizeId")
+                        .IsUnique();
 
                     b.ToTable("Quizes");
 
@@ -887,20 +720,16 @@ namespace Quiz.Repository.Migrations
                         new
                         {
                             Id = 1,
+                            EventId = 1,
                             Name = "Брза Географија",
                             TypeQuizeId = 1
                         },
                         new
                         {
                             Id = 2,
+                            EventId = 2,
                             Name = "Пат низ минатотo",
                             TypeQuizeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Брза географија 2 дел",
-                            TypeQuizeId = 1
                         });
                 });
 
@@ -1015,15 +844,6 @@ namespace Quiz.Repository.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Quiz.Domain.Domain_Models.Event", b =>
-                {
-                    b.HasOne("Quiz.Domain.Domain_Models.Quiz", "Quiz")
-                        .WithOne("Event")
-                        .HasForeignKey("Quiz.Domain.Domain_Models.Event", "QuizId");
-
-                    b.Navigation("Quiz");
-                });
-
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Event_User", b =>
                 {
                     b.HasOne("Quiz.Domain.Domain_Models.Event", "Event")
@@ -1052,11 +872,17 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Quiz", b =>
                 {
+                    b.HasOne("Quiz.Domain.Domain_Models.Event", "Event")
+                        .WithOne("Quiz")
+                        .HasForeignKey("Quiz.Domain.Domain_Models.Quiz", "EventId");
+
                     b.HasOne("Quiz.Domain.Domain_Models.TypeQuiz", "TypeQuize")
-                        .WithMany("QuizList")
-                        .HasForeignKey("TypeQuizeId")
+                        .WithOne("Quiz")
+                        .HasForeignKey("Quiz.Domain.Domain_Models.Quiz", "TypeQuizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Event");
 
                     b.Navigation("TypeQuize");
                 });
@@ -1064,6 +890,8 @@ namespace Quiz.Repository.Migrations
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Event", b =>
                 {
                     b.Navigation("Event_User");
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Question", b =>
@@ -1073,14 +901,12 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Quiz", b =>
                 {
-                    b.Navigation("Event");
-
                     b.Navigation("QuestionList");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.TypeQuiz", b =>
                 {
-                    b.Navigation("QuizList");
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Identity.ApplicationUser", b =>
