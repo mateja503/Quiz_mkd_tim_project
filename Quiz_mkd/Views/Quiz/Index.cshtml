@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Quiz>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">Листа на Квизови</h2>
+        </div>
+
+        <div class="col-6 text-end">
+            <a asp-controller="Quiz" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додади нов квиз</a>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Име</th>
+                <th>Тип на квиз</th>
+                @{
+                    int numQuestions = Model.Any() ? Model.Max(u => u.QuestionList?.Count ?? 0) : 0;
+                }
+                @for (int i = 1; i <= numQuestions; i++)
+                {
+                    <th>Прашање @i:</th>
+                
+                }
+                <th>Настан</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item?.Name</td>
+                    <td>@item?.TypeQuize?.Type</td>
+                    @foreach(var question in item?.QuestionList )
+                    {
+                        <td>@question?.Text</td>
+                    }
+                    @for (int i = item.QuestionList.Count; i <=numQuestions; i++)
+                    {
+                        <td>/</td>
+                    }
+
+                    @if(item.Event == null)
+                    {
+                        <td>Не е поврзан со настан</td>
+                    }else
+                    {
+                        <td>@item?.Event?.Name</td>
+                    }
+                    
+
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Quiz" asp-action="Edit" asp-route-id="@item?.Id" class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i>Едитирај
+                            </a>
+                            <a asp-controller="Quiz" asp-action="Delete" asp-route-id="@item?.Id" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i>Избриши
+                            </a>
+                        </div>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>

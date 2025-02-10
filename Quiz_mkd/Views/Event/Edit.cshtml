@@ -38,6 +38,13 @@
                 </div>
 
 
+                <div class="mb-3 row p-1">
+                    <label asp-for="Quiz.Name" class="p-0"></label>
+                    <input asp-for="Quiz.Name" disabled class="form-control" />
+                    <span asp-validation-for="Quiz.Name" class="text-danger"></span>
+                    <input asp-for="QuizId" type="hidden"/>
+                </div>
+
 
                 <div class="row">
                     <div class="col-6 col-md-3">

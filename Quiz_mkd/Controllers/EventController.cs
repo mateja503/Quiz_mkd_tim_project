@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
+using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
 
 namespace Quiz.Web.Controllers
@@ -73,6 +74,8 @@ namespace Quiz.Web.Controllers
             {
                 return NotFound();
             }
+
+           
             return View(item);
         }
         [HttpPost]
@@ -84,7 +87,10 @@ namespace Quiz.Web.Controllers
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Event");
             }
-            return View();
+
+          
+
+            return View(item);
             
             
         }
