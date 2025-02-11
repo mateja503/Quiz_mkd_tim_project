@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,10 @@ namespace Quiz.Domain.ViewModels
     {
         public Question Question { get; set; }
 
+        [ValidateNever]
         public IEnumerable<Answer> Answers { get; set; }
 
+        [ValidateNever]
         public Domain_Models.Quiz Quiz { get; set; }
     }
 }

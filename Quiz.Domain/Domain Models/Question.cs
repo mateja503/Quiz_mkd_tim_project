@@ -15,6 +15,7 @@ namespace Quiz.Domain.Domain_Models
 
 
         [Display(Name ="Прашање")]
+        [Required]
         public string? Text { get; set; }
 
         public ICollection<Answer>? Answers { get; set; }
@@ -22,7 +23,8 @@ namespace Quiz.Domain.Domain_Models
         [ForeignKey("QuizId")]
         public Quiz? Quiz { get; set; }
 
-       
+        [Display(Name ="Квиз")]       
+        
         public int QuizId { get; set; }
     }
 }

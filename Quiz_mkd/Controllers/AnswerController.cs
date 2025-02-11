@@ -22,32 +22,51 @@ namespace Quiz.Web.Controllers
             return View(items);
         }
 
-        //public IActionResult Create() 
-        //{
-        //    return View();
-        //}
+        public IActionResult Create(int questionId)
+        {
+            var question = _unitOfWork.Question.Get(u => u.Id == questionId, includeProperties: "Quiz,Answers");
+            AnswerVM answerVM = new()
+            {
+                Answer = new Answer(),
+                Question = question,
+            };
+            return View(answerVM);
+        }
 
-        //[HttpPost]
-        //public IActionResult Create(AnswerVM item)
-        //{
-    
-        //    if (ModelState.IsValid) 
-        //    {
-        //        if (item.Answer != null) 
-        //        {
-        //            _unitOfWork.Answer.Add(item.Answer);
-        //        }
-        //        if (item?.Question?.Text != null) 
-        //        {
+        [HttpPost]
+        public IActionResult Create(AnswerVM answerVM, int questionId)
+        {
+            var question = _unitOfWork.Question.Get(u => u.Id == questionId, includeProperties: "Quiz,Answers");
 
-        //        }
+            if (question == null) 
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                answerVM.Question = question;
+                question?.Answers?.Add(answerVM.Answer);
+                _unitOfWork.Answer.Add(answerVM.Answer);
+                _unitOfWork.Save();
+                answerVM.Answer = new Answer();
+                if (question?.Answers?.Count != 4)
+                {
+                    return View(answerVM);
+                }
+                else 
+                {
+                    return RedirectToAction("Index", "Quiz");
                 
-        //        _unitOfWork.Save();
-        //        return RedirectToAction("Index", "Answer");
-        //    }
+                }
+                
+            }
 
-            
-        //    return View();
-        //}
+
+            answerVM.Answer = new Answer();
+            answerVM.Question = question;
+
+            return View(answerVM);
+        }
     }
 }

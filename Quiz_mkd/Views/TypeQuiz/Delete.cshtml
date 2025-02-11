@@ -1,0 +1,35 @@
+﻿@model TypeQuiz
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Избриши Тип на Квиз</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <input asp-for="Id" type="hidden" />
+            <div class="border p-3 mt-4">
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Type" class="p-0"></label>
+                    <input disabled asp-for="Type" class="form-control" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Избриши</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="TypeQuiz" asp-action="Index" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

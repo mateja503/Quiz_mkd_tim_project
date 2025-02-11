@@ -128,7 +128,7 @@ namespace Quiz.Web.Controllers
             QuizVM quizVM = new()
             {
                 Quiz = quiz,
-                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Where(u=>u?.Id != quiz?.TypeQuizeId).Select(u => new SelectListItem
+                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
                 {
                     Text = u?.Type,
                     Value = u.Id.ToString()
@@ -163,7 +163,7 @@ namespace Quiz.Web.Controllers
             }
 
 
-            quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Where(u => u?.Id != quizVM.Quiz?.TypeQuizeId).Select(u => new SelectListItem
+            quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
             {
                 Text = u?.Type,
                 Value = u.Id.ToString()

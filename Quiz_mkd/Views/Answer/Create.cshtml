@@ -10,10 +10,12 @@
     </div>
     <div class="card-body p-4">
         <form method="post">
+            <input asp-for="Question.Id" type="hidden"/>
             <div class="border p-3 mt-4">
+
                 <div class="mb-3 row p-1">
                     <label asp-for="Question.Text" class="p-0"></label>
-                    <input asp-for="Question.Text" class="form-control" />
+                    <input disabled asp-for="Question.Text" class="form-control" />
                     <span asp-validation-for="Question.Text" class="text-danger"></span>
                 </div>
 
@@ -27,11 +29,11 @@
                 <div class="mb-3 row p-1">
                     <label asp-for="Answer.isCorrect" class="p-0"></label>
                     <div>
-                        <label class="form-check-label" for="isCorrectTrue">True</label>
-                        <input type="radio" id="isCorrectTrue" name="isCorrect" value="true" class="form-check-input" />
+                        <label class="form-check-label" for="isCorrectTrue">Точен</label>
+                        <input type="radio" id="isCorrectTrue" asp-for="Answer.isCorrect" value="true" class="form-check-input" />
 
-                        <label class="form-check-label" for="isCorrectFalse">False</label>
-                        <input type="radio" id="isCorrectFalse" name="isCorrect" value="false" class="form-check-input" />
+                        <label class="form-check-label" for="isCorrectFalse">Неточен</label>
+                        <input type="radio" id="isCorrectFalse" asp-for="Answer.isCorrect" value="false" class="form-check-input" />
                     </div>
                     <span asp-validation-for="Answer.isCorrect" class="text-danger"></span>
                 </div>
@@ -42,7 +44,7 @@
                         <button type="submit" class="btn btn-primary form-control">Додади</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-controller="Answer" asp-action="Index" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                        <a asp-controller="Question" asp-action="Create" class="btn btn-outline-secondary border form-control">Врати се назад</a>
                     </div>
                 </div>
 

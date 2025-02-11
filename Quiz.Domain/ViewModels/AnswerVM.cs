@@ -10,16 +10,11 @@ namespace Quiz.Domain.ViewModels
 {
     public class AnswerVM
     {
-        public Answer? Answer { get; set; }
+        public Answer Answer { get; set; }
 
         [ValidateNever]
-        public Question? Question { get; set; }
+        public Question Question { get; set; }
 
-        [ValidateNever]
-        public IEnumerable<Quiz.Domain.Domain_Models.Quiz> QuizList { get; set; }
-
-        [ValidateNever]
-        public IEnumerable<Event> EventList { get; set; }
 
     }
 }

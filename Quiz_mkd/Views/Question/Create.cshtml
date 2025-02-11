@@ -1,1 +1,59 @@
-﻿<h1>This is the create Question view</h1>
+﻿@model QuestionVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Создади Прашање</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <input asp-for="Quiz.Id" type="hidden" />
+            <div class="border p-3 mt-4">
+
+                <div class="mb-3 row p-1">
+
+                    <label asp-for="Quiz.Name" class="p-0"></label>
+                    <input disabled asp-for="Quiz.Name" class="form-control" />
+                    <span asp-validation-for="Quiz.Name" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3 row p-1">
+
+                    <label asp-for="Question.Text" class="p-0"></label>
+                    <input asp-for="Question.Text" class="form-control" />
+                    <span asp-validation-for="Question.Text" class="text-danger"></span>
+                </div>           
+
+               
+
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Додади</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Quiz" asp-action="Create" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                    </div>
+                </div>
+
+                @if (Model.Question.Id != 0)
+                {
+                    <div class="mb-3 row p-1">
+                        <label class="p-0">Одговор</label>
+
+                        <div class="col-6 col-md-3">
+                            <a asp-controller="Answer" asp-action="Create" asp-route-questionId="@Model.Question.Id" class="btn btn-primary border form-control">Додади Одговор</a>
+                        </div>
+
+                    </div>
+                }
+
+
+            </div>
+        </form>
+    </div>
+</div>

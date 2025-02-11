@@ -10,6 +10,7 @@
     </div>
     <div class="card-body p-4">
         <form method="post">
+            @* <input asp-for="Quiz.Id" type="hidden" /> *@
             <div class="border p-3 mt-4">
                 <div class="mb-3 row p-1">
 
@@ -22,7 +23,7 @@
                 <div class="mb-3 row p-1">
                     <label asp-for="Quiz.TypeQuizeId" class="p-0"></label>
                     <select asp-for="Quiz.TypeQuizeId" asp-items="@Model.TypeQuizList" class="p-0 form-select">
-                        <option  selected>--Select TypeQuiz--</option>
+                        <option  selected >--Селектирај Тип на Квиз--</option>
                     </select>
                     <span asp-validation-for="Quiz.TypeQuizeId" class="text-danger"></span>
                 </div>
@@ -33,7 +34,7 @@
                 <div class="mb-3 row p-1">
                     <label asp-for="Quiz.Event" class="p-0"></label>
                     <select asp-for="Quiz.Event" asp-items="@Model.EventList" class="p-0 form-select">
-                        <option  selected>--Select TypeQuiz--</option>
+                        <option selected disabled>--Селектирај Настан--</option>
                     </select>
                     <span asp-validation-for="Quiz.Event" class="text-danger"></span>
                 </div>
@@ -54,7 +55,7 @@
                         <label class="p-0">Прашања</label>
 
                         <div class="col-6 col-md-3">
-                            <a asp-controller="Question" asp-action="Create" asp-route-id="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
+                            <a asp-controller="Question" asp-action="Create" asp-route-quizId="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
                         </div>
 
                         <div class="col-6 col-md-3">

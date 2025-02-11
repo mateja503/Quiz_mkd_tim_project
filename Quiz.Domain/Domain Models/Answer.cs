@@ -20,6 +20,7 @@ namespace Quiz.Domain.Domain_Models
         public int QuestionId { get; set; }
 
         [Display(Name ="Одговор")]
+        [Required]
         public string? Text { get; set; }
 
         [Display(Name ="Дали одговорот е точен?")]
