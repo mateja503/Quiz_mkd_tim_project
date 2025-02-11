@@ -52,6 +52,16 @@ namespace Quiz.Repository.Data
                       EndDate = new DateTime(2025, 3, 25),
                       QuizId = 2
                       
+                  },
+                  new Event
+                  {
+                      Id = 3,
+                      Name = "Географија на Северна Македонија 2 дел",
+                      Description = "Провери си го знаење за Географија 2 дел во Северна Македонија",
+                      StartDate = new DateTime(2025, 3, 15),//year,month,day
+                      EndDate = new DateTime(2025, 3, 25),
+                      
+
                   }
 
                 );

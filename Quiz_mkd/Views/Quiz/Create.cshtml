@@ -1,0 +1,71 @@
+﻿@model QuizVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Создади Kвиз</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <div class="border p-3 mt-4">
+                <div class="mb-3 row p-1">
+
+                    <label asp-for="Quiz.Name" class="p-0"></label>
+                    <input asp-for="Quiz.Name" class="form-control" />
+                    <span asp-validation-for="Quiz.Name" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Quiz.TypeQuizeId" class="p-0"></label>
+                    <select asp-for="Quiz.TypeQuizeId" asp-items="@Model.TypeQuizList" class="p-0 form-select">
+                        <option  selected>--Select TypeQuiz--</option>
+                    </select>
+                    <span asp-validation-for="Quiz.TypeQuizeId" class="text-danger"></span>
+                </div>
+
+             
+
+               
+                <div class="mb-3 row p-1">
+                    <label asp-for="Quiz.Event" class="p-0"></label>
+                    <select asp-for="Quiz.Event" asp-items="@Model.EventList" class="p-0 form-select">
+                        <option  selected>--Select TypeQuiz--</option>
+                    </select>
+                    <span asp-validation-for="Quiz.Event" class="text-danger"></span>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Додади</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Quiz" asp-action="Index" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                    </div>
+                </div>
+
+                @if (Model.Quiz.Id != 0)
+                {
+                    <div class="mb-3 row p-1">
+                        <label class="p-0">Прашања</label>
+
+                        <div class="col-6 col-md-3">
+                            <a asp-controller="Question" asp-action="Create" asp-route-id="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <a href="#" class="btn btn-primary border form-control">Прикачи csv документ</a>
+                        </div>
+
+                    </div>
+                }
+               
+
+            </div>
+        </form>
+    </div>
+</div>
