@@ -112,5 +112,76 @@ namespace Quiz.Web.Controllers
             return RedirectToAction("Index", "Quiz");
         }
 
+        public IActionResult Edit(int? id) 
+        {
+            if (id == 0 || id == null) 
+            {
+                return NotFound();
+            }
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuize,QuestionList,Event");
+
+            if (quiz == null) 
+            {
+                return NotFound();
+            }
+
+            QuizVM quizVM = new()
+            {
+                Quiz = quiz,
+                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Where(u=>u?.Id != quiz?.TypeQuizeId).Select(u => new SelectListItem
+                {
+                    Text = u?.Type,
+                    Value = u.Id.ToString()
+                }),
+                EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
+                .Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                QuestionList = new List<Question>()
+            };
+            return View(quizVM);
+
+            
+        }
+
+        [HttpPost]
+        public IActionResult Edit(QuizVM quizVM)
+        {
+            if (quizVM.Quiz == null) 
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid) 
+            {
+                _unitOfWork.Quiz.Update(quizVM.Quiz);
+                _unitOfWork.Save();
+                return RedirectToAction("Index", "Quiz");
+            
+            }
+
+
+            quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Where(u => u?.Id != quizVM.Quiz?.TypeQuizeId).Select(u => new SelectListItem
+            {
+                Text = u?.Type,
+                Value = u.Id.ToString()
+            });
+
+            quizVM.EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
+                .Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+
+            return View(quizVM);
+
+
+        }
+
+
+
     }
 }

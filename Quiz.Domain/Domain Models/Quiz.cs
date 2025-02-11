@@ -20,7 +20,7 @@ namespace Quiz.Domain.Domain_Models
         [ValidateNever]
 
         public TypeQuiz? TypeQuize { get; set; }
-
+        [ValidateNever]
         public int TypeQuizeId { get; set; }
 
 
