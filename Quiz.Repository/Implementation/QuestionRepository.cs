@@ -19,7 +19,7 @@ namespace Quiz.Repository.Implementation
 
         public void Update(Question question)
         {
-            throw new NotImplementedException();
+            _db.Questions.Update(question);
         }
     }
 }

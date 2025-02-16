@@ -1,4 +1,4 @@
-﻿@model Event
+﻿@model EventVM
 
 <div class="card shadow border-0 mt-4">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -10,39 +10,49 @@
     </div>
     <div class="card-body p-4">
         <form method="post">
+            <input asp-for="Event.Id" type="hidden">
             <div class="border p-3 mt-4">
                 <div class="mb-3 row p-1">
-                    <label asp-for="Name" class="p-0"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label asp-for="Event.Name" class="p-0"></label>
+                    <input asp-for="Event.Name" class="form-control" />
+                    <span asp-validation-for="Event.Name" class="text-danger"></span>
                 </div>
 
 
                 <div class="mb-3 row p-1">
-                    <label asp-for="Description" class="p-0"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <label asp-for="Event.Description" class="p-0"></label>
+                    <input asp-for="Event.Description" class="form-control" />
+                    <span asp-validation-for="Event.Description" class="text-danger"></span>
                 </div>
 
 
                 <div class="mb-3 row p-1">
-                    <label asp-for="StartDate" class="p-0"></label>
-                    <input asp-for="StartDate" class="form-control" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                    <label asp-for="Event.StartDate" class="p-0"></label>
+                    <input asp-for="Event.StartDate" class="form-control" />
+                    <span asp-validation-for="Event.StartDate" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3 row p-1">
-                    <label asp-for="EndDate" class="p-0"></label>
-                    <input asp-for="EndDate" class="form-control" />
-                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                    <label asp-for="Event.EndDate" class="p-0"></label>
+                    <input asp-for="Event.EndDate" class="form-control" />
+                    <span asp-validation-for="Event.EndDate" class="text-danger"></span>
                 </div>
 
 
-                <div class="mb-3 row p-1">
+              @*   <div class="mb-3 row p-1">
                     <label asp-for="Quiz.Name" class="p-0"></label>
                     <input asp-for="Quiz.Name" disabled class="form-control" />
                     <span asp-validation-for="Quiz.Name" class="text-danger"></span>
                     <input asp-for="QuizId" type="hidden"/>
+                </div>
+ *@
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Event.QuizId" class="p-0"></label>
+                    <select asp-for="Event.QuizId" asp-items="@Model.QuizList" class="p-0 form-select">
+                        <option selected disabled>--Select Event--</option>
+                    </select>
+                    <span asp-validation-for="Event.QuizId" class="text-danger"></span>
                 </div>
 
 

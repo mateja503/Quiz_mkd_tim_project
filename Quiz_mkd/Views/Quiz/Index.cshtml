@@ -62,6 +62,9 @@
                             <a asp-controller="Quiz" asp-action="Delete" asp-route-id="@item?.Id" class="btn btn-danger mx-2">
                                 <i class="bi bi-trash-fill"></i>Избриши
                             </a>
+                            <a asp-controller="Quiz" asp-action="Detail" asp-route-quizId="@item?.Id" class="btn btn-info mx-2">
+                                Разгледај Квиз
+                            </a>
                         </div>
 
                     </td>

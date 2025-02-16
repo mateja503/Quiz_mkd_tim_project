@@ -66,5 +66,82 @@ namespace Quiz.Web.Controllers
             questionVM.Question = new Question();
             return View(questionVM);
         }
+
+        public IActionResult Edit(int? id) 
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            if (item == null) 
+            {
+                return NotFound();
+            }
+            QuestionVM questionVM = new()
+            {
+                Question = item,
+                Answers = item.Answers,
+                Quiz = item.Quiz
+            };
+            return View(questionVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(QuestionVM questionVm)
+        {
+            if (ModelState.IsValid)
+            {
+               
+                _unitOfWork.Question.Update(questionVm.Question);
+                _unitOfWork.Save();
+                return RedirectToAction("Detail", "Quiz", new { quizId = questionVm.Question.QuizId });
+            }
+
+            return View(questionVm);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            if (item == null)
+            {
+                return NotFound();
+            }
+            QuestionVM questionVM = new()
+            {
+                Question = item,
+                Answers = item.Answers,
+                Quiz = item.Quiz
+            };
+            return View(questionVM);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult DeleteDB(int? id)
+        {
+            if (id == null) 
+            {
+                return NotFound();
+            }
+            var question = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            if (question == null)
+            {
+                return NotFound();
+            }
+              _unitOfWork.Question.Remove(question);
+              _unitOfWork.Save();
+              return RedirectToAction("Detail", "Quiz", new { quizId = question.QuizId });
+            
+
+           
+        }
+
+
     }
 }

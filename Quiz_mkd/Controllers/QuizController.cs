@@ -181,6 +181,37 @@ namespace Quiz.Web.Controllers
 
         }
 
+        public IActionResult Detail(int? quizId)
+        {
+            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuize,Event,QuestionList");
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            QuizVM quizVM = new()
+            {
+                Quiz = item,
+                TypeQuizList = _unitOfWork.TypeQuiz.GetAll(includeProperties: "QuizList").Where(u => u.Id == item.TypeQuizeId)
+                .Select(u => new SelectListItem
+                {
+                    Text = u.Type,
+                    Value = u.Id.ToString()
+                }),
+                EventList = _unitOfWork.Event.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+
+                QuestionList = _unitOfWork.Question.GetAll(includeProperties: "Quiz,Answers")
+                .Where(u => u.QuizId == item.Id)
+
+
+            };
+            return View(quizVM);
+        }
+
 
 
     }

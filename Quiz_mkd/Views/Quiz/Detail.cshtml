@@ -1,0 +1,71 @@
+﻿@model QuizVM
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">Квиз: @Model.Quiz.Name</h2>
+        </div>
+
+        <div class="col-6">
+            <h2 class="text-primary">Тип на Квиз: @Model.Quiz.TypeQuize.Type</h2>
+        </div>
+
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                @{
+                    int numQuestions = Model.QuestionList.Count();
+                    int numAnswers = 4;
+                }
+                
+              @*   @for (int i = 1; i <= numQuestions; i++)
+                {
+                    <th>Прашање @i:</th>
+
+                } *@
+                <th>Прашање</th>
+                @for (int i = 1; i <= numAnswers; i++)
+                {
+                    <th>Одговор @i:</th>
+
+                }
+                <th>Настан</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+          
+            @foreach (var item in Model.QuestionList)
+            {
+                <tr>
+
+                    <td>@item?.Text</td>
+                    @foreach (var answer in item.Answers)
+                        {
+                            <td>@answer?.Text - @(answer?.isCorrect == true ? "Точен" : "Неточен")</td>
+
+                        }
+                        
+                        
+                   
+
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Question" asp-action="Edit" asp-route-id="@item?.Id" class="btn btn-primary mx-2">
+                                Едитирај
+                            </a>
+                            <a asp-controller="Question" asp-action="Delete" asp-route-id="@item?.Id" class="btn btn-danger mx-2">
+                                Избриши
+                            </a>
+                        </div>
+
+                    </td>
+
+                </tr>
+           } 
+
+        </tbody>
+
+    </table>

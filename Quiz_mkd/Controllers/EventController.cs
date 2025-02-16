@@ -65,33 +65,47 @@ namespace Quiz.Web.Controllers
 
         public IActionResult Edit(int? id)
         {
+
             if (id == null) 
             {
                 return NotFound();
             }
             var item = _unitOfWork.Event.Get(u => u.Id == id, includeProperties: "Quiz");
-            if (item == null) 
+            if (item == null)
             {
                 return NotFound();
             }
-
+            EventVM eventVM = new()
+            {
+                Event = item,
+                QuizList = _unitOfWork.Quiz.GetAll(includeProperties: "Event")
+                .Where(u=> u.Event == null).Select(u=> new SelectListItem { 
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+            };
            
-            return View(item);
+           
+            return View(eventVM);
         }
         [HttpPost]
-        public IActionResult Edit(Event item)
+        public IActionResult Edit(EventVM eventVM)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Event.Update(item);
+                _unitOfWork.Event.Update(eventVM.Event);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Event");
             }
 
-          
+            eventVM.QuizList = _unitOfWork.Quiz.GetAll(includeProperties: "Event")
+                .Where(u => u.Event == null).Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
 
-            return View(item);
-            
+            return View(eventVM);
             
         }
 
