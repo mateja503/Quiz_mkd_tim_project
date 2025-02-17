@@ -33,5 +33,8 @@ namespace Quiz.Domain.Domain_Models
 
         [Display(Name = "Настан")]
         public Event? Event { get; set; }
+
+        [Display(Name="File Name")]
+        public string? FileName { get; set; }
     }
 }

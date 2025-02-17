@@ -3,6 +3,7 @@ using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
+using ExcelDataReader;
 namespace Quiz.Web.Controllers
 {
     public class QuizController : Controller
@@ -106,7 +107,19 @@ namespace Quiz.Web.Controllers
             {
                 return NotFound();
             }
+            if (quiz.FileName != null) 
+            {
+                // Delete the associated Excel file
+                var uploadDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+                var fileName = quiz.FileName; // Assuming the file name is based on the quiz ID
+                var filePath = Path.Combine(uploadDirectory, fileName);
 
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+           
             _unitOfWork.Quiz.Remove(quiz);
             _unitOfWork.Save();
             return RedirectToAction("Index", "Quiz");
@@ -210,6 +223,112 @@ namespace Quiz.Web.Controllers
 
             };
             return View(quizVM);
+        }
+
+        public IActionResult ExcelFileReader(int? quizId) 
+        {
+            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId);
+            return View(item);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ExcelFileReader(IFormFile file, int quizId)
+        {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            //Upload File
+            if (file != null && file.Length > 0) 
+            {
+                
+                var uploadDirectory = $"{Directory.GetCurrentDirectory()}\\wwwroot\\Uploads";
+
+                if (!Directory.Exists(uploadDirectory)) 
+                { 
+                    Directory.CreateDirectory(uploadDirectory);
+                }
+
+                var filePath = Path.Combine(uploadDirectory, file.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create)) 
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId);
+                if (quiz != null) 
+                {
+                    quiz.FileName = file.FileName;
+                    _unitOfWork.Quiz.Update(quiz);
+                    _unitOfWork.Save();
+
+                }
+
+                //Read File
+                using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var excelData = new List<List<object>>();
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                       
+                       
+                        do
+                        {
+                            bool isHeaderSkipped = false;
+                            while (reader.Read())
+                            {
+                                var rowData = new List<object>();
+                                for (int column = 0; column < reader.FieldCount; column++)
+                                {
+                                    rowData.Add(reader.GetValue(column));
+                                }
+                                excelData.Add(rowData);
+
+                                if (!isHeaderSkipped) 
+                                {
+                                    isHeaderSkipped = true;
+                                    continue;
+                                }
+
+                                Question question = new Question();
+                                question.Text = reader.GetValue(0).ToString();
+                                question.Answers = new List<Answer>();
+                                question.QuizId = quizId;
+                                _unitOfWork.Question.Add(question);
+                                _unitOfWork.Save();
+                                var q = _unitOfWork.Question.Get(u => u == question);
+                                var correctAnswer = reader.GetValue(5).ToString();
+                                if (q != null)
+                                {
+                                    for (int i = 1; i <= 4; i++)
+                                    {
+                                        Answer answer = new Answer();
+                                        answer.QuestionId = q.Id;
+                                        answer.Text = reader.GetValue(i).ToString();
+                                        if (correctAnswer == answer.Text)
+                                        {
+                                            answer.isCorrect = true;
+                                        }
+                                        else 
+                                        {
+                                            answer.isCorrect = false;
+                                        }
+                                        _unitOfWork.Answer.Add(answer);
+                                        _unitOfWork.Save();
+                                        q?.Answers?.Add(answer);
+                                        _unitOfWork.Question.Update(q);
+                                        _unitOfWork.Save();
+                                    }
+                                }
+
+                            }
+                        } while (reader.NextResult());
+
+                        ViewBag.ExcelData = excelData;
+                       
+                    }
+                }
+
+           
+            }
+            return View();
         }
 
 

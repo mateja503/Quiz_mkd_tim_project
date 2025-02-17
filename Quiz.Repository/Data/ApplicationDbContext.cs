@@ -186,21 +186,24 @@ namespace Quiz.Repository.Data
                   Id = 1,
                   Name = "Брза Географија",
                   TypeQuizeId = 1,
-                  
-                  
+                  FileName = ""
+
+
               },
                 new Domain.Domain_Models.Quiz
                 {
                     Id = 2,
-                    Name= "Пат низ минатотo",
+                    Name = "Пат низ минатотo",
                     TypeQuizeId = 2,
-                    
+                    FileName = ""
+
                 },
                  new Domain.Domain_Models.Quiz
                  {
                      Id = 3,
                      Name = "Брза географија 2 дел",
                      TypeQuizeId = 1,
+                     FileName = ""
 
                  }
 
