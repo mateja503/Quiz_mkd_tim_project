@@ -1,0 +1,71 @@
+﻿@model PlayQuizVM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #ddd;
+            height: 25px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4CAF50;
+            text-align: center;
+            color: white;
+            line-height: 25px;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+            .btn:hover {
+                background: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Го заврши квизот @Model.Quiz.Name!</h2>
+        <p>Одговори точно <strong>@Model.answersCorrect</strong> од <strong>@Model.totalAnswers</strong></p>
+
+        <div class="progress-bar">
+            <div class="progress" id="progressBar" style="width: @((Model.answersCorrect * 100 / Model.totalAnswers))%">
+                @((Model.answersCorrect * 100 / Model.totalAnswers))%
+            </div>
+        </div>
+  </div>
+
+</body>
+</html>

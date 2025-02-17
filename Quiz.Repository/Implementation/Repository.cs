@@ -50,17 +50,35 @@ namespace Quiz.Repository.Implementation
             }
             return query.FirstOrDefault();
         }
-
-       
         public IEnumerable<T?> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            if (!string.IsNullOrEmpty(includeProperties)) 
+           
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProperty in
-                 includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
+                 includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                   query =  query.Include(includeProperty);
+                    query = query.Include(includeProperty);
+                }
+            }
+            return query.ToList();
+        }
+
+
+        public IEnumerable<T?> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null) 
+            {
+                query = query.Where(filter);
+            }
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in
+                 includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
                 }
             }
             return query.ToList();
