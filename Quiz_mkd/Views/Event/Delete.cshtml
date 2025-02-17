@@ -9,7 +9,8 @@
         </div>
     </div>
     <div class="card-body p-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
+            <input asp-for="ImageUrl" type="hidden" />
             <input asp-for="Id" type="hidden" />
             <div class="border p-3 mt-4">
                 <div class="mb-3 row p-1">
@@ -52,6 +53,14 @@
                     <span asp-validation-for="Event.QuizId" class="text-danger"></span>
                 </div> *@
 
+                <div class="mb-3 row p-1">
+                    <label asp-for="ImageUrl" disabled class="p-0"></label>
+                    <input disabled type="file" name="file" class="form-control" />
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="Image" class="img-fluid" />
+                    }
+                </div>
 
 
 

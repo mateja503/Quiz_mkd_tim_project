@@ -35,6 +35,11 @@ namespace Quiz.Domain.Domain_Models
         public Event? Event { get; set; }
 
         [Display(Name="File Name")]
+        [ValidateNever]
         public string? FileName { get; set; }
+
+        [ValidateNever]
+        [Display(Name = "Image")]
+        public string? ImageUrl { get; set; }
     }
 }

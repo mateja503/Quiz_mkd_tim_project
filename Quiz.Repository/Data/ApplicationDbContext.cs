@@ -40,7 +40,8 @@ namespace Quiz.Repository.Data
                     Description = "Провери си го знаење за Географија во Северна Македонија",
                     StartDate = new DateTime(2025,2,15),//year,month,day
                     EndDate = new DateTime(2025,2,25),
-                    QuizId = 1
+                    QuizId = 1,
+                    ImageUrl=""
                     
                 },
                   new Event
@@ -50,8 +51,9 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Историја во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
-                      QuizId = 2
-                      
+                      QuizId = 2,
+                      ImageUrl = ""
+
                   },
                   new Event
                   {
@@ -60,7 +62,8 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Географија 2 дел во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
-                      
+                      ImageUrl = ""
+
 
                   }
 
@@ -186,7 +189,8 @@ namespace Quiz.Repository.Data
                   Id = 1,
                   Name = "Брза Географија",
                   TypeQuizeId = 1,
-                  FileName = ""
+                  FileName = "",
+                  ImageUrl = ""
 
 
               },
@@ -195,7 +199,8 @@ namespace Quiz.Repository.Data
                     Id = 2,
                     Name = "Пат низ минатотo",
                     TypeQuizeId = 2,
-                    FileName = ""
+                    FileName = "",
+                    ImageUrl = ""
 
                 },
                  new Domain.Domain_Models.Quiz
@@ -203,7 +208,8 @@ namespace Quiz.Repository.Data
                      Id = 3,
                      Name = "Брза географија 2 дел",
                      TypeQuizeId = 1,
-                     FileName = ""
+                     FileName = "",
+                     ImageUrl = ""
 
                  }
 

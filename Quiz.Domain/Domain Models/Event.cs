@@ -43,6 +43,10 @@ namespace Quiz.Domain.Domain_Models
 
         public int? QuizId { get; set; }
 
+        [ValidateNever]
+        [Display(Name = "Image")]
+        public string? ImageUrl { get; set; }
+
 
     }
 }

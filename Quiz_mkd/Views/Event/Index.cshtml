@@ -15,6 +15,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>Слика</th>
                 <th>Име</th>
                 <th>Дескрипција</th>
                 <th>Почеток</th>
@@ -27,6 +28,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td><img src="@item.ImageUrl" alt="Image" class="img-fluid" /></td>
                     <td>@item?.Name</td>
                     <td>@item?.Description</td>
                     <td>@item?.StartDate.ToString("dd/MM/yyyy")</td>
@@ -44,6 +46,7 @@
                             <a asp-controller="Quiz" asp-action="Detail" asp-route-quizId="@item?.QuizId" class="btn btn-info mx-2">
                                 Разгледај Квиз
                             </a>
+                        
                         </div>
 
                     </td>

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Implementation;
@@ -11,10 +13,11 @@ namespace Quiz.Web.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-
-        public EventController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public EventController(IUnitOfWork unitOfWork,IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -40,12 +43,24 @@ namespace Quiz.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EventVM itemVM)
+        public IActionResult Create(EventVM itemVM, IFormFile? file)
         {
-
 
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null) 
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string eventPath = Path.Combine(wwwRootPath, @"images\event");
+                  
+                    using (var fileStream = new FileStream(Path.Combine(eventPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    itemVM.Event.ImageUrl = @"\images\event\" + fileName;
+                }
+
                 if (itemVM.Event.Id == 0) 
                 {
                     _unitOfWork.Event.Add(itemVM.Event);
@@ -89,10 +104,32 @@ namespace Quiz.Web.Controllers
             return View(eventVM);
         }
         [HttpPost]
-        public IActionResult Edit(EventVM eventVM)
+        public IActionResult Edit(EventVM eventVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string eventPath = Path.Combine(wwwRootPath, @"images\event");
+                    if (!string.IsNullOrEmpty(eventVM.Event.ImageUrl))
+                    {
+                        //delet the old image
+                        var oldImagePath = Path.Combine(wwwRootPath, eventVM.Event.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+
+                    using (var fileStream = new FileStream(Path.Combine(eventPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    eventVM.Event.ImageUrl = @"\images\event\" + fileName;
+                }
                 _unitOfWork.Event.Update(eventVM.Event);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Event");
@@ -137,7 +174,24 @@ namespace Quiz.Web.Controllers
                 return NotFound();
             }
 
-            _unitOfWork.Event.Remove(item);
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (item.ImageUrl != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.ImageUrl);
+                string eventPath = Path.Combine(wwwRootPath, @"images\event");
+                if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(wwwRootPath, item.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+            }
+
+
+
+             _unitOfWork.Event.Remove(item);
             _unitOfWork.Save();
             return RedirectToAction("Index", "Event");
         }

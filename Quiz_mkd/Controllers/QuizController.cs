@@ -4,15 +4,17 @@ using Quiz.Repository.Interface;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
 using ExcelDataReader;
+using Microsoft.Extensions.Logging;
 namespace Quiz.Web.Controllers
 {
     public class QuizController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public QuizController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public QuizController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -44,10 +46,22 @@ namespace Quiz.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(QuizVM quizVM)
+        public IActionResult Create(QuizVM quizVM, IFormFile? file)
         {
             if (ModelState.IsValid) 
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string quizPath = Path.Combine(wwwRootPath, @"images\quiz");
+
+                    using (var fileStream = new FileStream(Path.Combine(quizPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    quizVM.Quiz.ImageUrl = @"\images\quiz\" + fileName;
+                }
                 _unitOfWork.Quiz.Add(quizVM.Quiz);
                 _unitOfWork.Save();
                 quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
@@ -107,19 +121,21 @@ namespace Quiz.Web.Controllers
             {
                 return NotFound();
             }
-            if (quiz.FileName != null) 
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (quiz.ImageUrl != null)
             {
-                // Delete the associated Excel file
-                var uploadDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
-                var fileName = quiz.FileName; // Assuming the file name is based on the quiz ID
-                var filePath = Path.Combine(uploadDirectory, fileName);
-
-                if (System.IO.File.Exists(filePath))
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(quiz.ImageUrl);
+                string quizPath = Path.Combine(wwwRootPath, @"images\event");
+                if (!string.IsNullOrEmpty(quiz.ImageUrl))
                 {
-                    System.IO.File.Delete(filePath);
+                    var oldImagePath = Path.Combine(wwwRootPath, quiz.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
                 }
             }
-           
+
             _unitOfWork.Quiz.Remove(quiz);
             _unitOfWork.Save();
             return RedirectToAction("Index", "Quiz");
@@ -160,7 +176,7 @@ namespace Quiz.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(QuizVM quizVM)
+        public IActionResult Edit(QuizVM quizVM, IFormFile? file)
         {
             if (quizVM.Quiz == null) 
             {
@@ -169,6 +185,28 @@ namespace Quiz.Web.Controllers
 
             if (ModelState.IsValid) 
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string quizPath = Path.Combine(wwwRootPath, @"images\quiz");
+                    if (!string.IsNullOrEmpty(quizVM.Quiz.ImageUrl))
+                    {
+                        //delet the old image
+                        var oldImagePath = Path.Combine(wwwRootPath, quizVM.Quiz.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+
+                    using (var fileStream = new FileStream(Path.Combine(quizPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    quizVM.Quiz.ImageUrl = @"\images\quiz\" + fileName;
+                }
                 _unitOfWork.Quiz.Update(quizVM.Quiz);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Quiz");
