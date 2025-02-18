@@ -10,10 +10,6 @@ namespace Quiz.Utility
     {
         public const string Role_Admin = "Admin";
 
-        public const string Role_SuperAdmin = "SuperAdmin";
-
-        public const string Role_Visitor = "Visitor";
-
         public const string Role_User = "User";
     }
 }

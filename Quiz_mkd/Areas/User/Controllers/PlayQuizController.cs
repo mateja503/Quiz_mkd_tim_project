@@ -1,0 +1,172 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Quiz.Domain.Domain_Models;
+using Quiz.Domain.ViewModels;
+using Quiz.Repository.Interface;
+using System.Net;
+
+namespace Quiz.Web.Areas.User.Controllers
+{
+    public class PlayQuizController : Controller
+    {
+
+        private readonly IUnitOfWork _unitOfWork;
+
+
+
+        public PlayQuizController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public IActionResult Index(int? quizId, int? eventId)
+        {
+
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+            var eventItem = _unitOfWork.Event.Get(u => u.Id == eventId);
+            TempData["CountCorrectAnswer"] = 0;
+
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            PlayQuizVM playQuizVM = new()
+            {
+                Quiz = quiz,
+                Event = eventItem,
+                Question = new Question(),
+                answersCorrect = 0,
+                timeToAnswerQuestion = 5
+            };
+
+            return View(playQuizVM);
+        }
+
+        public IActionResult ChooseQuestion(int? quizId, bool correctAnswer, int? countCorrect, bool? firstCall)
+        {
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            List<int> questionIds = new List<int>();
+
+            if (TempData["NextQuestions"] != null)
+            {
+                // Retrieve and parse stored question IDs
+                questionIds = TempData["NextQuestions"].ToString()
+                    .Split(',')
+                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                    .Select(int.Parse)
+                    .ToList();
+            }
+
+            int countCorrectAnswer = TempData.Peek("CountCorrectAnswer") as int? ?? 0;
+
+            if (correctAnswer)
+            {
+                countCorrectAnswer++;
+                TempData["CountCorrectAnswer"] = countCorrectAnswer;
+            }
+
+            if (questionIds.Count == 0 && firstCall == null)
+            {
+                TempData["CorrectAnswers"] = countCorrectAnswer;
+                TempData["TotalAnswers"] = quiz.QuestionList.Count();
+                return RedirectToAction("End", "PlayQuiz", new { quizId });
+            }
+            List<Question> questionsList = new List<Question>();
+
+            foreach (var q in quiz.QuestionList)
+            {
+                if (questionIds.Contains(q.Id))
+                {
+                    questionsList.Add(q);
+                }
+            }
+
+            var question = new Question();
+            if (TempData["NextQuestions"] != null && questionsList.Count != 0)
+            {
+                var firstQuestion = questionsList[0];
+                question = _unitOfWork.Question.Get(u => u.Id == firstQuestion.Id, includeProperties: "Answers");
+            }
+            else
+            {
+                question = _unitOfWork.Question.Get(u => u.QuizId == quizId, includeProperties: "Answers");
+            }
+
+
+            QuestionVM questionVM = new()
+            {
+                Question = question,
+                Answers = question.Answers,
+                Quiz = quiz
+
+            };
+            return View(questionVM);
+        }
+
+        public IActionResult CheckAnswer(int? answerId, int? quizId, int? questionId)
+        {
+            var answer = _unitOfWork.Answer.Get(u => u.Id == answerId, includeProperties: "Question");
+            if (answer == null)
+            {
+                return NotFound();
+            }
+
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            var orderedQuestions = quiz.QuestionList.OrderBy(u => u.Id).ToList();
+            var questionsList = new List<int>();
+            foreach (var q in orderedQuestions)
+            {
+                if (q.Id > questionId)
+                {
+                    questionsList.Add(q.Id);
+                }
+            }
+            var correctAnswer = answer.isCorrect;
+
+
+            TempData["NextQuestions"] = string.Join(",", questionsList);
+            return RedirectToAction("ChooseQuestion", "PLayQuiz", new { quizId, correctAnswer });
+        }
+
+
+        public IActionResult End(int? quizId)
+        {
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+            //var eventItem = _unitOfWork.Event.Get(u => u.Id == eventId);
+            //if (eventItem == null)
+            //{
+            //    return NotFound();
+            //}
+            int correctAnswers = TempData.Peek("CorrectAnswers") as int? ?? 0;
+            int totalAnswers = TempData.Peek("TotalAnswers") as int? ?? 0;
+
+            PlayQuizVM playQuizVM = new()
+            {
+                Quiz = quiz,
+                Event = null,
+                Question = null,
+                answersCorrect = correctAnswers,
+                totalAnswers = totalAnswers,
+            };
+            return View(playQuizVM);
+        }
+
+
+
+    }
+}
