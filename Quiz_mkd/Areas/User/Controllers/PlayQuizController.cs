@@ -6,6 +6,7 @@ using System.Net;
 
 namespace Quiz.Web.Areas.User.Controllers
 {
+    [Area("User")]
     public class PlayQuizController : Controller
     {
 

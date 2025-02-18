@@ -27,7 +27,8 @@ builder.Services.AddRazorPages();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IEmailSender,EmailSender>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 
 var app = builder.Build();
 

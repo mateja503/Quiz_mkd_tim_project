@@ -9,26 +9,24 @@ using Quiz.Repository.Interface;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
+
+    [Area("Admin")]
     public class EventController : Controller
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public EventController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public EventController(IUnitOfWork unitOfWork,IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index()
-        {
-            var items = _unitOfWork.Event.GetAll(includeProperties: "Quiz");
-            return View(items);
-        }
-
+       
+       
         public IActionResult Create()
         {
-
-            var items = _unitOfWork.Quiz.GetAll(includeProperties: "Event").Where(u => u.Event == null).ToList();
+            
+            var items = _unitOfWork.Quiz.GetAll(includeProperties: "Event").Where(u => u.Event == null).ToList(); 
             EventVM eventVM = new()
             {
                 Event = new Event(),
@@ -43,17 +41,18 @@ namespace Quiz.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+       
         public IActionResult Create(EventVM itemVM, IFormFile? file)
         {
 
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file != null)
+                if (file != null) 
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string eventPath = Path.Combine(wwwRootPath, @"images\event");
-
+                  
                     using (var fileStream = new FileStream(Path.Combine(eventPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -61,28 +60,28 @@ namespace Quiz.Web.Areas.Admin.Controllers
                     itemVM.Event.ImageUrl = @"\images\event\" + fileName;
                 }
 
-                if (itemVM.Event.Id == 0)
+                if (itemVM.Event.Id == 0) 
                 {
                     _unitOfWork.Event.Add(itemVM.Event);
                     _unitOfWork.Save();
-                    return RedirectToAction("Index", "Event");
+                    return RedirectToAction("Index", "Event", new { area="User"});
                 }
-
+              
             }
             var items = _unitOfWork.Quiz.GetAll(includeProperties: "Event").Where(u => u.Event == null).ToList();
-            itemVM.QuizList = items.Select(u => new SelectListItem
-            {
+            itemVM.QuizList = items.Select(u=> new SelectListItem{ 
                 Text = u.Name,
-                Value = u.Id.ToString()
+                 Value = u.Id.ToString()
 
             });
             return View(itemVM);
         }
 
+        
         public IActionResult Edit(int? id)
         {
 
-            if (id == null)
+            if (id == null) 
             {
                 return NotFound();
             }
@@ -95,17 +94,17 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 Event = item,
                 QuizList = _unitOfWork.Quiz.GetAll(includeProperties: "Event")
-                .Where(u => u.Event == null).Select(u => new SelectListItem
-                {
+                .Where(u=> u.Event == null).Select(u=> new SelectListItem { 
                     Text = u.Name,
                     Value = u.Id.ToString()
                 }),
             };
-
-
+           
+           
             return View(eventVM);
         }
         [HttpPost]
+        
         public IActionResult Edit(EventVM eventVM, IFormFile? file)
         {
             if (ModelState.IsValid)
@@ -134,21 +133,22 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 }
                 _unitOfWork.Event.Update(eventVM.Event);
                 _unitOfWork.Save();
-                return RedirectToAction("Index", "Event");
+                return RedirectToAction("Index", "Event", new { area = "User"});
             }
 
             eventVM.QuizList = _unitOfWork.Quiz.GetAll(includeProperties: "Event")
                 .Where(u => u.Event == null).Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
 
             return View(eventVM);
-
+            
         }
 
-        public IActionResult Delete(int? id)
+        
+        public IActionResult Delete(int? id) 
         {
             if (id == null)
             {
@@ -164,6 +164,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         [ActionName("Delete")]
         [HttpPost]
+
         public IActionResult DeleteID(int? id)
         {
             if (id == null)
@@ -195,7 +196,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             _unitOfWork.Event.Remove(item);
             _unitOfWork.Save();
-            return RedirectToAction("Index", "Event");
+            return RedirectToAction("Index", "Event", new { area = "User"});
         }
 
     }

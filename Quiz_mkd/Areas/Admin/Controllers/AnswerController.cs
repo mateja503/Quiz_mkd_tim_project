@@ -6,6 +6,7 @@ using Quiz.Repository.Interface;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AnswerController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

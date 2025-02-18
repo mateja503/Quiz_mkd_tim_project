@@ -36,7 +36,7 @@
                         <button type="submit" class="btn btn-primary form-control">Додади</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-controller="Quiz" asp-action="Create" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                        <a asp-area="Admin" asp-controller="Quiz" asp-action="Create" class="btn btn-outline-secondary border form-control">Врати се назад</a>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
                         <label class="p-0">Одговор</label>
 
                         <div class="col-6 col-md-3">
-                            <a asp-controller="Answer" asp-action="Create" asp-route-questionId="@Model.Question.Id" class="btn btn-primary border form-control">Додади Одговор</a>
+                            <a asp-area="Admin" asp-controller="Answer" asp-action="Create" asp-route-questionId="@Model.Question.Id" class="btn btn-primary border form-control">Додади Одговор</a>
                         </div>
 
                     </div>

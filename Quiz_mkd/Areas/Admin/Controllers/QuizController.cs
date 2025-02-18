@@ -7,6 +7,8 @@ using ExcelDataReader;
 using Microsoft.Extensions.Logging;
 namespace Quiz.Web.Areas.Admin.Controllers
 {
+
+    [Area("Admin")]
     public class QuizController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,11 +19,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
-        {
-            var items = _unitOfWork.Quiz.GetAll(includeProperties: "TypeQuize,QuestionList,Event");
-            return View(items);
-        }
+     
 
         public IActionResult Create()
         {
@@ -138,7 +136,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             _unitOfWork.Quiz.Remove(quiz);
             _unitOfWork.Save();
-            return RedirectToAction("Index", "Quiz");
+            return RedirectToAction("Index", "Quiz", new { area="User"});
         }
 
         public IActionResult Edit(int? id)
@@ -209,7 +207,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 }
                 _unitOfWork.Quiz.Update(quizVM.Quiz);
                 _unitOfWork.Save();
-                return RedirectToAction("Index", "Quiz");
+                return RedirectToAction("Index", "Quiz", new { area="User"});
 
             }
 

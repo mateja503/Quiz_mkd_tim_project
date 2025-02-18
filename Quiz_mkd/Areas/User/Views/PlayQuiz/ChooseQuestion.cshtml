@@ -52,7 +52,7 @@
             
             @foreach (var answer in Model.Answers) 
             {
-             <a class="btn btn-primary my-2" asp-controller="PlayQuiz" asp-action="CheckAnswer"
+             <a class="btn btn-primary my-2" asp-area="User" asp-controller="PlayQuiz" asp-action="CheckAnswer"
              asp-route-answerId="@answer.Id" asp-route-quizId="@Model.Quiz.Id" asp-route-questionId="@Model.Question.Id"
              >@answer.Text</a>
             }

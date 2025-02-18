@@ -1,18 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Domain.Identity;
+using Quiz.Repository.Interface;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class UserController : Controller
     {
 
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IApplicationUserRepository _applicationUserRepository;
 
-        public UserController(UserManager<IdentityUser> userManager)
+      
+        public UserController(UserManager<IdentityUser> userManager, IApplicationUserRepository applicationUserRepository)
         {
+            _applicationUserRepository = applicationUserRepository;
             _userManager = userManager;
         }
+
         public IActionResult Index()
         {
             var userList = _userManager.Users.ToList();

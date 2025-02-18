@@ -5,6 +5,7 @@ using Quiz.Repository.Interface;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class QuestionController : Controller
     {
 
@@ -95,7 +96,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
                 _unitOfWork.Question.Update(questionVm.Question);
                 _unitOfWork.Save();
-                return RedirectToAction("Detail", "Quiz", new { quizId = questionVm.Question.QuizId });
+                return RedirectToAction("Detail", "Quiz", new { quizId = questionVm.Question.QuizId});
             }
 
             return View(questionVm);

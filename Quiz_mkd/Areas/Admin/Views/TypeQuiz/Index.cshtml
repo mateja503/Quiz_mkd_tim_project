@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-6 text-end">
-            <a asp-controller="TypeQuiz" asp-action="Create"  class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додади нов Тип на Квиз</a>
+            <a asp-area="Admin" asp-controller="TypeQuiz" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додади нов Тип на Квиз</a>
 
         </div>
     </div>
@@ -38,10 +38,10 @@
 
                     <td>
                         <div class="w-75 btn-group" role="group">
-                            <a asp-controller="TypeQuiz" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
+                            <a asp-area="Admin" asp-controller="TypeQuiz" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
                                 <i class="bi bi-pencil-square"></i>Едитирај
                             </a>
-                            <a asp-controller="TypeQuiz" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2">
+                            <a asp-area="Admin" asp-controller="TypeQuiz" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2">
                                 <i class="bi bi-trash-fill"></i>Избриши
                             </a>
                         </div>
