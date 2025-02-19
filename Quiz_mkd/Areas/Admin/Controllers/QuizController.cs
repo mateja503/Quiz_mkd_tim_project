@@ -5,10 +5,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
 using ExcelDataReader;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Quiz.Utility;
 namespace Quiz.Web.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class QuizController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -12,7 +12,9 @@
         <form method="post" enctype="multipart/form-data">
             <input asp-for="Event.Id" type="hidden">
             <input asp-for="Event.ImageUrl" type="hidden" />
-            <input asp-for="Event.QuizId" type="hidden" />
+@*             <input asp-for="Event.QuizId" type="hidden" />
+ *@
+            
 
             <div class="border p-3 mt-4">
                 <div class="mb-3 row p-1">
@@ -42,18 +44,11 @@
                 </div>
 
 
-              @*   <div class="mb-3 row p-1">
-                    <label asp-for="Quiz.Name" class="p-0"></label>
-                    <input asp-for="Quiz.Name" disabled class="form-control" />
-                    <span asp-validation-for="Quiz.Name" class="text-danger"></span>
-                    <input asp-for="QuizId" type="hidden"/>
-                </div>
- *@
 
                 <div class="mb-3 row p-1">
                     <label asp-for="Event.QuizId" class="p-0"></label>
                     <select asp-for="Event.QuizId" asp-items="@Model.QuizList" class="p-0 form-select">
-                        <option selected disabled>--Select Event--</option>
+                        <option disabled selected>--Select Quiz--</option>
                     </select>
                     <span asp-validation-for="Event.QuizId" class="text-danger"></span>
                 </div>

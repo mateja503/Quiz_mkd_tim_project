@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -6,11 +7,14 @@ using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
+using Quiz.Utility;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class EventController : Controller
     {
 
@@ -104,7 +108,6 @@ namespace Quiz.Web.Areas.Admin.Controllers
             return View(eventVM);
         }
         [HttpPost]
-        
         public IActionResult Edit(EventVM eventVM, IFormFile? file)
         {
             if (ModelState.IsValid)
@@ -131,7 +134,28 @@ namespace Quiz.Web.Areas.Admin.Controllers
                     }
                     eventVM.Event.ImageUrl = @"\images\event\" + fileName;
                 }
-                _unitOfWork.Event.Update(eventVM.Event);
+
+                var existingEvent = _unitOfWork.Event.Get(u => u.Id == eventVM.Event.Id);
+                existingEvent.Name = eventVM.Event.Name;
+                existingEvent.Description = eventVM.Event.Description;
+                existingEvent.StartDate = eventVM.Event.StartDate;
+                existingEvent.EndDate = eventVM.Event.EndDate;
+                existingEvent.ImageUrl = eventVM.Event.ImageUrl;
+
+
+                if (eventVM.Event.QuizId == null || eventVM.Event.QuizId == 0)
+                {
+                    existingEvent.QuizId = existingEvent.QuizId;
+                }
+                else
+                {
+                    existingEvent.QuizId = eventVM.Event.QuizId;
+                }
+
+
+
+
+                _unitOfWork.Event.Update(existingEvent);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Event", new { area = "User"});
             }

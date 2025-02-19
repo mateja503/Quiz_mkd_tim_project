@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Domain.Identity;
+using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
+using Quiz.Utility;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class UserController : Controller
     {
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUserRepository _applicationUserRepository;
 
       
-        public UserController(UserManager<IdentityUser> userManager, IApplicationUserRepository applicationUserRepository)
+        public UserController(UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
             _userManager = userManager;
@@ -21,36 +26,68 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var userList = _userManager.Users.ToList();
-            return View(userList);
+            var userList = _applicationUserRepository.GetAll();
+            List<ApplicationUserVM> applicationUserVMs = new List<ApplicationUserVM>();
+            var signedInUser = User.Identity.Name;
+            foreach (var user in userList) 
+            {
+                if (user.Email == signedInUser) 
+                {
+                    continue;
+                }
+                
+                var role = _applicationUserRepository.GetUserRole(user.Id);
+                ApplicationUserVM vm = new () 
+                {
+                    User = user,
+                    Role = role
+                };
+                applicationUserVMs.Add(vm);
+            }
+            return View(applicationUserVMs);
         }
 
-
-        public async Task<IActionResult> DeleteUser(string userId)
+        public async Task<IActionResult> ChangeRole(string? userId, string role) 
         {
-            // Find the user by ID
-            var user = await _userManager.FindByIdAsync(userId);
 
-            if (user == null)
+            if (userId == null)
             {
                 return NotFound("User not found.");
             }
 
-            // Delete the user
-            var result = await _userManager.DeleteAsync(user);
+            try
+            {
+                await _applicationUserRepository.ChangeUserRole(userId, role);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (e.g., using ILogger)
+                return StatusCode(500, "An error occurred while changing the user role.");
+            }
+        }
+
+
+        public async Task<IActionResult> DeleteUser(string? userId)
+        {
+            if (userId == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var result = _applicationUserRepository.DeleteById(userId);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index"); // Redirect to a success page or user list
+                return RedirectToAction("Index"); 
             }
 
-            // Handle errors
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            return View("Error"); // Redirect to an error page
+            return View("Error"); 
         }
 
 

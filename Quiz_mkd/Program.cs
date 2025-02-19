@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Quiz.Domain.Identity;
 using Quiz.Repository.Data;
 using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
@@ -14,21 +15,32 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();// if i want to confirm the email for the user 
-builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); 
+//builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddRazorPages();
 
 
-//builder.Services.ConfigureApplicationCookie(options =>
-//{
-//    options.LoginPath = $"/Identity/Account/Login";
-//    options.LogoutPath = $"/Identity/Account/Logout";
-//    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-//});
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddScoped<UserManager<ApplicationUser>>();
+
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
+using Quiz.Utility;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class TypeQuizController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

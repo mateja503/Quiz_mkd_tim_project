@@ -10,30 +10,21 @@ namespace Quiz.Web.Areas.User.Controllers
     public class UserController : Controller
     {
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IApplicationUserRepository _applicationUserRepository;
 
 
-        public UserController(UserManager<IdentityUser> userManager, IApplicationUserRepository applicationUserRepository)
+        public UserController(UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> RangList() 
+        public IActionResult RangList() 
         {
-            var allUsers = _userManager.Users.ToList();
-            var listUser = new List<IdentityUser>();
-            foreach (var user in allUsers) 
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                if (!roles.Contains("Admin")) 
-                {
-                    listUser.Add(user);
-                }
-            }
-            return View(listUser);
+            var listUsers = _applicationUserRepository.GetAll("User").OrderByDescending(u=> u.Points);
+            return View(listUsers);
         }
 
     }

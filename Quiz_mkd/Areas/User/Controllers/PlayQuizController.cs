@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Quiz.Domain.Domain_Models;
+using Quiz.Domain.Identity;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
+using System.Drawing.Printing;
 using System.Net;
 
 namespace Quiz.Web.Areas.User.Controllers
@@ -12,11 +15,15 @@ namespace Quiz.Web.Areas.User.Controllers
 
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IApplicationUserRepository _applicationUserRepository;
 
-
-        public PlayQuizController(IUnitOfWork unitOfWork)
+        public PlayQuizController(IUnitOfWork unitOfWork, 
+            IApplicationUserRepository applicationUserRepository
+          ) 
         {
             _unitOfWork = unitOfWork;
+            _applicationUserRepository = applicationUserRepository;
+            
         }
 
         public IActionResult Index(int? quizId, int? eventId)
@@ -143,18 +150,23 @@ namespace Quiz.Web.Areas.User.Controllers
 
         public IActionResult End(int? quizId)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId);
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties:"Event");
             if (quiz == null)
             {
                 return NotFound();
             }
-            //var eventItem = _unitOfWork.Event.Get(u => u.Id == eventId);
-            //if (eventItem == null)
-            //{
-            //    return NotFound();
-            //}
+         
             int correctAnswers = TempData.Peek("CorrectAnswers") as int? ?? 0;
             int totalAnswers = TempData.Peek("TotalAnswers") as int? ?? 0;
+
+            var singedInUser = User?.Identity?.Name;
+
+            if (singedInUser != null && quiz.Event != null) 
+            {
+                var user = _applicationUserRepository.GetByEmail(singedInUser);
+                 _applicationUserRepository.SetPoints(user.Id,correctAnswers);
+               
+            }
 
             PlayQuizVM playQuizVM = new()
             {

@@ -32,9 +32,8 @@ namespace Quiz.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Points = table.Column<double>(type: "float", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -58,32 +57,16 @@ namespace Quiz.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
+                name: "TypeQuizes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TypeQuizzes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TypeQuizzes", x => x.Id);
+                    table.PrimaryKey("PK_TypeQuizes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +176,71 @@ namespace Quiz.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Quizes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeQuizeId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quizes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Quizes_TypeQuizes_TypeQuizeId",
+                        column: x => x.TypeQuizeId,
+                        principalTable: "TypeQuizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    QuizId = table.Column<int>(type: "int", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_Quizes_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QuizId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Questions_Quizes_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Events_Users",
                 columns: table => new
                 {
@@ -217,58 +265,13 @@ namespace Quiz.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Quizes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeQuizeId = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Quizes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Quizes_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Quizes_TypeQuizzes_TypeQuizeId",
-                        column: x => x.TypeQuizeId,
-                        principalTable: "TypeQuizzes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Questions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    QuizId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Questions_Quizes_QuizId",
-                        column: x => x.QuizId,
-                        principalTable: "Quizes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Answers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionId = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isCorrect = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -284,15 +287,11 @@ namespace Quiz.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "Id", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[,]
-                {
-                    { 1, "Провери си го знаење за Географија во Северна Македонија", new DateTime(2025, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Географија на Северна Македонија", new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Провери си го знаење за Историја во Северна Македонија", new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Историја на Северна Македонија", new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
+                columns: new[] { "Id", "Description", "EndDate", "ImageUrl", "Name", "QuizId", "StartDate" },
+                values: new object[] { 3, "Провери си го знаење за Географија 2 дел во Северна Македонија", new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Географија на Северна Македонија 2 дел", null, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
-                table: "TypeQuizzes",
+                table: "TypeQuizes",
                 columns: new[] { "Id", "Type" },
                 values: new object[,]
                 {
@@ -302,11 +301,21 @@ namespace Quiz.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Quizes",
-                columns: new[] { "Id", "EventId", "TypeQuizeId" },
+                columns: new[] { "Id", "FileName", "ImageUrl", "Name", "TypeQuizeId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 2, 2, 2 }
+                    { 1, "", "", "Брза Географија", 1 },
+                    { 2, "", "", "Пат низ минатотo", 2 },
+                    { 3, "", "", "Брза географија 2 дел", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "Description", "EndDate", "ImageUrl", "Name", "QuizId", "StartDate" },
+                values: new object[,]
+                {
+                    { 1, "Провери си го знаење за Географија во Северна Македонија", new DateTime(2025, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Географија на Северна Македонија", 1, new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Провери си го знаење за Историја во Северна Македонија", new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Историја на Северна Македонија", 2, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -315,7 +324,7 @@ namespace Quiz.Repository.Migrations
                 values: new object[,]
                 {
                     { 1, 1, "Која е највисоката планина во Северна Македонија?" },
-                    { 2, 1, "Која е највисоката планина во Северна Македонија?" },
+                    { 2, 1, "Која е најголема река во Северна Македонија?" },
                     { 3, 1, "Кое е најголемото природно езеро во Северна Македонија?" },
                     { 4, 1, "Кој национален парк е дом на загрозениот балкански рис?" },
                     { 5, 1, "Кој од наведените градови е втор по големина во Северна Македонија?" },
@@ -323,7 +332,12 @@ namespace Quiz.Repository.Migrations
                     { 7, 2, "Која година Северна Македонија прогласи независност од Југославија?" },
                     { 8, 2, "Која позната историска личност, родена во Пела, Грција, имаше значително влијание врз регионот на Северна Македонија?" },
                     { 9, 2, "Која империја владеела со територијата на модерна Северна Македонија над 500 години?" },
-                    { 10, 2, "Како се викаше договорот со кој се реши долгогодишниот спор за името меѓу Грција и Северна Македонија во 2018 година?" }
+                    { 10, 2, "Како се викаше договорот со кој се реши долгогодишниот спор за името меѓу Грција и Северна Македонија во 2018 година?" },
+                    { 11, 3, "Кој е најголемиот остров во Охридското Езеро?" },
+                    { 12, 3, "Која карпеста формација во Македонија е позната како „Камени кукли“ ?" },
+                    { 13, 3, "Кој град во Македонија се наоѓа најсеверно?" },
+                    { 14, 3, "Која е најдлабоката пештера во Македонија?" },
+                    { 15, 3, "На која река се наоѓа Козјак – најголемото вештачко езеро во Македонија?" }
                 });
 
             migrationBuilder.InsertData(
@@ -370,7 +384,27 @@ namespace Quiz.Repository.Migrations
                     { 37, 10, "Скопски договор", false },
                     { 38, 10, "Договорот од Преспа", true },
                     { 39, 10, "Балкански договор", false },
-                    { 40, 10, "Охридски рамковен договор", false }
+                    { 40, 10, "Охридски рамковен договор", false },
+                    { 41, 11, "Градско Острово", false },
+                    { 42, 11, "Голем Град", true },
+                    { 43, 11, "Мал Град", false },
+                    { 44, 11, "Пештани", false },
+                    { 45, 12, "Куклица", true },
+                    { 46, 12, "Маркови Кули", false },
+                    { 47, 12, "Долни Полог", false },
+                    { 48, 12, "Плочата", false },
+                    { 49, 13, "Куманово", true },
+                    { 50, 13, "Крива Паланка", false },
+                    { 51, 13, "Тетово", false },
+                    { 52, 13, "Кратово", false },
+                    { 53, 14, "Слатински Извор", false },
+                    { 54, 14, "Врело", true },
+                    { 55, 14, "Алилица", false },
+                    { 56, 14, "Голубарница", false },
+                    { 57, 15, "Треска", true },
+                    { 58, 15, "Вардар", false },
+                    { 59, 15, "Радика", false },
+                    { 60, 15, "Црна", false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -418,6 +452,13 @@ namespace Quiz.Repository.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Events_QuizId",
+                table: "Events",
+                column: "QuizId",
+                unique: true,
+                filter: "[QuizId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Events_Users_EventId",
                 table: "Events_Users",
                 column: "EventId");
@@ -433,17 +474,9 @@ namespace Quiz.Repository.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quizes_EventId",
-                table: "Quizes",
-                column: "EventId",
-                unique: true,
-                filter: "[EventId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Quizes_TypeQuizeId",
                 table: "Quizes",
-                column: "TypeQuizeId",
-                unique: true);
+                column: "TypeQuizeId");
         }
 
         /// <inheritdoc />
@@ -480,13 +513,13 @@ namespace Quiz.Repository.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Quizes");
-
-            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "TypeQuizzes");
+                name: "Quizes");
+
+            migrationBuilder.DropTable(
+                name: "TypeQuizes");
         }
     }
 }

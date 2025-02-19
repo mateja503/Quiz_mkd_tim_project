@@ -6,6 +6,7 @@ using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
+using Quiz.Utility;
 
 namespace Quiz.Web.Areas.User.Controllers
 {
@@ -22,6 +23,12 @@ namespace Quiz.Web.Areas.User.Controllers
         public IActionResult Index()
         {
             var items = _unitOfWork.Event.GetAll(includeProperties: "Quiz");
+                
+            if (User.IsInRole(SD.Role_User))
+            {
+                items = items.Where(u => u?.Quiz != null).ToList();
+            }
+
             return View(items);
         }
 

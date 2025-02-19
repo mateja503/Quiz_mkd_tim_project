@@ -11,7 +11,7 @@ namespace Quiz.Domain.ViewModels
 {
     public class EventVM
     {
-        public Event Event { get; set; }
+        public Event Event { get; set; } = new Event();
         [ValidateNever]
         public IEnumerable<SelectListItem> QuizList { get; set; }
     }

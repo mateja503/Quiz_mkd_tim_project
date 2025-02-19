@@ -14,7 +14,6 @@ namespace Quiz.Domain.Identity
     {
 
         [Required]
-        [Column("NameUser")]
         public string? NameUser { get; set; }
         [Required]
         public string? Surname { get; set; }

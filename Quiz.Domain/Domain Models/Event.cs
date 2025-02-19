@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Quiz.Domain.Domain_Models
 {
@@ -37,10 +31,11 @@ namespace Quiz.Domain.Domain_Models
         [ValidateNever]
         public ICollection<Event_User>? Event_User { get; set; }
 
-        [Display(Name = "Квиз")]
+        
         [ValidateNever]
         public Quiz? Quiz { get; set; }
 
+        [Display(Name = "Квиз")]
         public int? QuizId { get; set; }
 
         [ValidateNever]

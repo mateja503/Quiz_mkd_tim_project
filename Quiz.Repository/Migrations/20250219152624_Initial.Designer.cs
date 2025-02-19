@@ -12,7 +12,7 @@ using Quiz.Repository.Data;
 namespace Quiz.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250208143152_Initial")]
+    [Migration("20250219152624_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -75,80 +75,6 @@ namespace Quiz.Repository.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -244,6 +170,7 @@ namespace Quiz.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isCorrect")
@@ -535,6 +462,146 @@ namespace Quiz.Repository.Migrations
                             QuestionId = 10,
                             Text = "Охридски рамковен договор",
                             isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 41,
+                            QuestionId = 11,
+                            Text = "Градско Острово",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 42,
+                            QuestionId = 11,
+                            Text = "Голем Град",
+                            isCorrect = true
+                        },
+                        new
+                        {
+                            Id = 43,
+                            QuestionId = 11,
+                            Text = "Мал Град",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 44,
+                            QuestionId = 11,
+                            Text = "Пештани",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 45,
+                            QuestionId = 12,
+                            Text = "Куклица",
+                            isCorrect = true
+                        },
+                        new
+                        {
+                            Id = 46,
+                            QuestionId = 12,
+                            Text = "Маркови Кули",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 47,
+                            QuestionId = 12,
+                            Text = "Долни Полог",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 48,
+                            QuestionId = 12,
+                            Text = "Плочата",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 49,
+                            QuestionId = 13,
+                            Text = "Куманово",
+                            isCorrect = true
+                        },
+                        new
+                        {
+                            Id = 50,
+                            QuestionId = 13,
+                            Text = "Крива Паланка",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 51,
+                            QuestionId = 13,
+                            Text = "Тетово",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 52,
+                            QuestionId = 13,
+                            Text = "Кратово",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 53,
+                            QuestionId = 14,
+                            Text = "Слатински Извор",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 54,
+                            QuestionId = 14,
+                            Text = "Врело",
+                            isCorrect = true
+                        },
+                        new
+                        {
+                            Id = 55,
+                            QuestionId = 14,
+                            Text = "Алилица",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 56,
+                            QuestionId = 14,
+                            Text = "Голубарница",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 57,
+                            QuestionId = 15,
+                            Text = "Треска",
+                            isCorrect = true
+                        },
+                        new
+                        {
+                            Id = 58,
+                            QuestionId = 15,
+                            Text = "Вардар",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 59,
+                            QuestionId = 15,
+                            Text = "Радика",
+                            isCorrect = false
+                        },
+                        new
+                        {
+                            Id = 60,
+                            QuestionId = 15,
+                            Text = "Црна",
+                            isCorrect = false
                         });
                 });
 
@@ -547,18 +614,30 @@ namespace Quiz.Repository.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuizId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizId")
+                        .IsUnique()
+                        .HasFilter("[QuizId] IS NOT NULL");
 
                     b.ToTable("Events");
 
@@ -568,7 +647,9 @@ namespace Quiz.Repository.Migrations
                             Id = 1,
                             Description = "Провери си го знаење за Географија во Северна Македонија",
                             EndDate = new DateTime(2025, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "",
                             Name = "Географија на Северна Македонија",
+                            QuizId = 1,
                             StartDate = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -576,7 +657,18 @@ namespace Quiz.Repository.Migrations
                             Id = 2,
                             Description = "Провери си го знаење за Историја во Северна Македонија",
                             EndDate = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "",
                             Name = "Историја на Северна Македонија",
+                            QuizId = 2,
+                            StartDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Провери си го знаење за Географија 2 дел во Северна Македонија",
+                            EndDate = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "",
+                            Name = "Географија на Северна Македонија 2 дел",
                             StartDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -616,6 +708,7 @@ namespace Quiz.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -635,7 +728,7 @@ namespace Quiz.Repository.Migrations
                         {
                             Id = 2,
                             QuizId = 1,
-                            Text = "Која е највисоката планина во Северна Македонија?"
+                            Text = "Која е најголема река во Северна Македонија?"
                         },
                         new
                         {
@@ -684,6 +777,36 @@ namespace Quiz.Repository.Migrations
                             Id = 10,
                             QuizId = 2,
                             Text = "Како се викаше договорот со кој се реши долгогодишниот спор за името меѓу Грција и Северна Македонија во 2018 година?"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            QuizId = 3,
+                            Text = "Кој е најголемиот остров во Охридското Езеро?"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            QuizId = 3,
+                            Text = "Која карпеста формација во Македонија е позната како „Камени кукли“ ?"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            QuizId = 3,
+                            Text = "Кој град во Македонија се наоѓа најсеверно?"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            QuizId = 3,
+                            Text = "Која е најдлабоката пештера во Македонија?"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            QuizId = 3,
+                            Text = "На која река се наоѓа Козјак – најголемото вештачко езеро во Македонија?"
                         });
                 });
 
@@ -695,20 +818,22 @@ namespace Quiz.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeQuizeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId")
-                        .IsUnique()
-                        .HasFilter("[EventId] IS NOT NULL");
-
-                    b.HasIndex("TypeQuizeId")
-                        .IsUnique();
+                    b.HasIndex("TypeQuizeId");
 
                     b.ToTable("Quizes");
 
@@ -716,14 +841,26 @@ namespace Quiz.Repository.Migrations
                         new
                         {
                             Id = 1,
-                            EventId = 1,
+                            FileName = "",
+                            ImageUrl = "",
+                            Name = "Брза Географија",
                             TypeQuizeId = 1
                         },
                         new
                         {
                             Id = 2,
-                            EventId = 2,
+                            FileName = "",
+                            ImageUrl = "",
+                            Name = "Пат низ минатотo",
                             TypeQuizeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FileName = "",
+                            ImageUrl = "",
+                            Name = "Брза географија 2 дел",
+                            TypeQuizeId = 1
                         });
                 });
 
@@ -736,11 +873,12 @@ namespace Quiz.Repository.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypeQuizzes");
+                    b.ToTable("TypeQuizes");
 
                     b.HasData(
                         new
@@ -757,23 +895,81 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Identity.ApplicationUser", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NameUser")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Points")
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<double?>("Points")
                         .HasColumnType("float");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -787,7 +983,7 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Quiz.Domain.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -796,7 +992,7 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Quiz.Domain.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -811,7 +1007,7 @@ namespace Quiz.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Quiz.Domain.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -820,7 +1016,7 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Quiz.Domain.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -836,6 +1032,15 @@ namespace Quiz.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Quiz.Domain.Domain_Models.Event", b =>
+                {
+                    b.HasOne("Quiz.Domain.Domain_Models.Quiz", "Quiz")
+                        .WithOne("Event")
+                        .HasForeignKey("Quiz.Domain.Domain_Models.Event", "QuizId");
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Event_User", b =>
@@ -866,17 +1071,11 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Quiz", b =>
                 {
-                    b.HasOne("Quiz.Domain.Domain_Models.Event", "Event")
-                        .WithOne("Quiz")
-                        .HasForeignKey("Quiz.Domain.Domain_Models.Quiz", "EventId");
-
                     b.HasOne("Quiz.Domain.Domain_Models.TypeQuiz", "TypeQuize")
-                        .WithOne("Quiz")
-                        .HasForeignKey("Quiz.Domain.Domain_Models.Quiz", "TypeQuizeId")
+                        .WithMany("QuizList")
+                        .HasForeignKey("TypeQuizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Event");
 
                     b.Navigation("TypeQuize");
                 });
@@ -884,8 +1083,6 @@ namespace Quiz.Repository.Migrations
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Event", b =>
                 {
                     b.Navigation("Event_User");
-
-                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Question", b =>
@@ -895,12 +1092,14 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Quiz", b =>
                 {
+                    b.Navigation("Event");
+
                     b.Navigation("QuestionList");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.TypeQuiz", b =>
                 {
-                    b.Navigation("Quiz");
+                    b.Navigation("QuizList");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Identity.ApplicationUser", b =>

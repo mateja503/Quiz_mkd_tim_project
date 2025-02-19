@@ -10,14 +10,19 @@ namespace Quiz.Repository.Interface
 {
     public interface IApplicationUserRepository
     {
-        public Task<IEnumerable<IdentityUser>> GetAll(string role);
+        public IEnumerable<ApplicationUser> GetAll(string? role = null);
 
 
-        public IdentityUser Get(string userId);
+        public ApplicationUser GetById(string userId);
 
-        public IdentityResult Delete(string userId);
+        public ApplicationUser GetByEmail(string userEmail);
 
-        public void ChangeUserRole(IdentityUser user,string changeTo);
-        
+        public IdentityResult DeleteById(string userId);
+
+        public Task ChangeUserRole(string userId,string changeTo);
+
+        public string GetUserRole(string userId);
+
+        public void SetPoints(string userId, double correctAnswers);
     }
 }

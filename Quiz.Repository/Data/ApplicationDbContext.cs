@@ -12,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Quiz.Repository.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

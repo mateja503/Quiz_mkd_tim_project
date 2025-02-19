@@ -11,7 +11,8 @@
     <div class="card-body p-4">
         <form method="post" enctype="multipart/form-data">
             <input asp-for="Quiz.ImageUrl" type="hidden" />
-            @* <input asp-for="Quiz.Id" type="hidden" /> *@
+            <input asp-for="Quiz.Id" type="hidden" />
+
             <div class="border p-3 mt-4">
                 <div class="mb-3 row p-1">
 
@@ -31,14 +32,14 @@
 
              
 
-               
+              @*  
                 <div class="mb-3 row p-1">
                     <label asp-for="Quiz.Event" class="p-0"></label>
                     <select asp-for="Quiz.Event" asp-items="@Model.EventList" class="p-0 form-select">
                         <option selected disabled>--Селектирај Настан--</option>
                     </select>
                     <span asp-validation-for="Quiz.Event" class="text-danger"></span>
-                </div>
+                </div> *@
 
                 <div class="mb-3 row p-1">
                     <label asp-for="Quiz.ImageUrl" class="p-0"></label>
