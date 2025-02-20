@@ -14,14 +14,12 @@ namespace Quiz.Web.Areas.Admin.Controllers
     public class UserController : Controller
     {
 
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUserRepository _applicationUserRepository;
 
       
-        public UserController(UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserRepository)
+        public UserController( IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
-            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -31,10 +29,10 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var signedInUser = User.Identity.Name;
             foreach (var user in userList) 
             {
-                if (user.Email == signedInUser) 
-                {
-                    continue;
-                }
+                //if (user.Email == signedInUser) 
+                //{
+                //    continue;
+                //}
                 
                 var role = _applicationUserRepository.GetUserRole(user.Id);
                 ApplicationUserVM vm = new () 

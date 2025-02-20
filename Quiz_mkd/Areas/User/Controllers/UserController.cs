@@ -10,15 +10,13 @@ namespace Quiz.Web.Areas.User.Controllers
     public class UserController : Controller
     {
 
-        private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IApplicationUserRepository _applicationUserRepository;
 
 
-        public UserController(UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserRepository)
+        public UserController( IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
-            _userManager = userManager;
         }
 
         public IActionResult RangList() 
