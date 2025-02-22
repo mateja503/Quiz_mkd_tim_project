@@ -164,8 +164,8 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Потврди го твојот маил",//this is how you set for mail send 
+                        $"Ве молиме потврдете го вашиот емаил со тоа што ќе кликнете <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>тука</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

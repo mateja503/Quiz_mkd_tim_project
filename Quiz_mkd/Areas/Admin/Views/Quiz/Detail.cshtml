@@ -4,6 +4,7 @@
         <div class="col-4">
             <h2 class="text-primary">Квиз: @Model.Quiz.Name</h2>
         </div>
+      
 
         <div class="col-4">
             <h2 class="text-primary">Тип на Квиз: @Model.Quiz.TypeQuize.Type</h2>
@@ -13,6 +14,18 @@
             <img src="@Model.Quiz.ImageUrl" class="img-fluid" />
         </div>
 
+    </div>
+
+    <div class="row pt-4 pb-3">
+        <div class="col-3">
+            <a asp-area="Admin" asp-controller="Question"
+               asp-action="Create" asp-route-quizId="@Model.Quiz.Id"
+               class="btn btn-primary">
+                Креирај Прашање
+            </a>
+
+        </div>
+      
     </div>
 
     <table class="table table-bordered table-striped">

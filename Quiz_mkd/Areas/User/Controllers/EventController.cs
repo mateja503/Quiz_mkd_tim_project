@@ -23,10 +23,10 @@ namespace Quiz.Web.Areas.User.Controllers
         public IActionResult Index()
         {
             var items = _unitOfWork.Event.GetAll(includeProperties: "Quiz");
-                
+            items = items.OrderBy(u => u?.StartDate).ToList();
             if (User.IsInRole(SD.Role_User))
             {
-                items = items.Where(u => u?.Quiz != null).ToList();
+                items = items.Where(u => u?.Quiz != null);
             }
 
             return View(items);
