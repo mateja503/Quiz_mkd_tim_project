@@ -20,11 +20,11 @@ namespace Quiz.Web.Areas.User.Controllers
         public IActionResult Index()
         {
             var items = _unitOfWork.Quiz.GetAll(includeProperties: "TypeQuize,QuestionList,Event");
-               
 
-            if (User.IsInRole(SD.Role_User)) 
+            items = items.Where(u => u.Event == null).ToList();
+            if (User.IsInRole(SD.Role_Admin)) 
             {
-                items = items.Where(u => u.Event == null).ToList();
+                items = items.ToList();
             }
 
             return View(items);

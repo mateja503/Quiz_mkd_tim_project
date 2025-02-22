@@ -61,7 +61,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Quiz");
+                    return RedirectToAction("Index", "Quiz", new { area = "User"});
 
                 }
 
