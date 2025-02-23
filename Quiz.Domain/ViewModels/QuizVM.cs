@@ -17,12 +17,6 @@ namespace Quiz.Domain.ViewModels
 
 
         [ValidateNever]
-        public IEnumerable<SelectListItem> TypeQuizList { get; set; }
-
-        [ValidateNever]
-        public IEnumerable<SelectListItem?> EventList { get; set; }
-
-        [ValidateNever]
         public IEnumerable<Question?> QuestionList { get; set; }
     }
 }

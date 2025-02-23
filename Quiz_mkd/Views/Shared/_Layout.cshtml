@@ -26,19 +26,12 @@
                       @*   <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Answer" asp-action="Index">Одговори</a>
                         </li> *@
-                        @if (User.Identity.IsAuthenticated)
-                        {
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="User" asp-controller="Event" asp-action="Index">Настани</a>
-                            </li>
-                        }else
-                        {
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Настани</a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="User" asp-controller="Event" asp-action="Index">Соопштенија</a>
+                        </li>
+                        
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="User" asp-controller="Quiz" asp-action="Index">Квиз</a>
@@ -46,7 +39,7 @@
                         @if(User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="TypeQuiz" asp-action="Index">Тип на Квиз</a>
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="TypeQuestion" asp-action="Index">Тип на Квиз</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>

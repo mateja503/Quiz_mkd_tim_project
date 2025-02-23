@@ -20,11 +20,11 @@ namespace Quiz.Repository.Implementation
             _db = db;
             this.dbSet = _db.Set<T>();
             _db.Answers.Include(u => u.Question).Include(u => u.QuestionId);
-            _db.Events.Include(u => u.Quiz).Include(u=>u.QuizId);
-            _db.Questions.Include(u=>u.Quiz).Include(u => u.QuizId);
-            _db.Quizes.Include(u=>u.TypeQuize).Include(u => u.TypeQuizeId)
-                .Include(u=>u.Event).Include(u=> u.QuestionList);
-            _db.TypeQuizes.Include(u => u.QuizList);
+            _db.Questions.Include(u=>u.Quiz).Include(u => u.QuizId)
+                .Include(u => u.TypeQuestion).Include(u => u.TypeQuestionId)
+                .Include(u=> u.AnswersList);
+            _db.Quizes.Include(u=> u.QuestionList);
+            _db.TypeQuestions.Include(u => u.QuestionList);
             //_db.TypeQuizes.Include(u => u.Quiz);
         }
 

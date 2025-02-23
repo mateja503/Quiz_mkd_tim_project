@@ -17,6 +17,10 @@ namespace Quiz.Domain.Domain_Models
         [Required]
         public string? Description { get; set; }
 
+        [Display(Name = "Дестинација")]
+        [Required]
+        public string? Destination { get; set; }
+
         [Display(Name = "Почетен Датум")]
         [DataType(DataType.Date)]
         [Required]
@@ -30,13 +34,6 @@ namespace Quiz.Domain.Domain_Models
         [Display(Name = "Корисници")]
         [ValidateNever]
         public ICollection<Event_User>? Event_User { get; set; }
-
-        
-        [ValidateNever]
-        public Quiz? Quiz { get; set; }
-
-        [Display(Name = "Квиз")]
-        public int? QuizId { get; set; }
 
         [ValidateNever]
         [Display(Name = "Image")]

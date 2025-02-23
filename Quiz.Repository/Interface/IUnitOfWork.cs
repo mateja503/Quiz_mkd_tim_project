@@ -15,7 +15,7 @@ namespace Quiz.Repository.Interface
         IEventRepository Event { get; }
         IQuestionRepository Question { get; }
         IQuizRepository Quiz { get; }
-        ITypeQuizRepository TypeQuiz{ get; }
+        ITypeQuestionRepository TypeQuestion{ get; }
 
         void Save();
 

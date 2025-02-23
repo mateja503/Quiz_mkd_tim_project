@@ -51,11 +51,11 @@ namespace Quiz.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 answerVM.Question = question;
-                question?.Answers?.Add(answerVM.Answer);
+                question?.AnswersList?.Add(answerVM.Answer);
                 _unitOfWork.Answer.Add(answerVM.Answer);
                 _unitOfWork.Save();
                 answerVM.Answer = new Answer();
-                if (question?.Answers?.Count != 4)
+                if (question?.AnswersList?.Count != 4)
                 {
                     return View(answerVM);
                 }

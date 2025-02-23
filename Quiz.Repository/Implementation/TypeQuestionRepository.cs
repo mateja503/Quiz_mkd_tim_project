@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Quiz.Repository.Implementation
 {
-    public class TypeQuizRepository : Repository<TypeQuiz>, ITypeQuizRepository
+    public class TypeQuestionRepository : Repository<TypeQuestion>, ITypeQuestionRepository
     {
         private readonly ApplicationDbContext _db;
-        public TypeQuizRepository(ApplicationDbContext db) : base(db)
+        public TypeQuestionRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(TypeQuiz typeQuiz)
+        public void Update(TypeQuestion typeQuiz)
         {
-            _db.TypeQuizes.Update(typeQuiz);
+            _db.TypeQuestions.Update(typeQuiz);
         }
     }
 }

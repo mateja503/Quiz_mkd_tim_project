@@ -110,7 +110,7 @@ namespace Quiz.Web.Areas.User.Controllers
             QuestionVM questionVM = new()
             {
                 Question = question,
-                Answers = question.Answers,
+                Answers = question.AnswersList,
                 Quiz = quiz
 
             };
@@ -159,14 +159,14 @@ namespace Quiz.Web.Areas.User.Controllers
             int correctAnswers = TempData.Peek("CorrectAnswers") as int? ?? 0;
             int totalAnswers = TempData.Peek("TotalAnswers") as int? ?? 0;
 
-            var singedInUser = User?.Identity?.Name;
+            //var singedInUser = User?.Identity?.Name;
 
-            if (singedInUser != null && quiz.Event != null) 
-            {
-                var user = _applicationUserRepository.GetByEmail(singedInUser);
-                 _applicationUserRepository.SetPoints(user.Id,correctAnswers);
+            //if (singedInUser != null && quiz.Event != null) 
+            //{
+            //    var user = _applicationUserRepository.GetByEmail(singedInUser);
+            //     _applicationUserRepository.SetPoints(user.Id,correctAnswers);
                
-            }
+            //}
 
             PlayQuizVM playQuizVM = new()
             {

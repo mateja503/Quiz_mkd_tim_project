@@ -22,21 +22,7 @@
                 </div>
 
 
-                <div class="mb-3 row p-1">
-                    <label asp-for="Quiz.TypeQuizeId" class="p-0"></label>
-                    <select asp-for="Quiz.TypeQuizeId" asp-items="@Model.TypeQuizList" class="p-0 form-select">
-                        <option selected disabled>--Select TypeQuize--</option>
-                    </select>
-                    <span asp-validation-for="Quiz.TypeQuizeId" class="text-danger"></span>
-                </div>
 
-                <div class="mb-3 row p-1">
-                    <label asp-for="Quiz.Event" class="p-0"></label>
-                    <select asp-for="Quiz.Event" asp-items="@Model.EventList" class="p-0 form-select">
-                        <option selected disabled>--Select Event--</option>
-                    </select>
-                    <span asp-validation-for="Quiz.Event" class="text-danger"></span>
-                </div>
 
                 <div class="mb-3 row p-1">
                     <label asp-for="Quiz.ImageUrl" disabled class="p-0"></label>

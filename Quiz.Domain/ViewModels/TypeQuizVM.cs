@@ -6,7 +6,7 @@ namespace Quiz.Domain.ViewModels
 {
     public class TypeQuizVM
     {
-        public TypeQuiz TypeQuiz { get; set; }
+        public TypeQuestion TypeQuestion { get; set; }
 
         public IEnumerable<SelectListItem> QuizList  { get; set; }
     }

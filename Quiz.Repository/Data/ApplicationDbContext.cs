@@ -25,7 +25,7 @@ namespace Quiz.Repository.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Domain.Domain_Models.Quiz> Quizes { get; set; }
         public DbSet<ApplicationUser>  ApplicationUsers { get; set; }
-        public DbSet<TypeQuiz> TypeQuizes { get; set; }
+        public DbSet<TypeQuestion> TypeQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
@@ -40,7 +40,7 @@ namespace Quiz.Repository.Data
                     Description = "Провери си го знаење за Географија во Северна Македонија",
                     StartDate = new DateTime(2025,2,15),//year,month,day
                     EndDate = new DateTime(2025,2,25),
-                    QuizId = 1,
+                    Destination = "Битола",
                     ImageUrl=""
                     
                 },
@@ -51,7 +51,7 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Историја во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
-                      QuizId = 2,
+                      Destination = "Скопје",
                       ImageUrl = ""
 
                   },
@@ -62,6 +62,7 @@ namespace Quiz.Repository.Data
                       Description = "Провери си го знаење за Географија 2 дел во Северна Македонија",
                       StartDate = new DateTime(2025, 3, 15),//year,month,day
                       EndDate = new DateTime(2025, 3, 25),
+                      Destination = "Куманово",
                       ImageUrl = ""
 
 
@@ -92,42 +93,49 @@ namespace Quiz.Repository.Data
                 {
                     Id = 1,
                     Text = "Која е највисоката планина во Северна Македонија?",
+                    TypeQuestionId = 1,
                     QuizId = 1
                 },
                   new Question
                   {
                       Id = 2,
                       Text = "Која е најголема река во Северна Македонија?",
+                      TypeQuestionId = 1,
                       QuizId = 1
                   },
                    new Question
                    {
                        Id = 3,
                        Text = "Кое е најголемото природно езеро во Северна Македонија?",
+                       TypeQuestionId = 1,
                        QuizId = 1
                    },
                     new Question
                     {
                         Id = 4,
                         Text = "Кој национален парк е дом на загрозениот балкански рис?",
+                        TypeQuestionId = 1,
                         QuizId = 1
                     },
                      new Question
                      {
                          Id = 5,
                          Text = "Кој од наведените градови е втор по големина во Северна Македонија?",
+                         TypeQuestionId = 1,
                          QuizId = 1
                      },
                         new Question
                         {
                             Id = 6,
                             Text = "Кое античко кралство ја опфаќало територијата на модерна Северна Македонија?",
+                            TypeQuestionId = 2,
                             QuizId = 2
                         },
                      new Question
                      {
                          Id = 7,
                          Text = "Која година Северна Македонија прогласи независност од Југославија?",
+                         TypeQuestionId = 2,
                          QuizId = 2
                      },
                        new Question
@@ -135,12 +143,14 @@ namespace Quiz.Repository.Data
                            Id = 8,
                            Text = "Која позната историска личност, родена во Пела, Грција," +
                            " имаше значително влијание врз регионот на Северна Македонија?",
+                           TypeQuestionId = 2,
                            QuizId = 2
                        },
                       new Question
                       {
                           Id = 9,
                           Text = "Која империја владеела со територијата на модерна Северна Македонија над 500 години?",
+                          TypeQuestionId = 2,
                           QuizId = 2
                       },
                      new Question
@@ -148,36 +158,42 @@ namespace Quiz.Repository.Data
                          Id = 10,
                          Text = "Како се викаше договорот со кој се реши долгогодишниот " +
                          "спор за името меѓу Грција и Северна Македонија во 2018 година?",
+                         TypeQuestionId = 2,
                          QuizId = 2
                      },
                        new Question
                        {
                            Id = 11,
                            Text = "Кој е најголемиот остров во Охридското Езеро?",
+                           TypeQuestionId = 1,
                            QuizId = 3
                        },
                         new Question
                         {
                             Id = 12,
                             Text = "Која карпеста формација во Македонија е позната како „Камени кукли“ ?",
+                            TypeQuestionId = 1,
                             QuizId = 3
                         },
                         new Question
                         {
                             Id = 13,
                             Text = "Кој град во Македонија се наоѓа најсеверно?",
+                            TypeQuestionId = 1,
                             QuizId = 3
                         },
                           new Question
                           {
                               Id = 14,
                               Text = "Која е најдлабоката пештера во Македонија?",
+                              TypeQuestionId = 1,
                               QuizId = 3
                           },
                            new Question
                            {
                                Id = 15,
                                Text = "На која река се наоѓа Козјак – најголемото вештачко езеро во Македонија?",
+                               TypeQuestionId = 1,
                                QuizId = 3
                            }
 
@@ -188,7 +204,6 @@ namespace Quiz.Repository.Data
               {
                   Id = 1,
                   Name = "Брза Географија",
-                  TypeQuizeId = 1,
                   FileName = "",
                   ImageUrl = ""
 
@@ -198,7 +213,6 @@ namespace Quiz.Repository.Data
                 {
                     Id = 2,
                     Name = "Пат низ минатотo",
-                    TypeQuizeId = 2,
                     FileName = "",
                     ImageUrl = ""
 
@@ -207,7 +221,6 @@ namespace Quiz.Repository.Data
                  {
                      Id = 3,
                      Name = "Брза географија 2 дел",
-                     TypeQuizeId = 1,
                      FileName = "",
                      ImageUrl = ""
 
@@ -216,14 +229,14 @@ namespace Quiz.Repository.Data
 
               );
 
-            modelbuilder.Entity<TypeQuiz>().HasData(
-               new TypeQuiz
+            modelbuilder.Entity<TypeQuestion>().HasData(
+               new TypeQuestion
                {
                    Id = 1,
                    Type = "Географија",
                    
                },
-               new TypeQuiz
+               new TypeQuestion
                {
                    Id = 2,
                    Type = "Историја",

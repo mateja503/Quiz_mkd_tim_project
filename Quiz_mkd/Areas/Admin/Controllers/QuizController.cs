@@ -30,17 +30,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuizVM quizVM = new()
             {
                 Quiz = new Domain.Domain_Models.Quiz(),
-                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Type,
-                    Value = u.Id.ToString()
-                }),
-                EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+               
                 QuestionList = new List<Question>()
             };
             return View(quizVM);
@@ -66,17 +56,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 }
                 _unitOfWork.Quiz.Add(quizVM.Quiz);
                 _unitOfWork.Save();
-                quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Type,
-                    Value = u.Id.ToString()
-                });
-                quizVM.EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
+             
                 quizVM.QuestionList = new List<Question>();
                 return View(quizVM);
 
@@ -85,17 +65,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuizVM vm = new()
             {
                 Quiz = new Domain.Domain_Models.Quiz(),
-                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Type,
-                    Value = u.Id.ToString()
-                }),
-                EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+                
                 QuestionList = new List<Question>()
             };
             return View(vm);
@@ -104,7 +74,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Delete(int? id)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuize,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,Event");
 
             return View(quiz);
         }
@@ -117,7 +87,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuize,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,Event");
 
             if (quiz == null)
             {
@@ -149,7 +119,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuize,QuestionList,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,QuestionList,Event");
 
             if (quiz == null)
             {
@@ -159,17 +129,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuizVM quizVM = new()
             {
                 Quiz = quiz,
-                TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u?.Type,
-                    Value = u.Id.ToString()
-                }),
-                EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+              
                 QuestionList = new List<Question>()
             };
             return View(quizVM);
@@ -216,19 +176,6 @@ namespace Quiz.Web.Areas.Admin.Controllers
             }
 
 
-            quizVM.TypeQuizList = _unitOfWork.TypeQuiz.GetAll().Select(u => new SelectListItem
-            {
-                Text = u?.Type,
-                Value = u.Id.ToString()
-            });
-
-            quizVM.EventList = _unitOfWork.Event.GetAll(includeProperties: "Quiz").Where(u => u.Quiz == null)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-
             return View(quizVM);
 
 
@@ -236,7 +183,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Detail(int? quizId)
         {
-            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuize,Event,QuestionList");
+            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,Event,QuestionList");
             if (item == null)
             {
                 return NotFound();
@@ -245,17 +192,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuizVM quizVM = new()
             {
                 Quiz = item,
-                TypeQuizList = _unitOfWork.TypeQuiz.GetAll(includeProperties: "QuizList").Where(u => u.Id == item.TypeQuizeId)
-                .Select(u => new SelectListItem
-                {
-                    Text = u.Type,
-                    Value = u.Id.ToString()
-                }),
-                EventList = _unitOfWork.Event.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+               
 
                 QuestionList = _unitOfWork.Question.GetAll(includeProperties: "Quiz,Answers")
                 .Where(u => u.QuizId == item.Id)
@@ -329,7 +266,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
                                 Question question = new Question();
                                 question.Text = reader.GetValue(0).ToString();
-                                question.Answers = new List<Answer>();
+                                question.AnswersList = new List<Answer>();
                                 question.QuizId = quizId;
                                 _unitOfWork.Question.Add(question);
                                 _unitOfWork.Save();
@@ -352,7 +289,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                                         }
                                         _unitOfWork.Answer.Add(answer);
                                         _unitOfWork.Save();
-                                        q?.Answers?.Add(answer);
+                                        q?.AnswersList?.Add(answer);
                                         _unitOfWork.Question.Update(q);
                                         _unitOfWork.Save();
                                     }

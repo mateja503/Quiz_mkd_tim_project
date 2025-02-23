@@ -1,4 +1,4 @@
-﻿using Quiz.Domain.Domain_Models;
+﻿//using Quiz.Domain.Domain_Models;
 using Quiz.Repository.Data;
 using Quiz.Repository.Interface;
 using System;
@@ -23,7 +23,7 @@ namespace Quiz.Repository.Implementation
 
         public IQuizRepository Quiz { get; private set; }
 
-        public ITypeQuizRepository TypeQuiz { get; private set; }
+        public ITypeQuestionRepository TypeQuestion { get; private set; }
 
        
 
@@ -35,7 +35,7 @@ namespace Quiz.Repository.Implementation
             Event = new EventRepository(_db);
             Question = new QuestionRepository(_db);
             Quiz = new QuizRepository(_db);
-            TypeQuiz = new TypeQuizRepository(_db);
+            TypeQuestion = new TypeQuestionRepository(_db);
 
         }
 

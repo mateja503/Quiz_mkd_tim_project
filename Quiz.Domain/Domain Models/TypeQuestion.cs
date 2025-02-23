@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Quiz.Domain.Domain_Models
 {
-    public class  TypeQuiz
+    public class TypeQuestion
     {
         [Key]
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace Quiz.Domain.Domain_Models
         public string? Type { get; set; }
 
         [ValidateNever]
-        public ICollection<Quiz?> QuizList { get; set; }
+        public ICollection<Question?> QuestionList { get; set; }
     }
 }

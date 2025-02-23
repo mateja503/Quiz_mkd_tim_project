@@ -32,7 +32,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuize,QuestionList,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,QuestionList,Event");
             if (quiz == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(QuestionVM questionVM, int quizId)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuize,Event,QuestionList");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,Event,QuestionList");
 
             if (quiz == null)
             {
@@ -86,7 +86,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuestionVM questionVM = new()
             {
                 Question = item,
-                Answers = item.Answers,
+                Answers = item.AnswersList,
                 Quiz = item.Quiz
             };
             return View(questionVM);
@@ -120,7 +120,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             QuestionVM questionVM = new()
             {
                 Question = item,
-                Answers = item.Answers,
+                Answers = item.AnswersList,
                 Quiz = item.Quiz
             };
             return View(questionVM);

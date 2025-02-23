@@ -20,9 +20,9 @@
                 <th>Слика</th>
                 <th>Име</th>
                 <th>Дескрипција</th>
+                <th>Дестинација</th>
                 <th>Почеток</th>
                 <th>Крај</th>
-                <th>Квиз</th>
                 
             </tr>
         </thead>
@@ -33,32 +33,34 @@
                     <td><img src="@item.ImageUrl" alt="Image" class="img-fluid" /></td>
                     <td>@item?.Name</td>
                     <td>@item?.Description</td>
+                    <td>@item?.Destination</td>
                     <td>@item?.StartDate.ToString("dd/MM/yyyy")</td>
                     <td>@item?.EndDate.ToString("dd/MM/yyyy")</td>
-                    <td>@item?.Quiz?.Name</td>
 
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            @if (User.IsInRole(SD.Role_Admin))
-                            {
+                    @if (User.IsInRole(SD.Role_Admin))
+                    {
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+
                                 <a asp-area="Admin" asp-controller="Event" asp-action="Edit" asp-route-id="@item?.Id" class="btn btn-primary mx-2">
                                     Едитирај
                                 </a>
                                 <a asp-area="Admin"  asp-controller="Event" asp-action="Delete" asp-route-id="@item?.Id" class="btn btn-danger mx-2">
                                     Избриши
                                 </a>
-                                <a asp-area="Admin" asp-controller="Quiz" asp-action="Detail" asp-route-quizId="@item?.QuizId" class="btn btn-info mx-2">
+                                @*    <a asp-area="Admin" asp-controller="Quiz" asp-action="Detail" asp-route-quizId="@item?.QuizId" class="btn btn-info mx-2">
                                     Разгледај Квиз
-                                </a>
-                            }
-                            <a asp-area="User" asp-controller="PlayQuiz" asp-action="Index" asp-route-quizId="@item?.QuizId" class="btn btn-warning mx-2">
+                                </a> *@
+
+                                @*  <a asp-area="User" asp-controller="PlayQuiz" asp-action="Index" asp-route-quizId="@item?.QuizId" class="btn btn-warning mx-2">
                                 Играј Квиз
                             </a>
+ *@
 
+                            </div>
 
-                        </div>
-
-                    </td>
+                        </td>
+                    }
 
                 </tr>
             }

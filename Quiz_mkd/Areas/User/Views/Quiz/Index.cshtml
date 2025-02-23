@@ -40,7 +40,6 @@
                 <tr>
                     <td><img src="@item.ImageUrl" alt="Image" class="img-fluid" /></td>
                     <td>@item?.Name</td>
-                    <td>@item?.TypeQuize?.Type</td>
                     @foreach(var question in item?.QuestionList )
                     {
                         <td>@question?.Text</td>
@@ -50,14 +49,7 @@
                         <td>/</td>
                     }
 
-                    @if(item.Event == null)
-                    {
-                        <td>Не е поврзан со настан</td>
-                    }else
-                    {
-                        <td>@item?.Event?.Name</td>
-                    }
-                    
+                  
 
                     <td>
                        

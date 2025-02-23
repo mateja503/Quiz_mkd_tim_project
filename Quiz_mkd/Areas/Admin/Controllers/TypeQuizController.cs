@@ -11,18 +11,18 @@ namespace Quiz.Web.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
 
-    public class TypeQuizController : Controller
+    public class TypeQuestionController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public TypeQuizController(IUnitOfWork unitOfWork)
+        public TypeQuestionController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var items = _unitOfWork.TypeQuiz.GetAll(includeProperties: "QuizList");
+            var items = _unitOfWork.TypeQuestion.GetAll(includeProperties: "QuestionList");
             return View(items);
         }
 
@@ -32,13 +32,13 @@ namespace Quiz.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TypeQuiz typeQuiz)
+        public IActionResult Create(TypeQuestion TypeQuestion)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.TypeQuiz.Add(typeQuiz);
+                _unitOfWork.TypeQuestion.Add(TypeQuestion);
                 _unitOfWork.Save();
-                return RedirectToAction("Index", "TypeQuiz");
+                return RedirectToAction("Index", "TypeQuestion");
             }
 
             return View();
@@ -50,23 +50,23 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.TypeQuiz.Get(u => u.Id == id, includeProperties: "QuizList");
+            var item = _unitOfWork.TypeQuestion.Get(u => u.Id == id, includeProperties: "QuestionList");
 
             return View(item);
         }
 
         [HttpPost]
-        public IActionResult Edit(TypeQuiz typeQuiz)
+        public IActionResult Edit(TypeQuestion TypeQuestion)
         {
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.TypeQuiz.Update(typeQuiz);
+                _unitOfWork.TypeQuestion.Update(TypeQuestion);
                 _unitOfWork.Save();
-                return RedirectToAction("Index", "TypeQuiz");
+                return RedirectToAction("Index", "QuestionList");
             }
 
-            return View(typeQuiz);
+            return View(TypeQuestion);
         }
 
         public IActionResult Delete(int? id)
@@ -75,7 +75,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.TypeQuiz.Get(u => u.Id == id, includeProperties: "QuizList");
+            var item = _unitOfWork.TypeQuestion.Get(u => u.Id == id, includeProperties: "QuestionList");
 
             return View(item);
         }
@@ -84,7 +84,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteDB(int? id)
         {
-            var item = _unitOfWork.TypeQuiz.Get(u => u.Id == id, includeProperties: "QuizList");
+            var item = _unitOfWork.TypeQuestion.Get(u => u.Id == id, includeProperties: "QuestionList");
 
             if (item == null)
             {
@@ -93,9 +93,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.TypeQuiz.Remove(item);
+                _unitOfWork.TypeQuestion.Remove(item);
                 _unitOfWork.Save();
-                return RedirectToAction("Index", "TypeQuiz");
+                return RedirectToAction("Index", "TypeQuestion");
             }
 
             return View(item);

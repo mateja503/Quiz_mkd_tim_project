@@ -7,10 +7,6 @@
       
 
         <div class="col-4">
-            <h2 class="text-primary">Тип на Квиз: @Model.Quiz.TypeQuize.Type</h2>
-        </div>
-
-        <div class="col-4">
             <img src="@Model.Quiz.ImageUrl" class="img-fluid" />
         </div>
 
@@ -59,7 +55,7 @@
                 <tr>
 
                     <td>@item?.Text</td>
-                    @foreach (var answer in item.Answers)
+                    @foreach (var answer in item.AnswersList)
                         {
                             <td>@answer?.Text - @(answer?.isCorrect == true ? "Точен" : "Неточен")</td>
 

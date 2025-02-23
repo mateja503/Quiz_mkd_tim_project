@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Quiz.Repository.Interface
 {
-    public interface ITypeQuizRepository : IRepository<TypeQuiz>
+    public interface ITypeQuestionRepository : IRepository<TypeQuestion>
     {
-        public void Update(TypeQuiz typeQuiz);
+        public void Update(TypeQuestion typeQuiz);
     }
 }
