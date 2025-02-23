@@ -17,6 +17,7 @@ namespace Quiz.Domain.Identity
         public string? NameUser { get; set; }
         [Required]
         public string? Surname { get; set; }
+
         public double? Points { get; set; }
         public string? ImageUrl { get; set; }
 

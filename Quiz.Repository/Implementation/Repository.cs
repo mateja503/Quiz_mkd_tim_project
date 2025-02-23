@@ -25,7 +25,6 @@ namespace Quiz.Repository.Implementation
                 .Include(u=> u.AnswersList);
             _db.Quizes.Include(u=> u.QuestionList);
             _db.TypeQuestions.Include(u => u.QuestionList);
-            //_db.TypeQuizes.Include(u => u.Quiz);
         }
 
 

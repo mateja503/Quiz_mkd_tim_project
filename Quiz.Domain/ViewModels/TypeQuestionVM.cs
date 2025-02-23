@@ -4,7 +4,7 @@ using Quiz.Domain.Domain_Models;
 
 namespace Quiz.Domain.ViewModels
 {
-    public class TypeQuizVM
+    public class TypeQuestionVM
     {
         public TypeQuestion TypeQuestion { get; set; }
 

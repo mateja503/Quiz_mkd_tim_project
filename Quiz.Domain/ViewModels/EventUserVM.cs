@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quiz.Repository.Interface
+namespace Quiz.Domain.ViewModels
 {
-    public interface ITypeQuestionRepository : IRepository<TypeQuestion>
+    public class EventUserVM
     {
-        public void Update(TypeQuestion typeQuestion);
+        public List<Event?> Events { get; set; }
+
     }
 }

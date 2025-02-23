@@ -82,7 +82,7 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Емаил")]
             public string Email { get; set; }
 
             /// <summary>
@@ -92,7 +92,7 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Лозинка")]
             public string Password { get; set; }
 
             /// <summary>
@@ -100,15 +100,19 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Потврди Лозинка")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
 
+            [Display(Name = "Телефонски број")]
+            public string PhoneNumber   { get; set; }
 
             [Required]
+            [Display(Name = "Име")]
             public string NameUser { get; set; }
             [Required]
+            [Display(Name = "Презиме")]
             public string  Surname { get; set; }
 
         }
@@ -136,6 +140,7 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.NameUser = Input.NameUser;
                 user.Surname = Input.Surname;
+                user.PhoneNumber = Input.PhoneNumber;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                

@@ -22,9 +22,27 @@ namespace Quiz.Web.Areas.User.Controllers
         }
         public IActionResult Index()
         {
+
             var items = _unitOfWork.Event.GetAll();
             items = items.OrderBy(u => u?.StartDate).ToList();
+
+            //EventUserVM eventUserVm =  
+
             return View(items);
+        }
+
+        public IActionResult Detail(int? eventId) 
+        {
+            var item = _unitOfWork.Event.Get(u => u.Id == eventId);
+            return View(item);
+        }
+
+        public IActionResult RegisterEvent(int? eventId)
+        {
+
+
+
+            return View();
         }
 
     }

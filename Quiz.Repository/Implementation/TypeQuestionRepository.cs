@@ -17,9 +17,9 @@ namespace Quiz.Repository.Implementation
             _db = db;
         }
 
-        public void Update(TypeQuestion typeQuiz)
+        public void Update(TypeQuestion typeQuestion)
         {
-            _db.TypeQuestions.Update(typeQuiz);
+            _db.TypeQuestions.Update(typeQuestion);
         }
     }
 }

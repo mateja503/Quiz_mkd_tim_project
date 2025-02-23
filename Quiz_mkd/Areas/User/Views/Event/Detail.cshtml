@@ -1,0 +1,22 @@
+﻿@model Event
+
+
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+            <div class="card" style="width: 35%;">
+                <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Име: @Model.Name</h5>
+                    <p class="card-text">@Model.Description</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Почетен Датум: <strong>@Model.StartDate.ToString("dd/MM/yyy")</strong></li>
+                    <li class="list-group-item">Место: <strong>@Model.Destination</strong></li>
+                </ul>
+               @*  <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div> *@
+            </div>
+        </div>
+
+
