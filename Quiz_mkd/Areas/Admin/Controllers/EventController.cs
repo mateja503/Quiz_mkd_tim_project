@@ -34,11 +34,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             EventVM eventVM = new()
             {
                 Event = new Event(),
-                QuizList = items.Select(u => new SelectListItem
-                {
-                    Text = u?.Name,
-                    Value = u?.Id.ToString()
-                }).ToList(),
+             
             };
 
             return View(eventVM);
@@ -72,12 +68,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 }
               
             }
-            var items = _unitOfWork.Quiz.GetAll().ToList();
-            itemVM.QuizList = items.Select(u=> new SelectListItem{ 
-                Text = u.Name,
-                 Value = u.Id.ToString()
-
-            });
+          
             return View(itemVM);
         }
 
@@ -97,11 +88,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             EventVM eventVM = new()
             {
                 Event = item,
-                QuizList = _unitOfWork.Quiz.GetAll()
-                .Select(u=> new SelectListItem { 
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+               
             };
            
            
@@ -143,30 +130,14 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 existingEvent.ImageUrl = eventVM.Event.ImageUrl;
 
 
-                //if (eventVM.Event.QuizId == null || eventVM.Event.QuizId == 0)
-                //{
-                //    existingEvent.QuizId = existingEvent.QuizId;
-                //}
-                //else
-                //{
-                //    existingEvent.QuizId = eventVM.Event.QuizId;
-                //}
-
-
-
+            
 
                 _unitOfWork.Event.Update(existingEvent);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Event", new { area = "User"});
             }
 
-            eventVM.QuizList = _unitOfWork.Quiz.GetAll()
-                .Select(u => new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString()
-            });
-
+           
             return View(eventVM);
             
         }

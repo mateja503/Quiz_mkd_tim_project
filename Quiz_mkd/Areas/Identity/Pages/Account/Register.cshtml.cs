@@ -115,6 +115,11 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             [Display(Name = "Презиме")]
             public string  Surname { get; set; }
 
+            [Required]
+            [Display(Name = "Град")]
+            public string PlaceOfOrigin { get; set; }
+
+
         }
 
 
@@ -141,6 +146,7 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                 user.NameUser = Input.NameUser;
                 user.Surname = Input.Surname;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.PlaceOfOrigin = Input.PlaceOfOrigin;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                

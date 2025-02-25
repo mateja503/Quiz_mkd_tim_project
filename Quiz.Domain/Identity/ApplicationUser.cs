@@ -18,9 +18,14 @@ namespace Quiz.Domain.Identity
         [Required]
         public string? Surname { get; set; }
 
+        [Required]
+        public string? PlaceOfOrigin { get; set; }
+
         public double? Points { get; set; }
         public string? ImageUrl { get; set; }
 
         public ICollection<Event_User>? Event_User { get; set; }
+
+        public ICollection<Category_User>? Category_User { get; set; }
     }
 }

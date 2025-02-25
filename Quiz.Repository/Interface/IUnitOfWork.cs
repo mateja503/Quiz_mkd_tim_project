@@ -17,6 +17,10 @@ namespace Quiz.Repository.Interface
         IQuizRepository Quiz { get; }
         ITypeQuestionRepository TypeQuestion{ get; }
 
+        ICategoryRepository Category { get; }
+
+        ICategory_UserRepository Category_User{ get; }
+
         void Save();
 
     }

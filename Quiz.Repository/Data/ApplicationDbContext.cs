@@ -27,6 +27,10 @@ namespace Quiz.Repository.Data
         public DbSet<ApplicationUser>  ApplicationUsers { get; set; }
         public DbSet<TypeQuestion> TypeQuestions { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Category_User> Category_Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             base.OnModelCreating(modelbuilder);

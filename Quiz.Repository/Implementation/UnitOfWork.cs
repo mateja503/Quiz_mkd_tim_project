@@ -25,9 +25,11 @@ namespace Quiz.Repository.Implementation
 
         public ITypeQuestionRepository TypeQuestion { get; private set; }
 
-       
+        public ICategoryRepository Category  { get; private set; }
 
-        public UnitOfWork(ApplicationDbContext db)
+        public ICategory_UserRepository Category_User { get; private set; }
+
+    public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Answer = new AnswerRepository(_db);
@@ -36,6 +38,8 @@ namespace Quiz.Repository.Implementation
             Question = new QuestionRepository(_db);
             Quiz = new QuizRepository(_db);
             TypeQuestion = new TypeQuestionRepository(_db);
+            Category = new CategoryRepository(_db);
+            Category_User = new Category_UserRepository(_db);
 
         }
 
