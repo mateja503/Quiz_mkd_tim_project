@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ApplicationUserVM>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-4">
+            <h2 class="text-primary">Листа на Пријавени Учесници</h2>
+        </div>
+        @{
+            int? id_event = 0;
+            foreach (var item in Model) 
+            {
+                id_event = item.EventId;
+                break;
+            }
+        }
+        <div class="col-4">
+            <a class="btn btn-primary" asp-area="User"
+            asp-controller="RangList" asp-action="Index"
+                asp-route-eventId="@id_event"
+            >Ранг Листа Додавај Поени</a>
+        </div>
+
+        <div class="col-4">
+            <a class="btn btn-info" asp-area="Admin"
+               asp-controller="RangList" asp-action="EditTable"
+               asp-route-eventId="@id_event">Едитирај ги колоните од табелата</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                
+                <th>Email</th>
+                <th>Име и Презиме</th>
+                <th>Град</th>
+                 <th></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item?.User?.Email</td>
+                    <td>@item?.User?.NameUser @item?.User?.Surname </td>
+                    <td>@item?.User?.PlaceOfOrigin</td>
+
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+
+                            <a asp-area="Admin" asp-controller="RangList" 
+                            asp-action="PayedToParticipate" asp-route-userId="@item?.User?.Id" asp-route-eventId="@item?.EventId"  
+                            class="btn btn-success mx-2">
+                                Платено
+                            </a>
+                          
+                        </div>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>

@@ -39,6 +39,10 @@ namespace Quiz.Domain.Domain_Models
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
 
+        [ValidateNever]
+        public RangList? RangList { get; set; }
+
+       
 
     }
 }

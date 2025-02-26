@@ -6,6 +6,7 @@ using Quiz.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
@@ -31,9 +32,46 @@ namespace Quiz.Repository.Data
 
         public DbSet<Category_User> Category_Users { get; set; }
 
+        public DbSet<RangList> RangLists { get; set; }
+
+        public DbSet<RangList_User> RangList_Users { get; set; }
+
+        public DbSet<Category_RangList> Category_RangLists { get; set; }
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             base.OnModelCreating(modelbuilder);
+
+            // Event -> RangList (One-to-One)
+            modelbuilder.Entity<RangList>()
+                .HasOne(r => r.Event)
+                .WithOne(e => e.RangList)
+                .HasForeignKey<RangList>(r => r.EventId)
+                .OnDelete(DeleteBehavior.Cascade); // CASCADE DELETE
+
+            // Event -> Event_User (One-to-Many)
+            modelbuilder.Entity<Event_User>()
+                .HasOne(eu => eu.Event)
+                .WithMany(e => e.Event_User)
+                .HasForeignKey(eu => eu.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // modelbuilder -> RangList_User (One-to-Many)
+            modelbuilder.Entity<RangList_User>()
+                .HasOne(ru => ru.RangList)
+                .WithMany(r => r.Participants)
+                .HasForeignKey(ru => ru.RangListId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // RangList -> Category_User (One-to-Many)
+            modelbuilder.Entity<Category_User>()
+                .HasOne(cu => cu.RangList)
+                .WithMany(r => r.Category_Users)
+                .HasForeignKey(cu => cu.RangListId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             modelbuilder.Entity<Event>().HasData(
@@ -71,6 +109,72 @@ namespace Quiz.Repository.Data
 
 
                   }
+
+                );
+
+            modelbuilder.Entity<Category>().HasData(
+                    new Category 
+                    {
+                        Id = 1,
+                        categoryName = "Ж.Стил"
+                    },
+                     new Category
+                     {
+                         Id = 2,
+                         categoryName = "Спорт"
+                     },
+                     new Category
+                     {
+                         Id = 3,
+                         categoryName = "Наука"
+                     },
+                     new Category
+                     {
+                         Id = 4,
+                         categoryName = "Култура"
+                     },
+                     new Category
+                     {
+                         Id = 5,
+                         categoryName = "Медиуми"
+                     },
+                     new Category
+                     {
+                         Id = 6,
+                         categoryName = "Свет"
+                     },
+                      new Category
+                      {
+                          Id = 7,
+                          categoryName = "Историја"
+                      },
+                     new Category
+                     {
+                         Id = 8,
+                         categoryName = "Забава"
+                     }
+
+                );
+
+            modelbuilder.Entity<RangList>().HasData(
+                    new RangList 
+                    {
+                        Id=1,
+                        EventId = 1
+                    
+                    },
+                    new RangList
+                    {
+                        Id = 2,
+                        EventId = 2
+
+                    },
+                    new RangList
+                    {
+                        Id = 3,
+                        EventId = 3
+
+                    }
 
                 );
 

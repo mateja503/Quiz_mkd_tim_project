@@ -88,14 +88,11 @@
                                 <a asp-area="Admin" asp-controller="Event" asp-action="Delete" asp-route-id="@item?.Event.Id" class="btn btn-danger mx-2">
                                     Избриши
                                 </a>
-                                @*    <a asp-area="Admin" asp-controller="Quiz" asp-action="Detail" asp-route-quizId="@item?.QuizId" class="btn btn-info mx-2">
-                                    Разгледај Квиз
-                                </a> *@
 
-                                @*  <a asp-area="User" asp-controller="PlayQuiz" asp-action="Index" asp-route-quizId="@item?.QuizId" class="btn btn-warning mx-2">
-                                Играј Квиз
-                            </a>
- *@
+                                <a asp-area="Admin" asp-controller="RangList" asp-action="PendingUsers" asp-route-eventId="@item?.Event.Id" class="btn btn-warning mx-2">
+                                    Прегледај Пријави
+                                </a>
+                                
 
                             </div>
 

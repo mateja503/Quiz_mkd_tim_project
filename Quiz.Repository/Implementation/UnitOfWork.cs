@@ -29,7 +29,13 @@ namespace Quiz.Repository.Implementation
 
         public ICategory_UserRepository Category_User { get; private set; }
 
-    public UnitOfWork(ApplicationDbContext db)
+        public IRangList_UserRepository RangList_User { get; private set; }
+
+        public IRangListRepository RangList { get; private set; }
+
+        public ICategory_RangListRepository Category_RangList { get; private set; }
+
+        public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Answer = new AnswerRepository(_db);
@@ -40,6 +46,9 @@ namespace Quiz.Repository.Implementation
             TypeQuestion = new TypeQuestionRepository(_db);
             Category = new CategoryRepository(_db);
             Category_User = new Category_UserRepository(_db);
+            RangList_User = new RangList_UserRepository(_db);
+            RangList = new RangListRepository(_db);
+            Category_RangList = new Category_RangListRepository(_db);
 
         }
 

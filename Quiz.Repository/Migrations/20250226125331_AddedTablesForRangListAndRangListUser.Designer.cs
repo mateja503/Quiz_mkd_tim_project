@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quiz.Repository.Data;
 
@@ -11,9 +12,11 @@ using Quiz.Repository.Data;
 namespace Quiz.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250226125331_AddedTablesForRangListAndRangListUser")]
+    partial class AddedTablesForRangListAndRangListUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -617,71 +620,6 @@ namespace Quiz.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            categoryName = "Ж.Стил"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            categoryName = "Спорт"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            categoryName = "Наука"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            categoryName = "Култура"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            categoryName = "Медиуми"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            categoryName = "Свет"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            categoryName = "Историја"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            categoryName = "Забава"
-                        });
-                });
-
-            modelBuilder.Entity("Quiz.Domain.Domain_Models.Category_RangList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RangListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("RangListId");
-
-                    b.ToTable("Category_RangLists");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Category_User", b =>
@@ -1221,21 +1159,6 @@ namespace Quiz.Repository.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Quiz.Domain.Domain_Models.Category_RangList", b =>
-                {
-                    b.HasOne("Quiz.Domain.Domain_Models.Category", "Category")
-                        .WithMany("Category_RangList")
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("Quiz.Domain.Domain_Models.RangList", "RangList")
-                        .WithMany("Category_RangList")
-                        .HasForeignKey("RangListId");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("RangList");
-                });
-
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Category_User", b =>
                 {
                     b.HasOne("Quiz.Domain.Domain_Models.Category", "Category")
@@ -1244,8 +1167,7 @@ namespace Quiz.Repository.Migrations
 
                     b.HasOne("Quiz.Domain.Domain_Models.RangList", "RangList")
                         .WithMany("Category_Users")
-                        .HasForeignKey("RangListId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RangListId");
 
                     b.HasOne("Quiz.Domain.Identity.ApplicationUser", "User")
                         .WithMany("Category_User")
@@ -1262,8 +1184,7 @@ namespace Quiz.Repository.Migrations
                 {
                     b.HasOne("Quiz.Domain.Domain_Models.Event", "Event")
                         .WithMany("Event_User")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventId");
 
                     b.HasOne("Quiz.Domain.Identity.ApplicationUser", "User")
                         .WithMany("Event_User")
@@ -1295,8 +1216,7 @@ namespace Quiz.Repository.Migrations
                 {
                     b.HasOne("Quiz.Domain.Domain_Models.Event", "Event")
                         .WithOne("RangList")
-                        .HasForeignKey("Quiz.Domain.Domain_Models.RangList", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Quiz.Domain.Domain_Models.RangList", "EventId");
 
                     b.Navigation("Event");
                 });
@@ -1305,8 +1225,7 @@ namespace Quiz.Repository.Migrations
                 {
                     b.HasOne("Quiz.Domain.Domain_Models.RangList", "RangList")
                         .WithMany("Participants")
-                        .HasForeignKey("RangListId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RangListId");
 
                     b.HasOne("Quiz.Domain.Identity.ApplicationUser", "User")
                         .WithMany("RangList_User")
@@ -1319,8 +1238,6 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Category", b =>
                 {
-                    b.Navigation("Category_RangList");
-
                     b.Navigation("Category_User");
                 });
 
@@ -1343,8 +1260,6 @@ namespace Quiz.Repository.Migrations
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.RangList", b =>
                 {
-                    b.Navigation("Category_RangList");
-
                     b.Navigation("Category_Users");
 
                     b.Navigation("Participants");

@@ -21,6 +21,11 @@ namespace Quiz.Repository.Interface
 
         ICategory_UserRepository Category_User{ get; }
 
+        IRangList_UserRepository RangList_User { get; }
+
+        IRangListRepository RangList { get; }
+
+        ICategory_RangListRepository Category_RangList { get; }
         void Save();
 
     }

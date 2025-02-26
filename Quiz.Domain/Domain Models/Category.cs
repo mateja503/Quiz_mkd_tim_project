@@ -18,7 +18,11 @@ namespace Quiz.Domain.Domain_Models
         public string categoryName { get; set; }
 
         [ValidateNever]
-        public ICollection<Category_User> Category_User { get; set; }
+        public ICollection<Category_User>? Category_User { get; set; }
+
+        [ValidateNever]
+        public ICollection<Category_RangList>? Category_RangList { get; set; }
+
 
     }
 }

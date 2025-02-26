@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CategoryVM>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">Листа Категории</h2>
+        </div>
+
+        <div class="col-6 text-end">
+            <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додади нова Категорија</a>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Категорија</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item?.Category.categoryName</td>
+                    <td>
+                        @if (!item.isPartOfTheTable) 
+                        {
+                            <a asp-area="Admin" asp-controller="RangList" asp-action="AddToRangList" asp-route-id="@item?.Category.Id" class="btn btn-success mx-2">
+                                Додади
+                            </a>
+                        }else
+                        {
+                            <a asp-area="Admin" asp-controller="RangList" asp-action="RemoveFromRangList" asp-route-id="@item?.Category.Id" class="btn btn-danger mx-2">
+                                Отстрани
+                            </a>
+                        }
+                        
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>

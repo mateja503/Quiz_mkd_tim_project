@@ -64,6 +64,15 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 {
                     _unitOfWork.Event.Add(itemVM.Event);
                     _unitOfWork.Save();
+
+                    //Event _event = _unitOfWork.Event.Get(u => u.Name == itemVM.Event.Name);
+
+                    RangList rangList = new RangList() { 
+                        EventId = itemVM.Event.Id,
+                    };
+                    _unitOfWork.RangList.Add(rangList);
+                    _unitOfWork.Save();
+
                     return RedirectToAction("Index", "Event", new { area="User"});
                 }
               
@@ -149,7 +158,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.Event.Get(u => u.Id == id, includeProperties: "Quiz");
+            var item = _unitOfWork.Event.Get(u => u.Id == id, includeProperties: "RangList");
             if (item == null)
             {
                 return NotFound();
@@ -166,7 +175,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.Event.Get(u => u.Id == id, includeProperties: "Quiz");
+            var item = _unitOfWork.Event.Get(u => u.Id == id, includeProperties: "RangList");
             if (item == null)
             {
                 return NotFound();
