@@ -35,6 +35,8 @@ namespace Quiz.Repository.Implementation
 
         public ICategory_RangListRepository Category_RangList { get; private set; }
 
+        public IEventPending_UserRepository EventPending_User { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -49,6 +51,7 @@ namespace Quiz.Repository.Implementation
             RangList_User = new RangList_UserRepository(_db);
             RangList = new RangListRepository(_db);
             Category_RangList = new Category_RangListRepository(_db);
+            EventPending_User = new EventPending_UserRepository(_db);
 
         }
 

@@ -38,8 +38,7 @@ namespace Quiz.Repository.Data
 
         public DbSet<Category_RangList> Category_RangLists { get; set; }
 
-
-
+        public DbSet<EventPending_User> EventPending_Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {

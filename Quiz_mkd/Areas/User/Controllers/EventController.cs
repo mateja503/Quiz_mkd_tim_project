@@ -94,7 +94,15 @@ namespace Quiz.Web.Areas.User.Controllers
                 EventId = eventId,
                 UserId = user.Id
             };
+            var eventPending_User = new EventPending_User
+            {
+                EventId = eventId,
+                UserId = user.Id
+
+            };
             _unitOfWork.Event_User.Add(event_user);
+            _unitOfWork.Save();
+            _unitOfWork.EventPending_User.Add(eventPending_User);
             _unitOfWork.Save();
 
             return RedirectToAction("Index", "Event", new { area = "User"});
@@ -108,8 +116,12 @@ namespace Quiz.Web.Areas.User.Controllers
             var user = _applicationUserRepository.GetByEmail(userEmail);
 
             var eventUser = _unitOfWork.Event_User.Get(u => u.UserId == user.Id && u.EventId == eventId);
+            var eventPending_User = _unitOfWork.EventPending_User.Get(u => u.UserId == user.Id && u.EventId == eventId);
             _unitOfWork.Event_User.Remove(eventUser);
             _unitOfWork.Save();
+            _unitOfWork.EventPending_User.Remove(eventPending_User);
+            _unitOfWork.Save();
+
 
             return RedirectToAction("Index", "Event", new { area = "User"});
         }

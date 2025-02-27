@@ -7,7 +7,8 @@
         </div>
 
         <div class="col-6 text-end">
-            <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додади нова Категорија</a>
+            <a asp-area="Admin" asp-controller="Category" asp-action="Create" 
+            class="btn btn-primary"> Додади нова Категорија</a>
 
         </div>
     </div>
@@ -24,16 +25,20 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item?.Category.categoryName</td>
+                    <td>@item?.Category?.categoryName</td>
                     <td>
                         @if (!item.isPartOfTheTable) 
                         {
-                            <a asp-area="Admin" asp-controller="RangList" asp-action="AddToRangList" asp-route-id="@item?.Category.Id" class="btn btn-success mx-2">
+                            <a asp-area="Admin" asp-controller="RangList" asp-action="AddToRangList"
+                               asp-route-categoryId="@item?.Category?.Id" asp-route-rangListId="@item?.RangListId"
+                               class="btn btn-success mx-2">
                                 Додади
                             </a>
                         }else
                         {
-                            <a asp-area="Admin" asp-controller="RangList" asp-action="RemoveFromRangList" asp-route-id="@item?.Category.Id" class="btn btn-danger mx-2">
+                            <a asp-area="Admin" asp-controller="RangList" asp-action="RemoveFromRangList"
+                               asp-route-categoryId="@item?.Category?.Id" asp-route-rangListId="@item?.RangListId"
+                               class="btn btn-danger mx-2">
                                 Отстрани
                             </a>
                         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
 
@@ -16,18 +17,24 @@ namespace Quiz.Web.Areas.User.Controllers
         }
 
        
-        public IActionResult Index(int? eventId)
-        {
+        //public IActionResult Index(int? eventId)
+        //{
 
-            var rangList = _unitOfWork.RangList.Get(u => u.EventId == eventId,includeProperties: "Event,Participants,Category_Users");
-            var categories = _unitOfWork.Category.GetAll();
+        //    var rangList = _unitOfWork.RangList
+        //        .Get(u => u.EventId == eventId,includeProperties: "Event,Participants,Category_Users");
 
-            RangListVM rangListVM = new RangListVM() {
-                RangList = rangList,
-                Categories = categories,    
-            };
+        //    List<Category> categories = new List<Category>();
+        //    var categoriesRangList = _unitOfWork.Category_RangList.GetAll(u => u.RangListId == rangList.Id, includeProperties: "Category");
+        //    foreach (var c in categoriesRangList) 
+        //    {   
+        //        categories.Add(c.Category);
+        //    }
+        //    RangListVM rangListVM = new RangListVM() {
+        //        RangList = rangList,
+        //        Categories = categories,    
+        //    };
 
-            return View(rangListVM);
-        }
+        //    return View(rangListVM);
+        //}
     }
 }

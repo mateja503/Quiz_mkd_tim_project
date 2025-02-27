@@ -12,5 +12,7 @@ namespace Quiz.Domain.ViewModels
         public  Category? Category { get; set; }
 
         public bool isPartOfTheTable { get; set; }
+
+        public int? RangListId { get; set; }
     }
 }

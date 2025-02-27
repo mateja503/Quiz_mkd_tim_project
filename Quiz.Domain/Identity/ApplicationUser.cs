@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Quiz.Domain.Domain_Models;
 using System;
 using System.Collections.Generic;
@@ -31,5 +32,6 @@ namespace Quiz.Domain.Identity
 
         public ICollection<RangList_User>? RangList_User { get; set; }
 
+        public ICollection<EventPending_User>? EventPending_User { get; set; }
     }
 }

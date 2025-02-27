@@ -38,7 +38,10 @@ namespace Quiz.Repository.Implementation
                 .Include(u => u.User).Include(u => u.UserId);
             _db.Category_RangLists.Include(u => u.Category).Include(u => u.CategoryId)
                 .Include(u => u.RangList).Include(u => u.RangListId);
-            
+            _db.EventPending_Users.Include(u => u.Event).Include(u => u.EventId)
+                .Include(u => u.User).Include(u => u.UserId);
+
+
 
         }
 

@@ -36,6 +36,9 @@ namespace Quiz.Domain.Domain_Models
         public ICollection<Event_User>? Event_User { get; set; }
 
         [ValidateNever]
+        public ICollection<EventPending_User>? EventPending_User { get; set; }
+
+        [ValidateNever]
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
 

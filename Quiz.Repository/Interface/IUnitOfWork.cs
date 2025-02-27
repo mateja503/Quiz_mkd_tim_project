@@ -26,6 +26,8 @@ namespace Quiz.Repository.Interface
         IRangListRepository RangList { get; }
 
         ICategory_RangListRepository Category_RangList { get; }
+
+        IEventPending_UserRepository EventPending_User { get; }
         void Save();
 
     }
