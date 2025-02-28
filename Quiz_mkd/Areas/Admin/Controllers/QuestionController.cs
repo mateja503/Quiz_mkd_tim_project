@@ -32,7 +32,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,QuestionList,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList,Event");
             if (quiz == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(QuestionVM questionVM, int quizId)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,Event,QuestionList");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "Event,QuestionList");
 
             if (quiz == null)
             {
@@ -78,7 +78,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "AnswersList,Quiz");
             if (item == null)
             {
                 return NotFound();
@@ -112,7 +112,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            var item = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "AnswersList,Quiz");
             if (item == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var question = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "Answers,Quiz");
+            var question = _unitOfWork.Question.Get(u => u.Id == id, includeProperties: "AnswersList,Quiz");
             if (question == null)
             {
                 return NotFound();

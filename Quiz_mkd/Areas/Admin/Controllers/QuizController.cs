@@ -74,7 +74,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Delete(int? id)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id);
 
             return View(quiz);
         }
@@ -87,7 +87,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id);
 
             if (quiz == null)
             {
@@ -119,7 +119,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "TypeQuestione,QuestionList,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == id, includeProperties: "QuestionList");
 
             if (quiz == null)
             {
@@ -183,7 +183,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Detail(int? quizId)
         {
-            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "TypeQuestione,Event,QuestionList");
+            var item = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
             if (item == null)
             {
                 return NotFound();
@@ -194,7 +194,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 Quiz = item,
                
 
-                QuestionList = _unitOfWork.Question.GetAll(includeProperties: "Quiz,Answers")
+                QuestionList = _unitOfWork.Question.GetAll(includeProperties: "Quiz,AnswersList")
                 .Where(u => u.QuizId == item.Id)
 
 

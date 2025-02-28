@@ -14,5 +14,7 @@ namespace Quiz.Domain.ViewModels
         public string? Role { get; set; }
 
         public int? EventId { get; set; }
+
+        public List<ApplicationUser>? UsersList { get; set; }
     }
 }

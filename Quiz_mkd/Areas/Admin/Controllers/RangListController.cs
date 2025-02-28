@@ -9,6 +9,7 @@ using Quiz.Repository.Interface;
 using Quiz.Utility;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 
 namespace Quiz.Web.Areas.Admin.Controllers
 {
@@ -57,19 +58,21 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult PendingUsers(int? eventId)
         {
-            List<ApplicationUserVM> users = new List<ApplicationUserVM>();
+            ApplicationUserVM users = new ApplicationUserVM()
+            {
+
+                UsersList = new List<ApplicationUser>()
+
+            };
 
             var eventUsers = _unitOfWork.EventPending_User.GetAll(u => u.EventId == eventId, includeProperties: "User").ToList();
 
             foreach (var user in eventUsers)
             {
-                var _userVM = new ApplicationUserVM()   
-                {
-                    User = user.User,
-                    EventId = eventId
-                };
-                users.Add(_userVM);
+
+                users.UsersList.Add(user.User);
             }
+            users.EventId = eventId;
             return View(users);
         }
 
@@ -224,10 +227,30 @@ namespace Quiz.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Display(Name = "AddPointsToUser")]
-        public IActionResult AddPointsToUserDB(string? userId, int? eventId)
+        public IActionResult AddPointsToUser(RangListVM rangListVM)
         {
-            return View();
+            double? totalPoints = 0;
+            string? userId = rangListVM.User.Id;
+            var rangList = _unitOfWork.RangList.Get(u=>u.EventId == rangListVM.Event.Id );
+            foreach (var categoryUser in rangListVM.CategoryUsers) 
+            {
+
+                var item = _unitOfWork.Category_User
+                    .Get(u => u.UserId == categoryUser.UserId && u.RangListId == categoryUser.RangListId && u.CategoryId == categoryUser.CategoryId);
+
+                item.Points = categoryUser.Points;
+                totalPoints += item.Points;
+
+                _unitOfWork.Category_User.Update(item);
+                _unitOfWork.Save();
+            }
+
+            var obj = _unitOfWork.RangList_User.Get(u => u.UserId == userId && u.RangListId == rangList.Id);
+            obj.Points = totalPoints;
+            _unitOfWork.RangList_User.Update(obj);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index","RangList",new { area="Admin", eventId= rangListVM.Event.Id});
 
 
         }

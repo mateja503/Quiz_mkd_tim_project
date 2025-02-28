@@ -99,11 +99,11 @@ namespace Quiz.Web.Areas.User.Controllers
             if (TempData["NextQuestions"] != null && questionsList.Count != 0)
             {
                 var firstQuestion = questionsList[0];
-                question = _unitOfWork.Question.Get(u => u.Id == firstQuestion.Id, includeProperties: "Answers");
+                question = _unitOfWork.Question.Get(u => u.Id == firstQuestion.Id, includeProperties: "AnswersList");
             }
             else
             {
-                question = _unitOfWork.Question.Get(u => u.QuizId == quizId, includeProperties: "Answers");
+                question = _unitOfWork.Question.Get(u => u.QuizId == quizId, includeProperties: "AnswersList");
             }
 
 
@@ -150,7 +150,7 @@ namespace Quiz.Web.Areas.User.Controllers
 
         public IActionResult End(int? quizId)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties:"Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId);
             if (quiz == null)
             {
                 return NotFound();
