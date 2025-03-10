@@ -10,5 +10,6 @@ namespace Quiz.Repository.Interface
     public interface IRangListRepository : IRepository<RangList>
     {
         public void Update(RangList rangList);
+
     }
 }

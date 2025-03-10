@@ -42,12 +42,8 @@
 
 
 
-<div class="container">
-    <div class="row pt-4 pb-3">
-        <div class="col-6">
-            <h2 class="text-primary">Ранг листа за @Model?.ShowRangList?.Event?.Name</h2>
-        </div>
-    </div>
+<div class="container pt-5">
+   
 
     <table class="table table-bordered table-striped">
         <thead>
@@ -62,10 +58,15 @@
                         <th>@category?.Category?.categoryName</th>
                     }
                 }
-                @if (Model?.SelectedCategoryId != null && Model!.SelectedEventId == null && Model!.SelectedYear == null)
-                {
-                    <th>Вкупно</th>
-                }
+               
+
+                @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
+                || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null) 
+                || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
+                        {
+                            <th>Вкупно</th>
+                        }
+                
                 
 
             </tr>
@@ -91,8 +92,10 @@
                             <td>@(userCategory?.Points ?? 0)</td> <!-- If no points, default to 0 -->
                         }
 
-                        @if (Model?.SelectedCategoryId != null && Model!.SelectedEventId == null && Model!.SelectedYear == null)
-                        {
+                        @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
+                       || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null)
+                       || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
+                       {
                             <td>@user?.Points</td>
                         }
                        

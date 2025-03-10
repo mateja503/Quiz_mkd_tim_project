@@ -7,6 +7,8 @@ using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
 using Quiz.Utility;
 using Quiz.Utility.Options;
+using Quiz.Web.Domain_Transfer.Implementation;
+using Quiz.Web.Domain_Transfer.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IRangListDetailsGeneral, RangListDetailsGeneral>();
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection(SmtpOptions.Smtp));//this line is added for mail sending to have the options for Smtp options by hand
 //builder.Services.AddScoped<UserManager<ApplicationUser>>();
 

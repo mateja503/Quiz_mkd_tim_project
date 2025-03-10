@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using NuGet.Versioning;
 using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
+using Quiz.Repository.Domain_Transfer;
 using Quiz.Repository.Implementation;
 using Quiz.Repository.Interface;
+using Quiz.Web.Domain_Transfer.Interface;
 using System.Net.WebSockets;
 
 namespace Quiz.Web.Areas.User.Controllers
@@ -19,10 +22,16 @@ namespace Quiz.Web.Areas.User.Controllers
 
         private readonly IApplicationUserRepository _applicationUserRepository;
 
-        public RangListController(IUnitOfWork unitOfWork, IApplicationUserRepository applicationUserRepository)
+        private readonly IRangListDetailsGeneral _rangListDetailGeneral;
+
+        public RangListController(
+            IUnitOfWork unitOfWork,
+            IApplicationUserRepository applicationUserRepository,
+            IRangListDetailsGeneral rangListDetailGeneral)
         {
             _unitOfWork = unitOfWork;
             _applicationUserRepository = applicationUserRepository;
+            _rangListDetailGeneral = rangListDetailGeneral;
         }
 
 
@@ -67,7 +76,6 @@ namespace Quiz.Web.Areas.User.Controllers
             List<RangList_User> rangListUsers = new List<RangList_User>();
             List<Category_RangList> categoryRangList = new List<Category_RangList>();
             List<Category_User> categoryUsersForView = new List<Category_User>();
-            List<int> idsForRangList = null;
 
 
             //all of the fields are not selected 
@@ -79,164 +87,72 @@ namespace Quiz.Web.Areas.User.Controllers
             //only the event field is selected
             if (selectedEventId != null && selectedCategoryId == null && selectedYear == null)
             {
-                _event = _unitOfWork.Event.Get(u => u.Id == selectedEventId, includeProperties: "RangList");
-
-                rangList = _event.RangList;
-
-                rangListUsers = _unitOfWork.RangList_User
-                .GetAll(u => u.RangListId == rangList.Id, includeProperties: "User")
-                .OrderByDescending(u => (double)u.Points).ToList();
-
-                categoryRangList = _unitOfWork.Category_RangList
-              .GetAll(u => u.RangListId == rangList.Id, includeProperties: "Category").ToList();
-
-                categoryUsersForView = _unitOfWork.Category_User
-                    .GetAll(u => u.RangListId == rangList.Id).ToList();
-
+               RangListDetails temp = _rangListDetailGeneral.EventFieldSelectedOnly(selectedEventId);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList =temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
             }
 
             //only the category field is selected
             if (selectedEventId == null && selectedCategoryId != null && selectedYear == null)
             {
-                categoryRangList = _unitOfWork.Category_RangList
-                .GetAll(u => u.CategoryId == selectedCategoryId, includeProperties: "Category")
-                .ToList();
-
-                var rangIdsList = categoryRangList.DistinctBy(u => u.RangListId).Select(u => u.RangListId).ToList();
-                categoryRangList = categoryRangList.DistinctBy(u => u.CategoryId).ToList();
-
-                rangListUsers = _unitOfWork.RangList_User
-                       .GetAll(u => rangIdsList.Contains(u.RangListId), includeProperties: "User")
-                       .DistinctBy(u => u.UserId)
-                       .ToList();
-
-
-                var userIds = rangListUsers.DistinctBy(u => u.UserId).Select(u => u.UserId).ToList();
-
-                var userTotalPointsPerCategory = _unitOfWork.UserTotalPointsPerCategory
-                    .GetAll(u => u.CategoryId == selectedCategoryId);
-               
-                List<Category_User> l = new List<Category_User>();
-                foreach (var n in userTotalPointsPerCategory)
-                {
-                    var obj = new Category_User
-                    {
-                        UserId = n.UserId,
-                        CategoryId = selectedCategoryId,
-                        Points = n.Points,
-                    };
-                    l.Add(obj);
-                }
-                
-                 
-                var orderedCategoryUsers = l.OrderByDescending(u=>u.Points).ThenByDescending(u=>u.UserId).ToList();
-
-                rangListUsers = rangListUsers
-                    .Join(orderedCategoryUsers, r => r.UserId, c => c.UserId, (r, c) =>
-                    new {
-                        RangList_User = r, Category_User = c
-                    })
-                    .OrderByDescending(x => x.Category_User.Points)
-                    .ThenByDescending(x => x.RangList_User?.User?.Surname)
-                    .Select(x => x.RangList_User)
-                    .ToList();
-
-
-
-                categoryUsersForView = orderedCategoryUsers;
+                RangListDetails temp = _rangListDetailGeneral.CategoryFieldSelectedOnly(selectedCategoryId);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
             }
 
             //only the year field is selected 
             if (selectedEventId == null && selectedCategoryId == null && selectedYear != null)
             {
                 int year = int.Parse(selectedYear);
-                var _events = _unitOfWork.Event.GetAll(u => u.StartDate.Year == year, includeProperties: "RangList");
-                List<RangList_User> listForRangListUsers = new List<RangList_User>();
-                List<Category_RangList> listForCategoryRangList = new List<Category_RangList>();
-                List<Category_User> listForCategoryUser = new List<Category_User>();
-
-                List<RangList_User> tempRangListUsers = new List<RangList_User>();
-                List<Category_RangList> tempCategoryRangList = new List<Category_RangList>();
-                List<Category_User> tempCategoryUser = new List<Category_User>();
-
-                foreach (var e in _events) 
-                {
-                    rangList = e.RangList;
-
-                    tempRangListUsers = _unitOfWork.RangList_User
-                    .GetAll(u => u.RangListId == rangList.Id, includeProperties: "User").ToList();
-
-
-                    tempCategoryRangList = _unitOfWork.Category_RangList
-                    .GetAll(u => u.RangListId == rangList.Id, includeProperties: "Category").ToList();
-
-                    tempCategoryUser = _unitOfWork.Category_User
-                    .GetAll(u => u.RangListId == rangList.Id).ToList();
-
-
-                    listForRangListUsers.AddRange(tempRangListUsers);
-                    listForCategoryRangList.AddRange(tempCategoryRangList);
-                    listForCategoryUser.AddRange(tempCategoryUser);
-                }
-                var distinctUsers = listForRangListUsers.DistinctBy(u => u.UserId).ToList();
-                var distinctCategories = listForCategoryRangList.DistinctBy(u => u.CategoryId).ToList();
-                Dictionary<string,double?> userRangListPoints = new Dictionary<string,double?>();
-                Dictionary <string, Dictionary<int?, double?>> userCategoryPoints = new Dictionary<string, Dictionary<int?, double?>>();
-
-                foreach (var user in distinctUsers) 
-                {
-                    userRangListPoints.Add(user.UserId, 0.0);
-                    userCategoryPoints.Add(user.UserId, new Dictionary<int?, double?>());
-
-                    foreach (var category in distinctCategories)
-                    {
-                        userCategoryPoints[user.UserId].Add(category.Id, 0.0);
-                    }
-
-                }
-
-               
-                foreach (var n in listForRangListUsers) 
-                {
-                    userRangListPoints[n.UserId] += n.Points;
-                }
-                userRangListPoints = userRangListPoints.OrderByDescending(u => u.Value).ToDictionary();
-
-
-
-                foreach (var n in listForCategoryUser) 
-                {
-                    userCategoryPoints[n.UserId][n.CategoryId] += n.Points;
-                }
-
-                //TODO
-
-                foreach (var n in userRangListPoints) 
-                {
-                    rangList =
-                }
-                 
-
-                List<Category_RangList> categoryRangList = new List<Category_RangList>();
-                List<Category_User> categoryUsersForView = new List<Category_User>();
-
+                RangListDetails temp = _rangListDetailGeneral.YearFieldSelectedOnly(year);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
 
 
             }
             //the event & category filds are selected 
             if (selectedEventId != null && selectedCategoryId != null && selectedYear == null)
             {
+                RangListDetails temp = _rangListDetailGeneral.EventAndCategoryFieldSelected(selectedEventId,selectedCategoryId);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
 
             }
             //the event & year fields are selected 
             if (selectedEventId != null && selectedCategoryId == null && selectedYear != null)
             {
+                int year = int.Parse(selectedYear);
+                RangListDetails temp = _rangListDetailGeneral.EventAndYearFieldSelected(selectedEventId, year);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
 
             }
 
             //the category & year are selected
             if (selectedEventId == null && selectedCategoryId != null && selectedYear != null)
             {
+
+                int year = int.Parse(selectedYear);
+                RangListDetails temp = _rangListDetailGeneral.CategoryAndYearFieldSelected(selectedCategoryId, year);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
+
+            }
+
+            //all of the fields are selected
+            if (selectedEventId != null && selectedCategoryId != null && selectedYear != null) 
+            {
+                int year = int.Parse(selectedYear);
+                RangListDetails temp = _rangListDetailGeneral.AllOfTheFiledsSelected(selectedEventId, selectedCategoryId,year);
+                rangListUsers = temp.rangListUsers;
+                categoryRangList = temp.categoryRangList;
+                categoryUsersForView = temp.categoryUsersForView;
 
             }
 
@@ -269,6 +185,10 @@ namespace Quiz.Web.Areas.User.Controllers
                    Value = u.ToString()
                }),
                 ShowRangList = rangListVM,
+                SelectedEventId = selectedEventId,
+                SelectedCategoryId = selectedCategoryId,
+                SelectedYear =  selectedYear
+
             };
 
 
