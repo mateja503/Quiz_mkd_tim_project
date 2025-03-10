@@ -33,5 +33,7 @@ namespace Quiz.Domain.Identity
         public ICollection<RangList_User>? RangList_User { get; set; }
 
         public ICollection<EventPending_User>? EventPending_User { get; set; }
+
+        
     }
 }

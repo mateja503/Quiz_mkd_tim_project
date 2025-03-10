@@ -19,10 +19,11 @@ namespace Quiz.Repository.Interface
 
         public IdentityResult DeleteById(string userId);
 
+        public  Task Update(ApplicationUser user);
+
         public Task ChangeUserRole(string userId,string changeTo);
 
         public string GetUserRole(string userId);
 
-        public void SetPoints(string userId, double correctAnswers);
     }
 }

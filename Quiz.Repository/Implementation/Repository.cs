@@ -41,6 +41,9 @@ namespace Quiz.Repository.Implementation
             _db.EventPending_Users.Include(u => u.Event).Include(u => u.EventId)
                 .Include(u => u.User).Include(u => u.UserId);
 
+            
+
+
 
 
         }

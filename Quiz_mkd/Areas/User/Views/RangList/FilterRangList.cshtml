@@ -6,7 +6,7 @@
             <div class="mb-3 row p-1">
                 <label class="p-0">Селектирај Настан</label>
                 <select asp-for="SelectedEventId" asp-items="@Model.Events" class="p-0 form-select">
-                    <option disabled selected>--Селектирај Настан--</option>
+                    <option value="" selected>--Селектирај Настан--</option>
                 </select>
                 <span asp-validation-for="SelectedEventId" class="text-danger"></span>
             </div>
@@ -16,7 +16,7 @@
             <div class="mb-3 row p-1">
                 <label class="p-0">Селектирај Категорија</label>
                 <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="p-0 form-select">
-                    <option disabled selected>--Селектирај Категорија--</option>
+                    <option value="" selected>--Селектирај Категорија--</option>
                 </select>
                 <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
             </div>
@@ -26,7 +26,7 @@
             <div class="mb-3 row p-1">
                 <label class="p-0">Селектирај Година</label>
                 <select asp-for="SelectedYear" asp-items="@Model.EventsByYear" class="p-0 form-select">
-                    <option disabled selected>--Селектирај Година--</option>
+                    <option value="" selected>--Селектирај Година--</option>
                 </select>
                 <span asp-validation-for="SelectedYear" class="text-danger"></span>
             </div>
@@ -62,8 +62,11 @@
                         <th>@category?.Category?.categoryName</th>
                     }
                 }
-
-                <th>Вкупно</th>
+                @if (Model?.SelectedCategoryId != null && Model!.SelectedEventId == null && Model!.SelectedYear == null)
+                {
+                    <th>Вкупно</th>
+                }
+                
 
             </tr>
         </thead>
@@ -87,7 +90,12 @@
 
                             <td>@(userCategory?.Points ?? 0)</td> <!-- If no points, default to 0 -->
                         }
-                        <td>@user?.Points</td>
+
+                        @if (Model?.SelectedCategoryId != null && Model!.SelectedEventId == null && Model!.SelectedYear == null)
+                        {
+                            <td>@user?.Points</td>
+                        }
+                       
 
 
 

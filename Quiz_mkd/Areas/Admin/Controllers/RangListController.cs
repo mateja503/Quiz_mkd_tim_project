@@ -201,6 +201,14 @@ namespace Quiz.Web.Areas.Admin.Controllers
             return RedirectToAction("EditTable", "RangList", new { area = "Admin", rangListId = rangListId });
         }
 
+        public IActionResult RemoveUserFromRangList(string? userId, int? eventId) 
+        {
+            var obj = _unitOfWork.RangList_User.Get(u => u.UserId == userId && u.RangList.EventId == eventId);
+            _unitOfWork.RangList_User.Remove(obj);
+            _unitOfWork.Save();
+            return RedirectToAction("Index", new { eventId = eventId});
+        }
+
         public IActionResult AddPointsToUser(string? userId, int? eventId) 
         {
             var _event = _unitOfWork.Event.Get(u => u.Id == eventId, includeProperties: "RangList");
@@ -209,6 +217,8 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             var categoryUsers = _unitOfWork.Category_User
                 .GetAll(u=> u.RangListId==rangList.Id && u.UserId == userId, includeProperties: "Category,User").ToList();
+
+           
 
             var user = categoryUsers?.FirstOrDefault()?.User;
 
@@ -227,11 +237,12 @@ namespace Quiz.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPointsToUser(RangListVM rangListVM)
+        public async Task<IActionResult> AddPointsToUser(RangListVM rangListVM)
         {
             double? totalPoints = 0;
             string? userId = rangListVM.User.Id;
             var rangList = _unitOfWork.RangList.Get(u=>u.EventId == rangListVM.Event.Id );
+           
             foreach (var categoryUser in rangListVM.CategoryUsers) 
             {
 
@@ -243,6 +254,35 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
                 _unitOfWork.Category_User.Update(item);
                 _unitOfWork.Save();
+
+
+                var userTotalPointsPerCategory = _unitOfWork.UserTotalPointsPerCategory
+                .Get(u => u.UserId == item.UserId && u.CategoryId == item.CategoryId);
+                
+
+
+                if (userTotalPointsPerCategory == null)
+                {
+                    UserTotalPointsPerCategory temp = new UserTotalPointsPerCategory
+                    {
+                        UserId = item.UserId,
+                        CategoryId = item.CategoryId,
+                        Points = item.Points,
+                    };
+                    _unitOfWork.UserTotalPointsPerCategory.Add(temp);
+                    
+                }
+                else 
+                {
+                    userTotalPointsPerCategory.Points += item.Points;
+                    _unitOfWork.UserTotalPointsPerCategory.Update(userTotalPointsPerCategory);
+                    
+
+                }
+                _unitOfWork.Save();
+
+
+
             }
 
             var obj = _unitOfWork.RangList_User.Get(u => u.UserId == userId && u.RangListId == rangList.Id);
@@ -250,6 +290,13 @@ namespace Quiz.Web.Areas.Admin.Controllers
             _unitOfWork.RangList_User.Update(obj);
             _unitOfWork.Save();
 
+            var user = _applicationUserRepository.GetById(userId);
+            user.Points ??= 0;
+            user.Points += totalPoints;
+            
+            await _applicationUserRepository.Update(user);
+
+            
             return RedirectToAction("Index","RangList",new { area="Admin", eventId= rangListVM.Event.Id});
 
 

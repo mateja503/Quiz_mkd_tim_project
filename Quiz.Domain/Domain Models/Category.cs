@@ -23,6 +23,8 @@ namespace Quiz.Domain.Domain_Models
         [ValidateNever]
         public ICollection<Category_RangList>? Category_RangList { get; set; }
 
+       
+
 
     }
 }

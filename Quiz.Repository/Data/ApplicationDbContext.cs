@@ -40,6 +40,8 @@ namespace Quiz.Repository.Data
 
         public DbSet<EventPending_User> EventPending_Users { get; set; }
 
+        public DbSet<UserTotalPointsPerCategory> UserTotalPointsPerCategories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             base.OnModelCreating(modelbuilder);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quiz.Repository.Data;
 
@@ -11,9 +12,11 @@ using Quiz.Repository.Data;
 namespace Quiz.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250310113916_AddTableForTotalPointsPerCategoryForEachUser")]
+    partial class AddTableForTotalPointsPerCategoryForEachUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1114,9 +1117,17 @@ namespace Quiz.Repository.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId")
+                        .IsUnique()
+                        .HasFilter("[CategoryId] IS NOT NULL");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("UserTotalPointsPerCategories");
                 });
@@ -1377,11 +1388,28 @@ namespace Quiz.Repository.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Quiz.Domain.Domain_Models.UserTotalPointsPerCategory", b =>
+                {
+                    b.HasOne("Quiz.Domain.Domain_Models.Category", "Category")
+                        .WithOne("UserTotalPointsPerCategory")
+                        .HasForeignKey("Quiz.Domain.Domain_Models.UserTotalPointsPerCategory", "CategoryId");
+
+                    b.HasOne("Quiz.Domain.Identity.ApplicationUser", "User")
+                        .WithOne("UserTotalPointsPerCategory")
+                        .HasForeignKey("Quiz.Domain.Domain_Models.UserTotalPointsPerCategory", "UserId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Category", b =>
                 {
                     b.Navigation("Category_RangList");
 
                     b.Navigation("Category_User");
+
+                    b.Navigation("UserTotalPointsPerCategory");
                 });
 
             modelBuilder.Entity("Quiz.Domain.Domain_Models.Event", b =>
@@ -1426,6 +1454,8 @@ namespace Quiz.Repository.Migrations
                     b.Navigation("Event_User");
 
                     b.Navigation("RangList_User");
+
+                    b.Navigation("UserTotalPointsPerCategory");
                 });
 #pragma warning restore 612, 618
         }

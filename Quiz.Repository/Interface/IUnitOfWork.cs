@@ -28,6 +28,8 @@ namespace Quiz.Repository.Interface
         ICategory_RangListRepository Category_RangList { get; }
 
         IEventPending_UserRepository EventPending_User { get; }
+
+        IUserTotalPointsPerCategoryRepository UserTotalPointsPerCategory { get; }
         void Save();
 
     }

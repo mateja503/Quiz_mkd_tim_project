@@ -82,16 +82,11 @@ namespace Quiz.Repository.Implementation
             return currentRoles.First();
         }
 
-        public  void SetPoints(string userId, double correctAnswers)
+        public async Task Update(ApplicationUser user)
         {
-            var user = GetById(userId);
-            user.Points ??= 0;
-            user.Points += correctAnswers;
-           var result = _userManager.UpdateAsync(user).GetAwaiter().GetResult();
-            if (!result.Succeeded) 
-            {
-                throw new Exception("Failed to update user points");
-            }
+            await _userManager.UpdateAsync(user);
         }
+
+
     }
 }
