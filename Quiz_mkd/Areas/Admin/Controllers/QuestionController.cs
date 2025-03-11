@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Quiz.Domain.Domain_Models;
 using Quiz.Domain.ViewModels;
 using Quiz.Repository.Interface;
@@ -20,11 +21,93 @@ namespace Quiz.Web.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int quizId,int? selectedTypeQuestionId = null)
         {
-            return View();
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+
+            if (quiz == null) 
+            {
+                return NotFound();
+            }
+            var questions = _unitOfWork.Question.GetAll(includeProperties: "AnswersList,TypeQuestion").ToList();
+
+            if (selectedTypeQuestionId != null) 
+            {
+                questions = _unitOfWork.Question.GetAll(u=>u.TypeQuestion.Id == selectedTypeQuestionId,includeProperties: "AnswersList,TypeQuestion").ToList();
+            }
+
+            List<QuestionBelongsVM?> listQuestionsBelongToQuiz = new List<QuestionBelongsVM?>();
+            int count = 0;
+            foreach (var q in questions) 
+            {
+                bool flag = false;   
+                if (quiz.QuestionList.Contains(q)) 
+                {
+                    flag = true;
+                    count++;
+                }
+                var temp = new QuestionBelongsVM
+                {
+                    Question = q,
+                    flagBelongs = flag
+                };
+                listQuestionsBelongToQuiz.Add(temp);
+            }
+
+            var typesOfQuestions = _unitOfWork.TypeQuestion.GetAll()
+              .Select(u => new SelectListItem
+              {
+                  Text = u.Type,
+                  Value = u.Id.ToString()
+              }).ToList();
+
+           var quizVM = new QuizVM
+            {
+                Quiz = quiz,
+                QuizId = quizId,
+                count = count,
+               TypeQuestions = typesOfQuestions,
+                QuestionListBelongs = listQuestionsBelongToQuiz
+
+            };
+            return View(quizVM);
         }
 
+        [HttpPost]
+        public IActionResult FilterQuestions(QuizVM quizVM) 
+        {
+
+            return RedirectToAction("Index", new { quizId = quizVM.QuizId, selectedTypeQuestionId = quizVM.SelectedTypeQuestionId });
+        }
+
+        public IActionResult AddToQuiz(int? quizId, int questionId) 
+        {
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties:"QuestionList");
+            var question = _unitOfWork.Question.Get(u => u.Id == questionId);
+            quiz.QuestionList.Add(question);
+            _unitOfWork.Question.Update(question);
+            _unitOfWork.Save();
+            return RedirectToAction("Index", new { quizId = quizId });
+        }
+
+        public IActionResult RemoveFromQuiz(int? quizId, int questionId)
+        {
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+            var question = _unitOfWork.Question.Get(u => u.Id == questionId);
+
+            question.QuizId = 0;
+
+            
+            
+
+            //quiz.QuestionList = quiz.QuestionList.Where(q => q.Id != questionId).ToList();
+            
+            //_unitOfWork.Quiz.Update(quiz);
+            _unitOfWork.Question.Update(question);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index", new { quizId = quizId });
+        }
 
         public IActionResult Create(int quizId)
         {
@@ -32,7 +115,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList,Event");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
             if (quiz == null)
             {
                 return NotFound();
@@ -50,7 +133,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(QuestionVM questionVM, int quizId)
         {
-            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "Event,QuestionList");
+            var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
 
             if (quiz == null)
             {

@@ -29,7 +29,7 @@
                     <input type="file" name="file" class="form-control" />
                     @if (!string.IsNullOrEmpty(Model.Quiz.ImageUrl))
                     {
-                        <img src="@Model.Quiz.ImageUrl" alt="Image" class="img-fluid" />
+                        <img src="@Model.Quiz.ImageUrl" alt="Image" class="img-fluid w-25" />
                     }
                 </div>
 
@@ -49,7 +49,7 @@
                         <label class="p-0">Прашања</label>
 
                         <div class="col-6 col-md-3">
-                            <a asp-area="Admin" asp-controller="Question" asp-action="Create" asp-route-id="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
+                            <a asp-area="Admin" asp-controller="Question" asp-action="Create" asp-route-quizId="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
                         </div>
 
                         <div class="col-6 col-md-3">
