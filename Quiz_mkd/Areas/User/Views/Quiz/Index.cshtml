@@ -20,7 +20,6 @@
             <tr>
                 <th>Слика</th>
                 <th>Име</th>
-                <th>Тип на квиз</th>
                 @{
                     int numQuestions = Model.Any() ? Model.Max(u => u.QuestionList?.Count ?? 0) : 0;
                 }

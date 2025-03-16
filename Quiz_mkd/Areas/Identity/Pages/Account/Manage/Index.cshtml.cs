@@ -57,20 +57,33 @@ namespace Quiz.Web.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефонски број")]
             public string PhoneNumber { get; set; }
+
+
+            [Display(Name = "Место на потекнување")]
+            public string PlaceOfOrigin { get; set; }
+
+            [Display(Name = "Име")]
+            public string NameUser { get; set; }
+
+            [Display(Name = "Презиме")]
+            public string Surname { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+           
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                NameUser = user.NameUser,
+                PlaceOfOrigin = user.PlaceOfOrigin,
+                Surname = user.Surname
             };
         }
 
@@ -100,19 +113,22 @@ namespace Quiz.Web.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            //if (Input.PhoneNumber != phoneNumber)
-            //{
-            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            //    if (!setPhoneResult.Succeeded)
-            //    {
-            //        StatusMessage = "Unexpected error when trying to set phone number.";
-            //        return RedirectToPage();
-            //    }
-            //}
+            user.NameUser = Input.NameUser;
+            user.Surname = Input.Surname;
+            user.PlaceOfOrigin = Input.PlaceOfOrigin;
+            user.PhoneNumber = Input.PhoneNumber;
+           
 
-            //await _signInManager.RefreshSignInAsync(user);
-            //StatusMessage = "Your profile has been updated";
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Грешка при ажурирање на профилот.";
+                return RedirectToPage();
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+            StatusMessage = "Твојот профил е изменет";
             return RedirectToPage();
         }
     }

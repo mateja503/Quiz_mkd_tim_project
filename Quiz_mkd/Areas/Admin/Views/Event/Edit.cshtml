@@ -51,7 +51,7 @@
                     <input type="file" name="file" class="form-control" />
                     @if (!string.IsNullOrEmpty(Model.Event.ImageUrl))
                     {
-                        <img src="@Model.Event.ImageUrl" alt="Image" class="img-fluid" />
+                        <img src="@Model.Event.ImageUrl" alt="Image" class="img-fluid w-25" />
                     }
                 </div>
 
@@ -61,7 +61,7 @@
                         <button type="submit" class="btn btn-primary form-control">Додади</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-area="User" asp-controller="Event" asp-action="Index" class="btn btn-outline-secondary border form-control">Врати се назад</a>
+                        <a asp-area="User" asp-controller="Event" asp-action="Index" class="btn btn-primary  form-control">Врати се назад</a>
                     </div>
                 </div>
 

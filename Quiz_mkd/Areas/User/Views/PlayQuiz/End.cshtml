@@ -1,24 +1,14 @@
 ﻿@model PlayQuizVM
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
 
-        .container {
-            max-width: 500px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: auto;
+    <style>
+       
+        .container{
+        max-width: 600px; /* Adjust width as needed */
+        width: 100%;
+        margin: auto; /* Centers the container */
+        padding: 20px; /* Adds spacing inside the container */
+        text-align: center; /* Centers text content */
+       
         }
 
         .progress-bar {
@@ -52,9 +42,8 @@
             .btn:hover {
                 background: #0056b3;
             }
-    </style>
-</head>
-<body>
+  
+</style>
 
     <div class="container">
         <h2>Го заврши квизот @Model.Quiz.Name!</h2>
@@ -65,7 +54,7 @@
                 @((Model.answersCorrect * 100 / Model.totalAnswers))%
             </div>
         </div>
-  </div>
+</div>
 
-</body>
-</html>
+
+

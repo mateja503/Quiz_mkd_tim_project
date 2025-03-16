@@ -93,19 +93,18 @@ namespace Quiz.Web.Areas.Admin.Controllers
         public IActionResult RemoveFromQuiz(int? quizId, int questionId)
         {
             var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
+
+            quiz.QuestionList = quiz.QuestionList.Where(q => q.Id != questionId).ToList();
+
             var question = _unitOfWork.Question.Get(u => u.Id == questionId);
 
-            question.QuizId = 0;
+            question.Quiz = null;
 
-            
-            
-
-            //quiz.QuestionList = quiz.QuestionList.Where(q => q.Id != questionId).ToList();
-            
-            //_unitOfWork.Quiz.Update(quiz);
             _unitOfWork.Question.Update(question);
             _unitOfWork.Save();
-
+            _unitOfWork.Quiz.Update(quiz);
+            _unitOfWork.Save();
+           
             return RedirectToAction("Index", new { quizId = quizId });
         }
 
@@ -120,11 +119,16 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            var typeQuestion = _unitOfWork.TypeQuestion.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Type,
+                Value = u.Id.ToString()
+            }).ToList();
             QuestionVM questionVM = new()
             {
                 Question = new Question(),
-                Answers = new List<Answer>(),
-                Quiz = quiz
+                Quiz = quiz,
+                TypeQuestionList = typeQuestion
 
             };
             return View(questionVM);
@@ -143,15 +147,37 @@ namespace Quiz.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 questionVM.Quiz = quiz;
-                quiz?.QuestionList?.Add(questionVM.Question);
-                _unitOfWork.Question.Add(questionVM.Question);
+                var question = questionVM.Question;
+                question.TypeQuestionId = questionVM.TypeQuestionId;
+                quiz?.QuestionList?.Add(question);
+                _unitOfWork.Question.Add(question);
                 _unitOfWork.Save();
-                return View(questionVM);
+
+                questionVM.Answer1.QuestionId = question.Id;
+                questionVM.Answer2.QuestionId = question.Id;
+                questionVM.Answer3.QuestionId = question.Id;
+                questionVM.Answer4.QuestionId = question.Id;
+                _unitOfWork.Answer.Add(questionVM.Answer1);
+                _unitOfWork.Answer.Add(questionVM.Answer2);
+                _unitOfWork.Answer.Add(questionVM.Answer3);
+                _unitOfWork.Answer.Add(questionVM.Answer4);
+                _unitOfWork.Save();
+
+
+
+                return RedirectToAction("Detail", "Quiz", new {area="Admin", quizId = quizId });
             }
+
+            var typeQuestion = _unitOfWork.TypeQuestion.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Type,
+                Value = u.Id.ToString()
+            }).ToList();
 
             questionVM.Answers = new List<Answer>();
             questionVM.Quiz = quiz;
             questionVM.Question = new Question();
+            questionVM.TypeQuestionList = typeQuestion;
             return View(questionVM);
         }
 

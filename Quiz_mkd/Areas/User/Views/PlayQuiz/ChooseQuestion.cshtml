@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
+   @*  <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -43,7 +43,7 @@
             .option:hover {
                 background-color: #0056b3;
             }
-    </style>
+    </style> *@
 </head>
 <body>
     <div class="container">
@@ -52,7 +52,7 @@
             
             @foreach (var answer in Model.Answers) 
             {
-             <a class="btn btn-primary my-2" asp-area="User" asp-controller="PlayQuiz" asp-action="CheckAnswer"
+                <a class="btn btn-primary my-2" asp-area="User" asp-controller="PlayQuiz" asp-action="NextQuestion"
              asp-route-answerId="@answer.Id" asp-route-quizId="@Model.Quiz.Id" asp-route-questionId="@Model.Question.Id"
              >@answer.Text</a>
             }

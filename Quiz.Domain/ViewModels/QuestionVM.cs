@@ -18,5 +18,23 @@ namespace Quiz.Domain.ViewModels
 
         [ValidateNever]
         public Domain_Models.Quiz Quiz { get; set; }
+
+        [ValidateNever]
+        public List<SelectListItem?> TypeQuestionList { get; set; }
+
+        [ValidateNever]
+        public int? TypeQuestionId { get; set; }
+
+        [ValidateNever]
+        public Answer Answer1 { get; set; }
+
+        [ValidateNever]
+        public Answer Answer2 { get; set; }
+
+        [ValidateNever]
+        public Answer Answer3 { get; set; }
+
+        [ValidateNever]
+        public Answer Answer4 { get; set; }
     }
 }

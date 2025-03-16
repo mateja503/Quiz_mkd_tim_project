@@ -33,6 +33,6 @@ namespace Quiz.Domain.Domain_Models
 
         [Display(Name ="Квиз")]       
         
-        public int QuizId { get; set; }
+        public int? QuizId { get; set; }
     }
 }

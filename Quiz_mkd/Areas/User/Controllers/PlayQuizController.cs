@@ -50,10 +50,10 @@ namespace Quiz.Web.Areas.User.Controllers
             return View(playQuizVM);
         }
 
-        public IActionResult ChooseQuestion(int? quizId, bool correctAnswer, int? countCorrect, bool? firstCall)
+        public IActionResult ChooseQuestion(int? quizId, int? answerId, int? countCorrect, bool? firstCall)
         {
             var quiz = _unitOfWork.Quiz.Get(u => u.Id == quizId, includeProperties: "QuestionList");
-
+            var answer = _unitOfWork.Answer.Get(u => u.Id == answerId);
             if (quiz == null)
             {
                 return NotFound();
@@ -73,11 +73,16 @@ namespace Quiz.Web.Areas.User.Controllers
 
             int countCorrectAnswer = TempData.Peek("CountCorrectAnswer") as int? ?? 0;
 
-            if (correctAnswer)
+            if (answer != null) 
             {
-                countCorrectAnswer++;
-                TempData["CountCorrectAnswer"] = countCorrectAnswer;
+                if (answer.isCorrect)
+                {
+                    countCorrectAnswer++;
+                    TempData["CountCorrectAnswer"] = countCorrectAnswer;
+                }
             }
+
+         
 
             if (questionIds.Count == 0 && firstCall == null)
             {
@@ -117,7 +122,7 @@ namespace Quiz.Web.Areas.User.Controllers
             return View(questionVM);
         }
 
-        public IActionResult CheckAnswer(int? answerId, int? quizId, int? questionId)
+        public IActionResult NextQuestion(int? answerId, int? quizId, int? questionId)
         {
             var answer = _unitOfWork.Answer.Get(u => u.Id == answerId, includeProperties: "Question");
             if (answer == null)
@@ -140,11 +145,9 @@ namespace Quiz.Web.Areas.User.Controllers
                     questionsList.Add(q.Id);
                 }
             }
-            var correctAnswer = answer.isCorrect;
-
 
             TempData["NextQuestions"] = string.Join(",", questionsList);
-            return RedirectToAction("ChooseQuestion", "PLayQuiz", new { quizId, correctAnswer });
+            return RedirectToAction("ChooseQuestion", "PLayQuiz", new { quizId, answerId = answerId });
         }
 
 
