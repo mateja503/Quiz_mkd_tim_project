@@ -197,7 +197,27 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             _unitOfWork.Category_User.RemoveRange(categoryUsers);
             _unitOfWork.Save();
-            
+
+            var userIds = categoryUsers.Select(u => u.UserId).Distinct();
+
+            var obj = _unitOfWork.RangList_User.Get(u => userIds.Contains(u.UserId) && u.RangListId == rangListId);
+            obj.Points = null;
+
+            _unitOfWork.RangList_User.Update(obj);
+            _unitOfWork.Save();
+
+            //TODO:
+
+
+            //var userIds = categoryUsers.Select(u => u.UserId);
+            //var obj = _unitOfWork.UserTotalPointsPerCategory.GetAll(u => userIds.Contains(u.UserId) && categoryId == u.CategoryId);
+
+
+
+            //_unitOfWork.UserTotalPointsPerCategory.RemoveRange(obj);
+            //_unitOfWork.Save();
+
+
             return RedirectToAction("EditTable", "RangList", new { area = "Admin", rangListId = rangListId });
         }
 
@@ -206,6 +226,16 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var obj = _unitOfWork.RangList_User.Get(u => u.UserId == userId && u.RangList.EventId == eventId);
             _unitOfWork.RangList_User.Remove(obj);
             _unitOfWork.Save();
+
+            var r = _unitOfWork.Event_User.Get(u => u.UserId == userId && u.EventId == eventId);
+            _unitOfWork.Event_User.Remove(r);
+            _unitOfWork.Save();
+
+            var p = _unitOfWork.Category_User.GetAll(u => u.UserId == userId);
+            _unitOfWork.Category_User.RemoveRange(p);
+            _unitOfWork.Save();
+
+
             return RedirectToAction("Index", new { eventId = eventId});
         }
 
@@ -239,6 +269,8 @@ namespace Quiz.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPointsToUser(RangListVM rangListVM)
         {
+
+            //TODO
             double? totalPoints = 0;
             string? userId = rangListVM.User.Id;
             var rangList = _unitOfWork.RangList.Get(u=>u.EventId == rangListVM.Event.Id );

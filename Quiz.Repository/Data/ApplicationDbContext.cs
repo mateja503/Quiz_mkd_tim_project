@@ -42,6 +42,8 @@ namespace Quiz.Repository.Data
 
         public DbSet<UserTotalPointsPerCategory> UserTotalPointsPerCategories { get; set; }
 
+        public DbSet<RangList_TotalPointsPerCategory> RangList_TotalPointsPerCategories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             base.OnModelCreating(modelbuilder);

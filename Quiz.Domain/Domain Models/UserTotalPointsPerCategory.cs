@@ -19,6 +19,7 @@ namespace Quiz.Domain.Domain_Models
 
         public double? Points { get; set; }
 
+        List<RangList_TotalPointsPerCategory?> RangList_TotalPointsPerCategories { get; set; }
 
     }
 }

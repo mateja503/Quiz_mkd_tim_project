@@ -224,6 +224,7 @@ namespace Quiz.Web.Domain_Transfer.Implementation
 
         public RangListDetails EventFieldSelectedOnly(int? selectedEventId)
         {
+            
             var _event = _unitOfWork.Event.Get(u => u.Id == selectedEventId, includeProperties: "RangList");
             var  rangList = _event.RangList;
 
@@ -289,7 +290,7 @@ namespace Quiz.Web.Domain_Transfer.Implementation
 
                 foreach (var category in distinctCategories)
                 {
-                    userCategoryPoints[user.UserId].Add(category.Id, 0.0);
+                    userCategoryPoints[user.UserId].Add(category.CategoryId, 0.0);
                 }
 
             }
@@ -305,7 +306,13 @@ namespace Quiz.Web.Domain_Transfer.Implementation
 
             foreach (var n in listForCategoryUser)
             {
-                userCategoryPoints[n.UserId][n.CategoryId] += n.Points;
+                //if(userCategoryPoints[n.UserId][n.CategoryId])
+                //userCategoryPoints[n.UserId][n.CategoryId] += n.Points;
+
+                if (userCategoryPoints.ContainsKey(n.UserId) && userCategoryPoints[n.UserId].ContainsKey(n.CategoryId))
+                {
+                    userCategoryPoints[n.UserId][n.CategoryId] += n.Points;
+                }
             }
             List<RangList_User> flag = new List<RangList_User>();
             foreach (var n in userRangListPoints)

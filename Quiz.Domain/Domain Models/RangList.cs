@@ -23,5 +23,7 @@ namespace Quiz.Domain.Domain_Models
 
         public ICollection<Category_RangList>? Category_RangList { get; set; }
 
+        List<RangList_TotalPointsPerCategory?> RangList_TotalPointsPerCategories { get; set; }
+
     }
 }

@@ -38,9 +38,13 @@ namespace Quiz.Web.Areas.User.Controllers
         public IActionResult Index()
         {
 
+            var rangsListToBeSelected = _unitOfWork.RangList_User.GetAll(u => u.Points != null, includeProperties: "RangList");
+
+            var eventsToBeSelected = rangsListToBeSelected.Select(u => u.RangList.EventId);
+
             ShowRangListOptionsVM showRangListOpetionsVM = new ShowRangListOptionsVM
             {
-                Events = _unitOfWork.Event.GetAll().Select(u => new SelectListItem
+                Events = _unitOfWork.Event.GetAll(u=> eventsToBeSelected.Contains(u.Id)).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -87,6 +91,7 @@ namespace Quiz.Web.Areas.User.Controllers
             //only the event field is selected
             if (selectedEventId != null && selectedCategoryId == null && selectedYear == null)
             {
+
                RangListDetails temp = _rangListDetailGeneral.EventFieldSelectedOnly(selectedEventId);
                 rangListUsers = temp.rangListUsers;
                 categoryRangList =temp.categoryRangList;
@@ -165,10 +170,17 @@ namespace Quiz.Web.Areas.User.Controllers
                 Event = _event
             };
 
+
+
+            var rangsListToBeSelected = _unitOfWork.RangList_User.GetAll(u => u.Points != null, includeProperties: "RangList");
+
+            var eventsToBeSelected = rangsListToBeSelected.Select(u => u.RangList.EventId);
+
+
             ShowRangListOptionsVM showRangListOptionsVMfinal = new ShowRangListOptionsVM
             {
 
-                Events = _unitOfWork.Event.GetAll().Select(u => new SelectListItem
+                Events = _unitOfWork.Event.GetAll(u=> eventsToBeSelected.Contains(u.Id)).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()

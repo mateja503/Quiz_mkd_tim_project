@@ -39,6 +39,8 @@ namespace Quiz.Repository.Implementation
 
         public IUserTotalPointsPerCategoryRepository UserTotalPointsPerCategory { get; private set; }
 
+        public IRangList_TotalPointsPerCategoryRepository RangList_TotalPointsPerCategory { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -54,7 +56,8 @@ namespace Quiz.Repository.Implementation
             RangList = new RangListRepository(_db);
             Category_RangList = new Category_RangListRepository(_db);
             EventPending_User = new EventPending_UserRepository(_db);
-            UserTotalPointsPerCategory = new UserTotalPointsPerCategoryRepository(_db); 
+            UserTotalPointsPerCategory = new UserTotalPointsPerCategoryRepository(_db);
+            RangList_TotalPointsPerCategory = new RangList_TotalPointsPerCategoryRepository(_db);
 
         }
 
