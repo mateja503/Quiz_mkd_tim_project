@@ -1,10 +1,10 @@
 ﻿@model TypeQuestion
 
-<div class="card shadow border-0 mt-4">
+<div class="card shadow border-0 mt-4" id="create-question-card">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Eдитирај Тип на Квиз</h2>
+                <h2 class="text-white py-2">Измени Тип на Квиз</h2>
             </div>
         </div>
     </div>
@@ -21,10 +21,10 @@
 
 
                 <div class="row">
-                    <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">Промени</button>
+                    <div >
+                        <button type="submit" class="btn btn-primary form-control">Зачувај</button>
                     </div>
-                    <div class="col-6 col-md-3">
+                    <div >
                         <a asp-area ="Admin" asp-controller="TypeQuestion" asp-action="Index" class="btn btn-primary form-control">Врати се назад</a>
                     </div>
                 </div>

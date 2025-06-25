@@ -1,6 +1,6 @@
 ﻿@model TypeQuestion
 
-<div class="card shadow border-0 mt-4">
+<div class="card shadow border-0 mt-4" id="create-question-card">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
@@ -21,10 +21,10 @@
 
 
                 <div class="row">
-                    <div class="col-6 col-md-3">
+                    <div >
                         <button type="submit" class="btn btn-primary form-control">Избриши</button>
                     </div>
-                    <div class="col-6 col-md-3">
+                    <div >
                         <a asp-area="Admin" asp-controller="TypeQuestion" asp-action="Index" class="btn btn-primary form-control">Врати се назад</a>
                     </div>
                 </div>

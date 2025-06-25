@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="tabela">
         <thead>
             <tr>
                 
@@ -22,24 +22,24 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item?.User?.Email</td>
+                    <td class="user-email">@item?.User?.Email</td>
                     <td>@item?.User?.NameUser</td>
                     <td>@item?.User?.Surname</td>
 
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" asp-route-userId="@item?.User?.Id" class="btn btn-danger mx-2">
+                    <td >
+                        <div  role="group" id="actions">
+                            <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" asp-route-userId="@item?.User?.Id" class="btn btn-danger">
                                 Избриши
                             </a>
 
                             @if (item?.Role == "User")
                             {
-                                <a asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-userId="@item?.User?.Id" asp-route-role="Admin" class="btn btn-outline-primary mx-2">
+                                <a asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-userId="@item?.User?.Id" asp-route-role="Admin" class="btn btn-outline-primary">
                                     Направи Админ
                                 </a>
                             }else
                             {
-                                <a asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-userId="@item?.User?.Id" asp-route-role="User" class="btn btn-outline-primary mx-2">
+                                <a asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-userId="@item?.User?.Id" asp-route-role="User" class="btn btn-outline-primary">
                                     Направи Корисник
                                 </a>
                             }

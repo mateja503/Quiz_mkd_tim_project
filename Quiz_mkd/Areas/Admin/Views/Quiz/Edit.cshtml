@@ -1,14 +1,14 @@
 ﻿@model QuizVM
 
-<div class="card shadow border-0 mt-4">
+<div class="edit-card">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Едитирај Kвиз</h2>
+                <h2 class="text-white py-2">Измени Kвиз</h2>
             </div>
         </div>
     </div>
-    <div class="card-body p-4">
+    <div class="card-body">
         <form method="post" enctype="multipart/form-data">
             <input asp-for="Quiz.Id" type="hidden"/>
             <input asp-for="Quiz.ImageUrl" type="hidden" />
@@ -34,14 +34,7 @@
                 </div>
 
 
-                <div class="row">
-                    <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">Промени</button>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a asp-area="User" asp-controller="Quiz" asp-action="Index" class="btn btn-primary form-control">Врати се назад</a>
-                    </div>
-                </div>
+                
 
                 @if (Model.Quiz.Id != 0)
                 {
@@ -49,7 +42,7 @@
                         <label class="p-0">Прашања</label>
 
                         <div class="col-6 col-md-3">
-                            <a asp-area="Admin" asp-controller="Question" asp-action="Index" asp-route-quizId="@Model.Quiz.Id" class="btn btn-primary border form-control">Додади прашања</a>
+                            <a asp-area="Admin" asp-controller="Question" asp-action="Index" asp-route-quizId="@Model.Quiz.Id" class="btn btn-primary border form-control">Додај прашања</a>
                         </div>
 
                         <div class="col-6 col-md-3">
@@ -58,6 +51,15 @@
 
                     </div>
                 }
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Зачувај</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-area="User" asp-controller="Quiz" asp-action="Index" class="btn btn-primary form-control">Врати се назад</a>
+                    </div>
+                </div>
 
 
             </div>
