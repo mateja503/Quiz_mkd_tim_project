@@ -1,118 +1,203 @@
 ﻿@model ShowRangListOptionsVM
 
-<form asp-area="User" asp-controller="RangList" asp-action="FilterRangList" method="post">
-    <div class="row">
-        <div class="col-3">
-            <div class="mb-3 row p-1">
-                <label class="p-0 text-black">Селектирај Настан</label>
-                <select asp-for="SelectedEventId" asp-items="@Model.Events" class="p-0 form-select">
-                    <option value="" selected>--Селектирај Настан--</option>
-                </select>
-                <span asp-validation-for="SelectedEventId" class="text-danger"></span>
+<div class="container py-4">
+    <h2 class="modern-header">Ранг Листа</h2>
+
+    <form asp-area="User" asp-controller="RangList" asp-action="FilterRangList" method="post" class="modern-filter-form mb-4">
+        <div class="row align-items-end g-3">
+            <div class="col-md-3">
+                <div class="mb-0">
+                    <label class="form-label fw-bold text-dark">Селектирај Настан</label>
+                    <select asp-for="SelectedEventId" asp-items="@Model.Events" class="form-select modern-select">
+                        <option value="" selected>--Селектирај Настан--</option>
+                    </select>
+                    <span asp-validation-for="SelectedEventId" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-0">
+                    <label class="form-label fw-bold text-dark">Селектирај Категорија</label>
+                    <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="form-select modern-select">
+                        <option value="" selected>--Селектирај Категорија--</option>
+                    </select>
+                    <span asp-validation-for="SelectedCategoryId" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-0">
+                    <label class="form-label fw-bold text-dark">Селектирај Година</label>
+                    <select asp-for="SelectedYear" asp-items="@Model.EventsByYear" class="form-select modern-select">
+                        <option value="" selected>--Селектирај Година--</option>
+                    </select>
+                    <span asp-validation-for="SelectedYear" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3 d-flex align-items-stretch">
+                <button type="submit" class="btn btn-primary btn-modern w-100">
+                    Пребарај
+                </button>
             </div>
         </div>
+    </form>
 
-        <div class="col-3">
-            <div class="mb-3 row p-1">
-                <label class="p-0 text-black">Селектирај Категорија</label>
-                <select asp-for="SelectedCategoryId" asp-items="@Model.Categories" class="p-0 form-select">
-                    <option value="" selected>--Селектирај Категорија--</option>
-                </select>
-                <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="col-3">
-            <div class="mb-3 row p-1">
-                <label class="p-0 text-black">Селектирај Година</label>
-                <select asp-for="SelectedYear" asp-items="@Model.EventsByYear" class="p-0 form-select">
-                    <option value="" selected>--Селектирај Година--</option>
-                </select>
-                <span asp-validation-for="SelectedYear" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="col-3">
-            <button type="submit" class="btn btn-success">Пребарај</button>
-        </div>
-    </div>
-</form>
-
-
-
-
-
-<div class="container pt-5">
-   
-
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Место</th>
-                <th>Име и Презиме</th>
-                <th>Град</th>
-                @if (Model?.ShowRangList is not null)
-                {
-                    @foreach (var category in Model?.ShowRangList?.CategoriesRangList ?? new())
+    <div class="table-container">
+        <table class="table table-modern">
+            <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Име и Презиме</th>
+                    <th>Град</th>
+                    @if (Model?.ShowRangList is not null)
                     {
-                        <th>@category?.Category?.categoryName</th>
+                        @foreach (var category in Model?.ShowRangList?.CategoriesRangList ?? new())
+                        {
+                            <th>@category?.Category?.categoryName</th>
+                        }
+                    }
+
+                    @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
+                    || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null)
+                    || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
+                    {
+                        <th>Вкупно</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @if (Model?.ShowRangList is not null && Model.ShowRangList.RangListUsers?.Any() == true)
+                {
+                    @foreach (var user in Model?.ShowRangList?.RangListUsers ?? new())
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@user?.User?.NameUser @user?.User?.Surname</td>
+                            <td>@user?.User?.PlaceOfOrigin</td>
+                            @foreach (var category in Model?.ShowRangList?.CategoriesRangList)
+                            {
+                                var userCategory = Model?.ShowRangList?.CategoryUsers?
+                                .FirstOrDefault(cu => cu.UserId == user?.User?.Id && cu.CategoryId == category?.Category?.Id);
+
+                                <td>@(userCategory?.Points ?? 0)</td>
+                            }
+
+                            @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
+                           || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null)
+                           || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
+                            {
+                                <td>@user?.Points</td>
+                            }
+                        </tr>
                     }
                 }
-               
-
-                @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
-                || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null) 
-                || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
-                        {
-                            <th>Вкупно</th>
-                        }
-                
-                
-
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int i = 1;
-            }
-            @if (Model?.ShowRangList is not null)
-            {
-
-                @foreach (var user in Model?.ShowRangList?.RangListUsers ?? new())
+                else
                 {
                     <tr>
-                        <td>@(i++)</td>
-                        <td>@user?.User?.NameUser @user?.User?.Surname</td>
-                        <td>@user?.User?.PlaceOfOrigin</td>
-                        @foreach (var category in Model?.ShowRangList?.CategoriesRangList)
-                        {
-                            var userCategory = Model?.ShowRangList?.CategoryUsers?
-                            .FirstOrDefault(cu => cu.UserId == user?.User?.Id && cu.CategoryId == category?.Category?.Id);
-
-                            <td>@(userCategory?.Points ?? 0)</td> <!-- If no points, default to 0 -->
-                        }
-
-                        @if ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null)
-                       || (Model?.SelectedCategoryId == null && Model?.SelectedYear != null)
-                       || (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null))
-                       {
-                            <td>@user?.Points</td>
-                        }
-                       
-
-
-
+                        <td colspan="@(3 + (Model?.ShowRangList?.CategoriesRangList?.Count ?? 0) +
+                            ((Model?.SelectedEventId != null && Model?.SelectedCategoryId == null) ||
+                            (Model?.SelectedCategoryId == null && Model?.SelectedYear != null) ||
+                            (Model?.SelectedCategoryId == null && Model?.SelectedEventId != null && Model?.SelectedYear != null) ? 1 : 0))"
+                            class="no-data-message">
+                            Нема ништо
+                        </td>
                     </tr>
                 }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-            }
-            else
-            {
-                <p class="text-danger">Нема ништо</p>
-            }
+<style>
+    .modern-header {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1d3557;
+        letter-spacing: 1px;
+        border-left: 5px solid #0d6efd;
+        padding-left: 15px;
+        margin-bottom: 1.5rem;
+    }
 
+    .modern-filter-form {
+        max-width: 1200px;
+        margin: 0 auto 2rem auto;
+    }
 
+    .modern-select {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+        height: 44px;
+    }
 
-        </tbody>
+        .modern-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
 
-    </table>
+    .btn-modern {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-label {
+        color: #1d3557;
+        margin-bottom: 8px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin-top: 1rem;
+    }
+
+    table.table-modern {
+        width: 100%;
+        background-color: #fff;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table-modern thead {
+        background-color: #0d6efd;
+        color: #fff;
+        text-align: center;
+    }
+
+    .table-modern th,
+    .table-modern td {
+        padding: 12px 16px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-modern tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .no-data-message {
+        text-align: center;
+        padding: 20px;
+        color: #dc3545;
+        font-weight: 500;
+    }
+</style>

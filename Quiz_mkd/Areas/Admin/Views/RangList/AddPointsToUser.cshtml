@@ -1,48 +1,105 @@
 ﻿@model RangListVM
 
-<div class="card shadow border-0 mt-4">
-    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
-        <div class="row">
-            <div class="col-6 text-center">
-                <h2 class="text-white py-2">Додади поени на @Model.User.NameUser @Model.User.Surname</h2>
-            </div>
-            <div class="col-6 text-center">
-                <h2 class="text-white py-2">За настан @Model.Event.Name</h2>
+<div class="container py-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary bg-gradient py-3">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h2 class="text-white m-0">Додади поени на @Model.User.NameUser @Model.User.Surname</h2>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <h2 class="text-white m-0">За настан @Model.Event.Name</h2>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card-body p-4">
-        <form method="post">
-            <input type="hidden" asp-for="Event.Id"/>
-            <input type="hidden" asp-for="User.Id"/>
+        <div class="card-body p-4">
+            <form method="post" class="modern-form">
+                <input type="hidden" asp-for="Event.Id" />
+                <input type="hidden" asp-for="User.Id" />
 
-            <div class="border p-3 mt-4">
-               
-                @for (int i = 0; i < Model?.CategoryUsers?.Count;i++)  
-                {
+                <div class="border p-4 rounded-3">
+                    @for (int i = 0; i < Model?.CategoryUsers?.Count; i++)
+                    {
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">@Model.CategoryUsers[i].Category.categoryName</label>
+                            <input type="number" asp-for="CategoryUsers[i].Points" class="form-control modern-input" />
+                            <span asp-validation-for="CategoryUsers[i].Points" class="text-danger small"></span>
+                            <input type="hidden" asp-for="CategoryUsers[i].CategoryId" />
+                            <input type="hidden" asp-for="CategoryUsers[i].RangListId" />
+                            <input type="hidden" asp-for="CategoryUsers[i].UserId" />
+                        </div>
+                    }
 
-                    <div class="mb-3 row p-1">
-                        <label class=" p-0">@Model.CategoryUsers[i].Category.categoryName</label>
-                        <input type=number asp-for="CategoryUsers[i].Points" class="form-control" />
-                        <span asp-validation-for="CategoryUsers[i].Points" class="text-danger"></span>
-                        <input type="hidden" asp-for="CategoryUsers[i].CategoryId" />
-                        <input type="hidden" asp-for="CategoryUsers[i].RangListId" />
-                        <input type="hidden" asp-for="CategoryUsers[i].UserId" />
-
-                    </div>
-                }
-
-                <div class="row">
-                    <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">Додади</button>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a asp-area="Admin" asp-controller="RangList" asp-action="Index" asp-route-eventId="@Model.Event.Id" class="btn btn-primary form-control">Врати се назад</a>
+                    <div class="row mt-4">
+                        <div class="col-6 mb-2 mb-md-0">
+                            <button type="submit" class="btn btn-primary btn-modern w-100">
+                                Додади
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <a asp-area="Admin" asp-controller="RangList" asp-action="Index"
+                               asp-route-eventId="@Model.Event.Id"
+                               class="btn btn-outline-primary btn-modern w-100">
+                                Врати се назад
+                            </a>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+
+<style>
+    .modern-form {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .modern-input {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+    }
+
+        .modern-input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+    .btn-modern {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-outline-primary.btn-modern {
+        border: 2px solid #0d6efd;
+    }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: none;
+    }
+
+    .form-label {
+        color: #1d3557;
+        margin-bottom: 8px;
+    }
+</style>

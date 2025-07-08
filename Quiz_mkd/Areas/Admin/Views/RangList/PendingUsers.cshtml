@@ -1,56 +1,117 @@
 ﻿@model ApplicationUserVM
 
-<div class="container">
-    <div class="row pt-4 pb-3">
-        <div class="col-4">
-            <h2 class="text-primary">Листа на Пријавени Учесници</h2>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="modern-header">Листа на пријавени учесници</h2>
+        <div class="d-flex gap-3">
+            <a class="btn btn-primary btn-modern" asp-area="Admin"
+               asp-controller="RangList" asp-action="Index"
+               asp-route-eventId="@Model.EventId">
+                Додади поени
+            </a>
         </div>
-       
-        <div class="col-4">
-            <a class="btn btn-primary" asp-area="Admin"
-            asp-controller="RangList" asp-action="Index"
-                asp-route-eventId="@Model.EventId"
-            >Ранг Листа Додавај Поени</a>
-        </div>
-
-      
     </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                
-                <th>Email</th>
-                <th>Име и Презиме</th>
-                <th>Град</th>
-                 <th></th>
-               
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.UsersList)
-            {
+    <div class="table-container">
+        <table class="table table-modern">
+            <thead>
                 <tr>
-                    <td>@item?.Email</td>
-                    <td>@item?.NameUser @item?.Surname </td>
-                    <td>@item?.PlaceOfOrigin</td>
-
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-
-                            <a asp-area="Admin" asp-controller="RangList" 
-                            asp-action="PayedToParticipate" asp-route-userId="@item?.Id" asp-route-eventId="@Model.EventId"  
-                            class="btn btn-success mx-2">
-                                Платено
-                            </a>
-                          
-                        </div>
-
-                    </td>
-
+                    <th>Email</th>
+                    <th>Име и Презиме</th>
+                    <th>Град</th>
+                    <th>Акции</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UsersList)
+                {
+                    <tr>
+                        <td>@item?.Email</td>
+                        <td>@item?.NameUser @item?.Surname</td>
+                        <td>@item?.PlaceOfOrigin</td>
+                        <td>
+                            <div class="btn-group-modern">
+                                <a asp-area="Admin" asp-controller="RangList"
+                                   asp-action="PayedToParticipate"
+                                   asp-route-userId="@item?.Id"
+                                   asp-route-eventId="@Model.EventId"
+                                   class="btn btn-success btn-modern">
+                                    Платено
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-        </tbody>
+<style>
+    .modern-header {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1d3557;
+        letter-spacing: 1px;
+        border-left: 5px solid #0d6efd;
+        padding-left: 15px;
+        margin-bottom: 1rem;
+    }
 
-    </table>
+    .table-container {
+        overflow-x: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    table.table-modern {
+        width: 100%;
+        background-color: #fff;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table-modern thead {
+        background-color: #0d6efd;
+        color: #fff;
+        text-align: center;
+    }
+
+    .table-modern th,
+    .table-modern td {
+        padding: 12px 16px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-modern tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-modern {
+        min-width: 120px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        padding: 8px 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-modern i {
+            font-size: 1rem;
+        }
+</style>
