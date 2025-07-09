@@ -1,0 +1,91 @@
+﻿@model List<EventVM>
+
+
+    <div id="events-top">
+        <div >
+            <h2>Настани</h2>
+        </div>
+        @if (User.IsInRole(SD.Role_Admin))
+        {
+            <div>
+                <a asp-area="Admin" asp-controller="Event" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Додај нов настан</a>
+
+            </div>
+        }
+    </div>
+    <div id="events-container">
+
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div id="top-card">
+                    <img class="card-img-top" src="@item?.Event.ImageUrl" alt="Card image cap">
+                    <div id="top-card-buttons">
+                        <a asp-area="User" asp-controller="Event" asp-action="Detail" asp-route-eventId="@item?.Event.Id" class="btn mx-2" id="details-btn">
+
+                             Разгледај
+                         </a>
+                         @if (User.Identity.IsAuthenticated)
+                        {
+                             @if (!item.IsUserRegisteredForTheEvent)
+                            {
+                                <a asp-area="User" asp-controller="Event" asp-action="RegisterEvent" asp-route-eventId="@item?.Event.Id" class="btn btn-success mx-2">
+                                 Пријави се
+                                </a>
+                            }
+                            else
+                            {
+
+                                <a asp-area="User" asp-controller="Event" asp-action="LeaveEvent" asp-route-eventId="@item?.Event.Id" class="btn btn-danger mx-2">
+                                    Одјави се
+                                </a>
+                            }
+
+                        }
+                        else
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Login" asp-route-eventId="@item?.Event.Id" class="btn btn-outline-primary mx-2">
+                                Пријави се
+                            </a>
+                        }
+                </div>
+                </div>
+
+                <div class="card-body">
+                    <div id="event-dates">
+                        <h5 class="card-title">Почеток <br />@item?.Event.StartDate.ToString("dd/MM/yyyy")</h5>
+                    <h5 class="card-title">Крај <br />@item?.Event.EndDate.ToString("dd/MM/yyyy")</h5>
+                    </div>
+                    <h4 class="card-title">@item?.Event.Name</h4>
+                </div>
+                <div class="card-footer">
+                   
+                         
+                             @if (User.IsInRole(SD.Role_Admin))
+                            {
+                        
+                            <div id="admin-btns" role="group">
+
+                                <a asp-area="Admin" asp-controller="Event" asp-action="Edit" asp-route-id="@item?.Event.Id" class="btn btn-primary ">
+                                    Измени
+                                </a>
+                                <a asp-area="Admin" asp-controller="Event" asp-action="Delete" asp-route-id="@item?.Event.Id" class="btn btn-danger">
+                                    Избриши
+                                </a>
+
+                                <a asp-area="Admin" asp-controller="RangList" asp-action="PendingUsers" asp-route-eventId="@item?.Event.Id" class="btn btn-warning">
+                                    Прегледај Пријави
+                                </a>
+                                
+
+                            </div>
+
+                        
+                    }
+                </div>
+            </div>
+        }   
+    
+    </div>
+
+   
