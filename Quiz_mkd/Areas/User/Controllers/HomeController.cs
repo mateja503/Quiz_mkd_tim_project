@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Quiz.Utility;
 using Quiz_mkd.Models;
 
 using System.Diagnostics;
@@ -20,6 +21,8 @@ namespace Quiz.Web.Areas.User.Controllers
         {
             return View();
         }
+
+       
 
         public IActionResult Privacy()
         {
