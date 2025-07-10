@@ -2,7 +2,7 @@
 
 
     <div id="events-top">
-        <div >
+        <div>
             <h2>Настани</h2>
         </div>
         @if (User.IsInRole(SD.Role_Admin))
@@ -64,9 +64,9 @@
                              @if (User.IsInRole(SD.Role_Admin))
                             {
                         
-                            <div id="admin-btns" role="group">
+                            <div id="admin-btns" role="group" style="justify-content: space-evenly">
 
-                                <a asp-area="Admin" asp-controller="Event" asp-action="Edit" asp-route-id="@item?.Event.Id" class="btn btn-primary ">
+                                <a asp-area="Admin" asp-controller="Event" asp-action="Edit" asp-route-id="@item?.Event.Id" class="btn btn-primary" >
                                     Измени
                                 </a>
                                 <a asp-area="Admin" asp-controller="Event" asp-action="Delete" asp-route-id="@item?.Event.Id" class="btn btn-danger">

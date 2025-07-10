@@ -71,10 +71,6 @@ namespace Quiz.Web.Areas.User.Controllers
                 }
                 //TODO chnage the color of the button for prijavi se 
             
-           
-
-         
-
             return View(eventsVM);
         }
 

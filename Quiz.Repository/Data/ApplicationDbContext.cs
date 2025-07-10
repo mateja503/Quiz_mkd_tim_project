@@ -76,6 +76,18 @@ namespace Quiz.Repository.Data
                 .HasForeignKey(cu => cu.RangListId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelbuilder.Entity<Domain.Domain_Models.Quiz>()
+                .HasMany(u => u.QuestionList)
+                .WithOne(u => u.Quiz)
+                .HasForeignKey(u => u.QuizId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelbuilder.Entity<Question>()
+                .HasMany(u => u.AnswersList)
+                .WithOne(u => u.Question)
+                .HasForeignKey(u => u.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelbuilder.Entity<Event>().HasData(
                 new Event

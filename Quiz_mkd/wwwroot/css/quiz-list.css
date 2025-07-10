@@ -82,6 +82,7 @@ main{
         
     }
 .admin-buttons{
+
     display:flex;
     flex-direction:column;
     font-size:0.7em;
