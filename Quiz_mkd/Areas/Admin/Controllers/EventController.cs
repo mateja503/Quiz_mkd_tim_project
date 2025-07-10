@@ -147,7 +147,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             }
 
            
-            return View(eventVM);
+                return View(eventVM);
             
         }
 
