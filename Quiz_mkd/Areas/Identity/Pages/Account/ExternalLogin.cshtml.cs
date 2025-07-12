@@ -85,6 +85,21 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Display(Name = "Телефонски број")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Име")]
+            public string NameUser { get; set; }
+            [Required]
+            [Display(Name = "Презиме")]
+            public string Surname { get; set; }
+
+            [Required]
+            [Display(Name = "Град")]
+            public string PlaceOfOrigin { get; set; }
+
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -94,6 +109,10 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            if (provider == "Google")
+            {
+                properties.Items["prompt"] = "select_account";
+            }
             return new ChallengeResult(provider, properties);
         }
 
@@ -132,7 +151,10 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        NameUser = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                        Surname = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        PhoneNumber = info.Principal.FindFirstValue(ClaimTypes.MobilePhone)
                     };
                 }
                 return Page();
@@ -153,9 +175,14 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                user.NameUser = Input.NameUser;
+                user.Surname = Input.Surname;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.PlaceOfOrigin = Input.PlaceOfOrigin;
+                user.EmailConfirmed = true;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -174,14 +201,18 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
+                        //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //{
+                        //    //return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                        //    //return RedirectToPage("/");
+                        //    //return RedirectToAction("Index", "Home");
+                        //    return RedirectToPage("Login");
+
+                        //}
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);

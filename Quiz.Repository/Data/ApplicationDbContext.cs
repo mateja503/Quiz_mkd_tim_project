@@ -88,6 +88,32 @@ namespace Quiz.Repository.Data
                 .HasForeignKey(u => u.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelbuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.Event_User)
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelbuilder.Entity<ApplicationUser>()
+               .HasMany(u => u.Category_User)
+               .WithOne(u => u.User)
+               .HasForeignKey(u => u.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelbuilder.Entity<ApplicationUser>()
+            .HasMany(u => u.RangList_User)
+            .WithOne(u => u.User)
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelbuilder.Entity<ApplicationUser>()
+          .HasMany(u => u.EventPending_User)
+          .WithOne(u => u.User)
+          .HasForeignKey(u => u.UserId)
+          .OnDelete(DeleteBehavior.Cascade);
+
+
+
 
             modelbuilder.Entity<Event>().HasData(
                 new Event

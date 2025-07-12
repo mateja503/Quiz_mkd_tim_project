@@ -24,12 +24,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-.AddCookie()
+builder.Services.AddAuthentication()
 .AddGoogle(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -98,6 +93,9 @@ app.UseRouting();
 app.UseAuthentication(); // for login and register
 app.UseAuthorization();
 app.MapRazorPages(); // for login and register
+
+
+//app.MapDefaultControllerRoute();//this is ok for google login ?
 
 app.MapControllerRoute(
     name: "default",

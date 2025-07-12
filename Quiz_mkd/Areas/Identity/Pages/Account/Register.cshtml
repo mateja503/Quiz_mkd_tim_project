@@ -4,10 +4,6 @@
     ViewData["Title"] = "Register";
 }
 
-
-
-
-
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Create a new account</h2>
             <hr />
@@ -49,8 +45,12 @@
                 <label asp-for="Input.PhoneNumber">Enter PhoneNumber</label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class=" btn btn-lg btn-primary">Register</button>
+            <div class="mt-3">
+                <button id="registerSubmit" type="submit" class="btn btn-lg btn-primary">Register</button>
+            </div>
         </form>
+
+        
 
     
 
