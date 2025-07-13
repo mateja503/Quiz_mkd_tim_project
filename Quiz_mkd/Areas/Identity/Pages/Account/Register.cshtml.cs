@@ -147,7 +147,7 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                 user.Surname = Input.Surname;
                 user.PhoneNumber = Input.PhoneNumber;
                 user.PlaceOfOrigin = Input.PlaceOfOrigin;
-                user.EmailConfirmed = true;
+                //user.EmailConfirmed = true;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                
@@ -176,13 +176,13 @@ namespace Quiz.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Потврди го твојот маил",//this is how you set for mail send 
-                    //    $"Ве молиме потврдете го вашиот емаил со тоа што ќе кликнете <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>тука</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Потврди го твојот маил",//this is how you set for mail send 
+                        $"Ве молиме потврдете го вашиот емаил со тоа што ќе кликнете <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>тука</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        //return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                        return RedirectToPage("Login");
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        //return RedirectToPage("Login");
                     }
                     else
                     {

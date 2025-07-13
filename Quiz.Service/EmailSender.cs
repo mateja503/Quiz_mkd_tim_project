@@ -24,61 +24,43 @@ namespace Quiz.Utility
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
 
-            //var message = new MimeMessage
-            //{
-            //    Sender = new MailboxAddress(_options.SendersName, _options.SmtpUserName),
-            //    Subject = subject,
+            var message = new MimeMessage
+            {
+                Sender = new MailboxAddress(_options.SendersName, _options.SmtpUserName),
+                Subject = subject,
 
-            //};
+            };
 
-            //message.From.Add(new MailboxAddress(_options.SendersName, _options.SmtpUserName));
-            //message.To.Add(new MailboxAddress(null, email));
+            message.From.Add(new MailboxAddress(_options.SendersName, _options.SmtpUserName));
+            message.To.Add(new MailboxAddress(null, email));
 
-            //using var body = new TextPart(TextFormat.Html);
-            //body.Text = htmlMessage;
-            //message.Body = body;
+            using var body = new TextPart(TextFormat.Html);
+            body.Text = htmlMessage;
+            message.Body = body;
 
-            //try
-            //{
-            //    using (var smtp = new MailKit.Net.Smtp.SmtpClient())
-            //    {
-            //        var sockerOptions = SecureSocketOptions.Auto;
+            try
+            {
+                using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    var sockerOptions = SecureSocketOptions.Auto;
 
-            //        await smtp.ConnectAsync(_options.SmtpServer, _options.SmtpServerPort ?? 587, sockerOptions);
+                    await smtp.ConnectAsync(_options.SmtpServer, _options.SmtpServerPort ?? 587, sockerOptions);
 
-            //        if (!string.IsNullOrEmpty(_options.SmtpServer))
-            //        {
-            //            var credentials = new NetworkCredential(_options.SmtpUserName, _options.SmtpPassword);
-            //            await smtp.AuthenticateAsync(credentials);
-            //        }
-            //        await smtp.SendAsync(message);
-            //        await smtp.DisconnectAsync(true);
-            //    }
-            //}
-            //catch (MailKit.Security.AuthenticationException authEx)
-            //{
-            //    // Handle failed authentication (e.g., wrong username/password)
-            //    Console.WriteLine($"Authentication failed: {authEx.Message}");
-            //    throw authEx;
-            //}
-            //catch (SmtpCommandException cmdEx)
-            //{
-            //    // Handle SMTP command errors
-            //    Console.WriteLine($"SMTP command error: {cmdEx.Message} (StatusCode: {cmdEx.StatusCode})");
-            //    throw cmdEx;
-            //}
-            //catch (SmtpProtocolException protoEx)
-            //{
-            //    // Handle protocol-level issues
-            //    Console.WriteLine($"SMTP protocol error: {protoEx.Message}");
-            //    throw protoEx;
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Catch-all for any other errors
-            //    Console.WriteLine($"Unexpected error sending email: {ex.Message}");
-            //    throw ex;
-            //}
+                    if (!string.IsNullOrEmpty(_options.SmtpServer))
+                    {
+                        var credentials = new NetworkCredential(_options.SmtpUserName, _options.SmtpPassword);
+                        await smtp.AuthenticateAsync(credentials);
+                    }
+                    await smtp.SendAsync(message);
+                    await smtp.DisconnectAsync(true);
+                }
+            }
+            catch (Exception e)
+            {
+                // Handle SMTP command errors
+                Console.WriteLine($"SMTP command error: {e.Message} ");
+            }
+            
 
 
             //logic for sending email

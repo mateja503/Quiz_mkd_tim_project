@@ -114,19 +114,19 @@ app.MapControllerRoute(
     pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
-    try
-    {
-        await emailSender.SendEmailAsync("nina.koceska@students.finki.ukim.mk", "Test Email from Program.cs", "? This is a test email from Program.cs on app start.");
-        Console.WriteLine("Test email sent successfully.");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error sending test email: {ex.Message}");
-    }
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
+//    try
+//    {
+//        await emailSender.SendEmailAsync("mate.nikolic@yahoo.com", "Test Email from Program.cs", "? This is a test email from Program.cs on app start.");
+//        Console.WriteLine("Test email sent successfully.");
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine($"Error sending test email: {ex.Message}");
+//    }
+//}
 
 
 app.Run();
