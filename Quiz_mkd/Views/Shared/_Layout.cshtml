@@ -99,14 +99,30 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container text-dark">
-            &copy; 2025 - Quiz_mkd - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted" style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+        <div style="display:flex; flex-direction:row; justify-content:center; align-items:center; width:100%; color:#003463; text-align:start; margin-top:1.5em;margin-bottom:1.5em;" id="footer-first-line">
+            <h5 style="width:auto; margin-left:1em; margin-right:1em;">Контакт:</h5>
+            <p style="width:auto; margin:0; margin-left:1em; margin-right:1em;">mka.mkd21@gmail.com</p>
+            <a href="https://www.facebook.com/makedonska.kviz.asocijacija" style="width:auto; text-decoration:none; margin-left:1em; margin-right:1em; font-size:1.2em;">Facebook</a>
+        </div>
+        
+        <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; width:100%; " id="footer-second-line">
+            <div class="text-dark width:20%;">
+                &copy; МКА 
+            </div>
+            <div class="text" style="color:lightslategray; text-align:end;  width:80%;">
+                Page developed by: FINKI Students - Timski Proekt
+                <br> By prof. Lasko Basnarkov
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    
 </body>
+
+
 </html>

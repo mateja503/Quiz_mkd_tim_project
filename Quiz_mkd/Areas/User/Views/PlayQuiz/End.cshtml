@@ -10,6 +10,7 @@
         flex-direction:column;
         align-items:center;
         justify-content:center;
+        
         }
 
         .progress-bar {
@@ -47,8 +48,8 @@
 </style>
 
     <div class="results-container">
-        <h2>Го заврши квизот @Model.Quiz.Name!</h2>
-        <p>Одговори точно <strong>@Model.answersCorrect</strong> од <strong>@Model.totalAnswers</strong></p>
+        <h2 style="color:black;">Го заврши квизот @Model.Quiz.Name!</h2>
+    <p style="color:black;">Одговори точно <strong>@Model.answersCorrect</strong> од <strong>@Model.totalAnswers</strong></p>
 
         <div class="progress-bar">
             <div class="progress" id="progressBar" style="width: @((Model.answersCorrect * 100 / Model.totalAnswers))%">

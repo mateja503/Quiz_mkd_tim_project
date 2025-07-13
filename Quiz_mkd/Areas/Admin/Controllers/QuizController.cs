@@ -271,7 +271,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                                 _unitOfWork.Question.Add(question);
                                 _unitOfWork.Save();
                                 var q = _unitOfWork.Question.Get(u => u == question);
-                                var correctAnswer = reader.GetValue(5).ToString();
+                                var correctAnswer = reader.GetValue(4).ToString();
                                 if (q != null)
                                 {
                                     for (int i = 1; i <= 4; i++)

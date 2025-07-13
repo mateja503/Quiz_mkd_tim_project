@@ -30,7 +30,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult Index(int? eventId)
         {
-            var _event = _unitOfWork.Event.Get(u => u.Id == eventId, includeProperties:"RangList");
+            var _event = _unitOfWork.Event.Get(u => u.Id == eventId, includeProperties: "RangList");
 
             var rangList = _event.RangList;
 
@@ -43,7 +43,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var categoryUsersForView = _unitOfWork.Category_User
                 .GetAll(u => u.RangListId == rangList.Id).ToList();
 
-           
+
 
             RangListVM rangListVM = new RangListVM()
             {
@@ -81,50 +81,51 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
             var rangList = _unitOfWork.RangList.Get(u => u.EventId == eventId);
 
-            RangList_User rangList_User = new RangList_User() {
+            RangList_User rangList_User = new RangList_User()
+            {
                 UserId = userId,
                 RangListId = rangList.Id,
 
             };
             _unitOfWork.RangList_User.Add(rangList_User);
             _unitOfWork.Save();
-         
+
 
             var categoryRangList = _unitOfWork.Category_RangList
                .GetAll(u => u.RangListId == rangList.Id, includeProperties: "Category").ToList();
 
-                foreach (var category in categoryRangList)
+            foreach (var category in categoryRangList)
+            {
+                var categoryUser = new Category_User()
                 {
-                    var categoryUser = new Category_User()
-                    {
-                        CategoryId = category.CategoryId,
-                        UserId = userId,
-                        RangListId = rangList.Id
-                    };
-                    _unitOfWork.Category_User.Add(categoryUser);
-                    _unitOfWork.Save();
+                    CategoryId = category.CategoryId,
+                    UserId = userId,
+                    RangListId = rangList.Id
+                };
+                _unitOfWork.Category_User.Add(categoryUser);
+                _unitOfWork.Save();
 
 
-                }
-             
-            
+            }
+
+
             var eventPending_User = _unitOfWork.EventPending_User
                 .Get(u => u.UserId == userId && u.EventId == eventId);
             _unitOfWork.EventPending_User.Remove(eventPending_User);
             _unitOfWork.Save();
 
 
-            return RedirectToAction("PendingUsers", "RangList", new { area = "Admin", eventId = eventId  });
+            return RedirectToAction("PendingUsers", "RangList", new { area = "Admin", eventId = eventId });
         }
 
-        public IActionResult EditTable(int? eventId = null,int? rangListId = null)
+        public IActionResult EditTable(int? eventId = null, int? rangListId = null)
         {
             var rangList = _unitOfWork.RangList.Get(u => u.EventId == eventId);
             if (rangListId != null)
             {
                 rangList = _unitOfWork.RangList.Get(u => u.Id == rangListId);
             }
-         
+
 
             var categories = _unitOfWork.Category.GetAll();
             List<CategoryVM> categoryListVM = new List<CategoryVM>();
@@ -159,7 +160,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         }
 
-        public IActionResult AddToRangList(int? categoryId, int? rangListId) 
+        public IActionResult AddToRangList(int? categoryId, int? rangListId)
         {
             var categoryRangList = new Category_RangList()
             {
@@ -174,9 +175,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 .Distinct()
                 .ToList();
 
-            foreach (var userId in usersId) 
+            foreach (var userId in usersId)
             {
-                var categoryUser = new Category_User() 
+                var categoryUser = new Category_User()
                 {
                     UserId = userId,
                     CategoryId = categoryId,
@@ -186,7 +187,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 _unitOfWork.Save();
             }
 
-            return RedirectToAction("EditTable", "RangList", new { area = "Admin",rangListId = rangListId });
+            return RedirectToAction("EditTable", "RangList", new { area = "Admin", rangListId = rangListId });
         }
 
         public IActionResult RemoveFromRangList(int? categoryId, int? rangListId)
@@ -234,7 +235,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             return RedirectToAction("EditTable", "RangList", new { area = "Admin", rangListId = rangListId });
         }
 
-        public IActionResult RemoveUserFromRangList(string? userId, int? eventId) 
+        public IActionResult RemoveUserFromRangList(string? userId, int? eventId)
         {
 
             var ranglist = _unitOfWork.RangList.Get(u => u.EventId == eventId);
@@ -274,17 +275,17 @@ namespace Quiz.Web.Areas.Admin.Controllers
                     return u;
                 }).ToList();
 
-            foreach (var item in b) 
+            foreach (var item in b)
             {
                 _unitOfWork.UserTotalPointsPerCategory.Update(item);
                 _unitOfWork.Save();
 
             }
 
-            return RedirectToAction("Index", new { eventId = eventId});
+            return RedirectToAction("Index", new { eventId = eventId });
         }
 
-        public IActionResult AddPointsToUser(string? userId, int? eventId) 
+        public IActionResult AddPointsToUser(string? userId, int? eventId)
         {
             var _event = _unitOfWork.Event.Get(u => u.Id == eventId, includeProperties: "RangList");
 
@@ -293,9 +294,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var rangList = _event?.RangList;
 
             var categoryUsers = _unitOfWork.Category_User
-                .GetAll(u=> u.RangListId==rangList.Id && u.UserId == userId, includeProperties: "Category,User").ToList();
+                .GetAll(u => u.RangListId == rangList.Id && u.UserId == userId, includeProperties: "Category,User").ToList();
 
-           
+
 
             var user = categoryUsers?.FirstOrDefault()?.User;
 
@@ -320,9 +321,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
             //TODO
             double? totalPoints = 0;
             string? userId = rangListVM.User.Id;
-            var rangList = _unitOfWork.RangList.Get(u=>u.EventId == rangListVM.Event.Id );
-           
-            foreach (var categoryUser in rangListVM.CategoryUsers) 
+            var rangList = _unitOfWork.RangList.Get(u => u.EventId == rangListVM.Event.Id);
+
+            foreach (var categoryUser in rangListVM.CategoryUsers)
             {
 
                 var item = _unitOfWork.Category_User
@@ -337,7 +338,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
                 var userTotalPointsPerCategory = _unitOfWork.UserTotalPointsPerCategory
                 .Get(u => u.UserId == item.UserId && u.CategoryId == item.CategoryId);
-                
+
 
 
                 if (userTotalPointsPerCategory == null)
@@ -349,13 +350,13 @@ namespace Quiz.Web.Areas.Admin.Controllers
                         Points = item.Points,
                     };
                     _unitOfWork.UserTotalPointsPerCategory.Add(temp);
-                    
+
                 }
-                else 
+                else
                 {
                     userTotalPointsPerCategory.Points += item.Points;
                     _unitOfWork.UserTotalPointsPerCategory.Update(userTotalPointsPerCategory);
-                    
+
 
                 }
                 _unitOfWork.Save();
@@ -372,11 +373,11 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var user = _applicationUserRepository.GetById(userId);
             user.Points ??= 0;
             user.Points += totalPoints;
-            
+
             await _applicationUserRepository.Update(user);
 
-            
-            return RedirectToAction("Index","RangList",new { area="Admin", eventId= rangListVM.Event.Id});
+
+            return RedirectToAction("Index", "RangList", new { area = "Admin", eventId = rangListVM.Event.Id });
 
 
         }

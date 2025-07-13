@@ -7,10 +7,13 @@
     text-align: center;
     justify-content: center;
 }
+    .welcome-to-quiz-container h1, .welcome-to-quiz-container p{
+        color:black;
+    }
 
-#start-buttons div{
-    width:auto;
-}
+    #start-buttons div {
+        width: auto;
+    }
 
 #start-buttons{
     display:flex;

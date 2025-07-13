@@ -21,19 +21,19 @@ namespace Quiz.Repository.Implementation
             _db = db;
             this.dbSet = _db.Set<T>();
             _db.Answers.Include(u => u.Question).Include(u => u.QuestionId);
-            _db.Questions.Include(u=>u.Quiz).Include(u => u.QuizId)
+            _db.Questions.Include(u => u.Quiz).Include(u => u.QuizId)
                 .Include(u => u.TypeQuestion).Include(u => u.TypeQuestionId)
-                .Include(u=> u.AnswersList);
-            _db.Quizes.Include(u=> u.QuestionList);
+                .Include(u => u.AnswersList);
+            _db.Quizes.Include(u => u.QuestionList);
             _db.TypeQuestions.Include(u => u.QuestionList);
-            _db.RangLists.Include(u=> u.Event).Include(u => u.EventId)
-                .Include(u=> u.Participants).Include(u=> u.Category_Users)
-                .Include(u=>u.Category_RangList);
+            _db.RangLists.Include(u => u.Event).Include(u => u.EventId)
+                .Include(u => u.Participants).Include(u => u.Category_Users)
+                .Include(u => u.Category_RangList);
             //_db.Events.Include(u => u.Event_User).ThenInclude(u => u.User);
             //_db.ApplicationUsers.Include(u => u.Event_User).ThenInclude(u => u.Event);
             _db.Events_Users.Include(u => u.Event).Include(u => u.EventId)
                 .Include(u => u.User).Include(u => u.UserId);
-            _db.Category_Users.Include(u=>u.Category).Include(u=> u.CategoryId)
+            _db.Category_Users.Include(u => u.Category).Include(u => u.CategoryId)
                                 .Include(u => u.User).Include(u => u.UserId);
             _db.RangList_Users.Include(u => u.RangList).Include(u => u.RangListId)
                 .Include(u => u.User).Include(u => u.UserId);
@@ -42,7 +42,7 @@ namespace Quiz.Repository.Implementation
             _db.EventPending_Users.Include(u => u.Event).Include(u => u.EventId)
                 .Include(u => u.User).Include(u => u.UserId);
 
-            
+
 
 
 
@@ -55,16 +55,16 @@ namespace Quiz.Repository.Implementation
             dbSet.Add(entity);
         }
 
-       
+
 
         public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            if (!string.IsNullOrEmpty(includeProperties)) 
+            if (!string.IsNullOrEmpty(includeProperties))
             {
-                foreach (var includeProperty 
-                    in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
+                foreach (var includeProperty
+                    in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProperty);
                 }
@@ -74,7 +74,7 @@ namespace Quiz.Repository.Implementation
         public IEnumerable<T?> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-           
+
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProperty in
@@ -90,7 +90,7 @@ namespace Quiz.Repository.Implementation
         public IEnumerable<T?> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            if (filter != null) 
+            if (filter != null)
             {
                 query = query.Where(filter);
             }
