@@ -213,13 +213,17 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 _unitOfWork.Save();
             }
 
-            
+
 
             //TODO:
 
 
-            //var userIds = categoryUsers.Select(u => u.UserId);
-            //var obj = _unitOfWork.UserTotalPointsPerCategory.GetAll(u => userIds.Contains(u.UserId) && categoryId == u.CategoryId);
+            //var objs = _unitOfWork.UserTotalPointsPerCategory.GetAll(u => userIds.Contains(u.UserId) && categoryId == u.CategoryId);
+
+            //foreach(UserTotalPointsPerCategory temp in objs) 
+            //{
+            //    temp?.Points = temp.Points - 
+            //}
 
 
 
@@ -232,6 +236,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
 
         public IActionResult RemoveUserFromRangList(string? userId, int? eventId) 
         {
+
+            var ranglist = _unitOfWork.RangList.Get(u => u.EventId == eventId);
+
             var obj = _unitOfWork.RangList_User.Get(u => u.UserId == userId && u.RangList.EventId == eventId);
             _unitOfWork.RangList_User.Remove(obj);
             _unitOfWork.Save();
@@ -240,10 +247,39 @@ namespace Quiz.Web.Areas.Admin.Controllers
             _unitOfWork.Event_User.Remove(r);
             _unitOfWork.Save();
 
-            var p = _unitOfWork.Category_User.GetAll(u => u.UserId == userId);
+            var p = _unitOfWork.Category_User.GetAll(u => u.UserId == userId && u.RangListId == ranglist.Id);
+
+            var pointsToRemoveForcategory = _unitOfWork.Category_User.GetAll(u => u.UserId == userId && u.RangListId == ranglist.Id)
+                .Select(u => new
+                {
+                    CategoryId = u?.CategoryId,
+                    Points = u?.Points
+
+                }).ToList();
+
             _unitOfWork.Category_User.RemoveRange(p);
             _unitOfWork.Save();
 
+            var b = _unitOfWork.UserTotalPointsPerCategory.GetAll(u => u.UserId == userId)
+                .Select(u =>
+                {
+                    foreach (var temp in pointsToRemoveForcategory)
+                    {
+                        if (temp.CategoryId == u?.CategoryId)
+                        {
+                            u.Points = u.Points - temp.Points;
+                        }
+                    }
+
+                    return u;
+                }).ToList();
+
+            foreach (var item in b) 
+            {
+                _unitOfWork.UserTotalPointsPerCategory.Update(item);
+                _unitOfWork.Save();
+
+            }
 
             return RedirectToAction("Index", new { eventId = eventId});
         }
