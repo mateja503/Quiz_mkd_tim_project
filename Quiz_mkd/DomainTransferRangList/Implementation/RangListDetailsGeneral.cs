@@ -23,7 +23,12 @@ namespace Quiz.Web.Domain_Transfer.Implementation
         {
            var  _event = _unitOfWork.Event.Get(u => u.Id == selectedEventId && u.StartDate.Year == selectedYear, includeProperties: "RangList");
 
+            if(_event == null)
+            {
+                return null;
+            }
             var rangList = _event.RangList;
+
 
            var rangListUsers = _unitOfWork.RangList_User
             .GetAll(u => u.RangListId == rangList.Id, includeProperties: "User")
@@ -199,8 +204,16 @@ namespace Quiz.Web.Domain_Transfer.Implementation
 
         public RangListDetails EventAndYearFieldSelected(int? selectedEventId, int selectedYear)
         {
+            
+            
             var _event = _unitOfWork.Event.Get(u => u.Id == selectedEventId && u.StartDate.Year == selectedYear, includeProperties: "RangList");
-
+            
+            if(_event == null)
+            {
+                //throw new ArgumentException("Event not found for the selected ID and year.");
+                return null;
+            }
+           
             var rangList = _event.RangList;
 
             var rangListUsers = _unitOfWork.RangList_User

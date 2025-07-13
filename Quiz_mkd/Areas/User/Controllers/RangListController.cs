@@ -132,9 +132,12 @@ namespace Quiz.Web.Areas.User.Controllers
             {
                 int year = int.Parse(selectedYear);
                 RangListDetails temp = _rangListDetailGeneral.EventAndYearFieldSelected(selectedEventId, year);
-                rangListUsers = temp.rangListUsers;
-                categoryRangList = temp.categoryRangList;
-                categoryUsersForView = temp.categoryUsersForView;
+                if (temp != null)
+                {
+                    rangListUsers = temp.rangListUsers;
+                    categoryRangList = temp.categoryRangList;
+                    categoryUsersForView = temp.categoryUsersForView;
+                }
 
             }
 
@@ -155,10 +158,12 @@ namespace Quiz.Web.Areas.User.Controllers
             {
                 int year = int.Parse(selectedYear);
                 RangListDetails temp = _rangListDetailGeneral.AllOfTheFiledsSelected(selectedEventId, selectedCategoryId,year);
-                rangListUsers = temp.rangListUsers;
-                categoryRangList = temp.categoryRangList;
-                categoryUsersForView = temp.categoryUsersForView;
-
+                if (temp != null)
+                {
+                    rangListUsers = temp.rangListUsers;
+                    categoryRangList = temp.categoryRangList;
+                    categoryUsersForView = temp.categoryUsersForView;
+                }
             }
 
 

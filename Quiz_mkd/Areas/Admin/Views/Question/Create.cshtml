@@ -36,24 +36,24 @@
                     <span asp-validation-for="Question.Text" class="text-danger"></span>
                 </div>
 
-               
-                    <div class="mb-3 row p-1">
-                        <label asp-for="Answer1.Text" class="p-0"></label>
-                        <input asp-for="Answer1.Text" class="form-control" />
-                        <span asp-validation-for="Answer1.Text" class="text-danger"></span>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Answer1.Text" class="p-0"></label>
+                    <input asp-for="Answer1.Text" class="form-control" />
+                    <span asp-validation-for="Answer1.Text" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Answer1.isCorrect" class="p-0"></label>
+                    <div>
+                        <label class="form-check-label" for="isCorrectTrue">Точен</label>
+                        <input type="radio" id="isCorrectTrue1" asp-for="Answer1.isCorrect" value="true" class="form-check-input" />
+
+                        <label class="form-check-label" for="isCorrectFalse">Неточен</label>
+                        <input type="radio" id="isCorrectFalse1" asp-for="Answer1.isCorrect" value="false" class="form-check-input" />
                     </div>
-
-                    <div class="mb-3 row p-1">
-                        <label asp-for="Answer1.isCorrect" class="p-0"></label>
-                        <div>
-                            <label class="form-check-label" for="isCorrectTrue">Точен</label>
-                            <input type="radio" id="isCorrectTrue1" asp-for="Answer1.isCorrect" value="true" class="form-check-input" />
-
-                            <label class="form-check-label" for="isCorrectFalse">Неточен</label>
-                            <input type="radio" id="isCorrectFalse1" asp-for="Answer1.isCorrect" value="false" class="form-check-input" />
-                        </div>
-                        <span asp-validation-for="Answer1.isCorrect" class="text-danger"></span>
-                   </div>
+                    <span asp-validation-for="Answer1.isCorrect" class="text-danger"></span>
+                </div>
 
 
                 <div class="mb-3 row p-1">
@@ -111,16 +111,19 @@
                     </div>
                     <span asp-validation-for="Answer4.isCorrect" class="text-danger"></span>
                 </div>
-              
+
 
 
 
                 <div class="row" id="question-buttons">
-                    <div >
-                        <button type="submit" class="btn btn-primary form-control">Зачувај</button>
-                    </div>
+
+                        <div >
+                            <button type="submit" class="btn btn-primary form-control">Зачувај</button>
+                        </div>
+
+     
                     <div>
-                        <a asp-area="Admin" asp-controller="Quiz" asp-action="Create" class="btn btn-primary form-control">Врати се назад</a>
+                        <a asp-area="User" asp-controller="Quiz" asp-action="Index" class="btn btn-primary form-control">Врати се назад</a>
                     </div>
                 </div>
 

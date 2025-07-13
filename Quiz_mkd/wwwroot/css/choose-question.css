@@ -18,6 +18,10 @@
     margin:1em;
 }
 
+.question{
+    color:black;    
+}
+
     
 
 @media(max-width:900px){

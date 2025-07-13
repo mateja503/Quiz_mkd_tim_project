@@ -103,6 +103,11 @@ main{
     height:20em;
 }
 
+#footer-second-line {
+    margin: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
 
 #quick-links svg{
     fill:white;
@@ -150,5 +155,20 @@ main{
         padding-bottom:4em;
         padding-top:4em;
     }
+
+   
     
+}
+@media(max-width:560px) {
+    #footer-second-line {
+        font-size: 0.8em;
+    }
+    #footer-first-line {
+        margin-left:0.5em;
+        margin-bottom:0.5em;
+        font-size: 0.8em;
+    }
+    #footer-first-line h5{
+        font-size:1.2em;
+    }
 }
