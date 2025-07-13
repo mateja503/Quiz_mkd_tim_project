@@ -140,6 +140,10 @@ namespace Quiz.Web.Areas.Admin.Controllers
             {
                 bool flag = categoriesInRangList.Contains(category);
 
+                //if (flag) 
+                //{
+                //    _unitOfWork.Category_User
+                //}
 
                 CategoryVM categoryVM = new CategoryVM()
                 {
@@ -164,7 +168,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             _unitOfWork.Category_RangList.Add(categoryRangList);
             _unitOfWork.Save();
 
-            var usersId = _unitOfWork.Category_User.GetAll(u => u.RangListId == rangListId)
+            var usersId = _unitOfWork.RangList_User.GetAll(u => u.RangListId == rangListId)
                 .Select(u => u.UserId)
                 .Distinct()
                 .ToList();
@@ -201,7 +205,7 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var userIds = categoryUsers.Select(u => u.UserId).Distinct();
 
             var obj = _unitOfWork.RangList_User.Get(u => userIds.Contains(u.UserId) && u.RangListId == rangListId);
-            obj.Points = null;
+            //obj.Points = null;
 
             _unitOfWork.RangList_User.Update(obj);
             _unitOfWork.Save();
@@ -243,7 +247,9 @@ namespace Quiz.Web.Areas.Admin.Controllers
         {
             var _event = _unitOfWork.Event.Get(u => u.Id == eventId, includeProperties: "RangList");
 
-            var rangList = _event.RangList;
+
+
+            var rangList = _event?.RangList;
 
             var categoryUsers = _unitOfWork.Category_User
                 .GetAll(u=> u.RangListId==rangList.Id && u.UserId == userId, includeProperties: "Category,User").ToList();

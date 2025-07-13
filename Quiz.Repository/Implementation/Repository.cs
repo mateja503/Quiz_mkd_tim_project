@@ -27,7 +27,8 @@ namespace Quiz.Repository.Implementation
             _db.Quizes.Include(u=> u.QuestionList);
             _db.TypeQuestions.Include(u => u.QuestionList);
             _db.RangLists.Include(u=> u.Event).Include(u => u.EventId)
-                .Include(u=> u.Participants).Include(u=> u.Category_Users);
+                .Include(u=> u.Participants).Include(u=> u.Category_Users)
+                .Include(u=>u.Category_RangList);
             //_db.Events.Include(u => u.Event_User).ThenInclude(u => u.User);
             //_db.ApplicationUsers.Include(u => u.Event_User).ThenInclude(u => u.Event);
             _db.Events_Users.Include(u => u.Event).Include(u => u.EventId)
