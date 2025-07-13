@@ -149,7 +149,8 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 {
                     Category = category,
                     isPartOfTheTable = flag,
-                    RangListId = rangList.Id
+                    RangListId = rangList.Id,
+                    EventId = eventId
                 };
                 categoryListVM.Add(categoryVM);
             }
@@ -205,10 +206,14 @@ namespace Quiz.Web.Areas.Admin.Controllers
             var userIds = categoryUsers.Select(u => u.UserId).Distinct();
 
             var obj = _unitOfWork.RangList_User.Get(u => userIds.Contains(u.UserId) && u.RangListId == rangListId);
-            //obj.Points = null;
+            if (obj != null) 
+            {
+                obj.Points = null;
+                _unitOfWork.RangList_User.Update(obj);
+                _unitOfWork.Save();
+            }
 
-            _unitOfWork.RangList_User.Update(obj);
-            _unitOfWork.Save();
+            
 
             //TODO:
 

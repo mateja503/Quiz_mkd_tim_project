@@ -157,15 +157,28 @@ namespace Quiz.Web.Areas.Admin.Controllers
                 questionVM.Answer2.QuestionId = question.Id;
                 questionVM.Answer3.QuestionId = question.Id;
                 questionVM.Answer4.QuestionId = question.Id;
-                _unitOfWork.Answer.Add(questionVM.Answer1);
-                _unitOfWork.Answer.Add(questionVM.Answer2);
-                _unitOfWork.Answer.Add(questionVM.Answer3);
-                _unitOfWork.Answer.Add(questionVM.Answer4);
+
+                List<Answer> temp = new List<Answer>();
+                temp.Add(questionVM.Answer1);
+                temp.Add(questionVM.Answer2);
+                temp.Add(questionVM.Answer3);
+                temp.Add(questionVM.Answer4);
+
+
+                if (temp.Count(a => a.isCorrect) == 1) 
+                {
+                    _unitOfWork.Answer.Add(questionVM.Answer1);
+                    _unitOfWork.Answer.Add(questionVM.Answer2);
+                    _unitOfWork.Answer.Add(questionVM.Answer3);
+                    _unitOfWork.Answer.Add(questionVM.Answer4);
+                    _unitOfWork.Save();
+                    return RedirectToAction("Detail", "Quiz", new { area = "Admin", quizId = quizId });
+
+                }
+                _unitOfWork.Question.Remove(question);
                 _unitOfWork.Save();
+                return RedirectToAction("Create", "Question", new { area = "Admin", quizId = quizId });
 
-
-
-                return RedirectToAction("Detail", "Quiz", new {area="Admin", quizId = quizId });
             }
 
             var typeQuestion = _unitOfWork.TypeQuestion.GetAll().Select(u => new SelectListItem

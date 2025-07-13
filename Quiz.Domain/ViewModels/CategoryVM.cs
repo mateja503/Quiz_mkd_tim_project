@@ -14,5 +14,7 @@ namespace Quiz.Domain.ViewModels
         public bool isPartOfTheTable { get; set; }
 
         public int? RangListId { get; set; }
+
+        public int? EventId { get; set; }
     }
 }

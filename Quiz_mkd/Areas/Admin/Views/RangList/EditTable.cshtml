@@ -2,15 +2,22 @@
 
 <div class="container">
     <div class="row pt-4 pb-3">
-        <div class="col-6">
+        <div class="col-4">
             <h2 class="text-primary">Листа Категории</h2>
         </div>
 
-        <div class="col-6 text-end">
-            <a asp-area="Admin" asp-controller="Category" asp-action="Create" 
-            class="btn btn-primary"> Додај нова Категорија</a>
-
+        <div class="col-4 text-end">
+          
+                <a asp-area="Admin" asp-controller="Category" asp-action="Create" 
+                class="btn btn-primary"> Додај нова Категорија</a>
+            
+           
         </div>
+
+        <div class ="col-4 text-end" style="padding:50px">
+            <a asp-area="Admin" asp-controller="RangList" asp-action="Index" asp-route-eventId="@Model.First().EventId" class="btn btn-primary">Врати се назад</a>
+        </div>
+
     </div>
 
     <table class="table table-bordered table-striped" id="tabela">
@@ -52,3 +59,5 @@
         </tbody>
 
     </table>
+
+ </div>
