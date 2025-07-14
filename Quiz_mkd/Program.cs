@@ -28,13 +28,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddAuthentication()
 .AddGoogle(options =>
 {
-    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "0";
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "0";
 })
 .AddFacebook(options =>
 {
-    options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-    options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+    options.AppId = builder.Configuration["Authentication:Facebook:AppId"] ?? "0";
+    options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"] ?? "0";
 
     options.Events = new OAuthEvents
     {
